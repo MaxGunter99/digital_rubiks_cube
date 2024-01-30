@@ -1,0 +1,173 @@
+
+import os
+import json
+import unittest
+from copy import deepcopy
+
+from Project__RubicsCube.modules.cube import RubiksCube
+
+RAW_CUBE = [
+
+    #       Left                Top                 Right
+    [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
+
+    # Rotate Cube AWAY
+
+    #       Left               Front                 Right
+    [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],  
+
+    # Rotate Cube AWAY
+
+    #       Left               Bottom                Right
+    [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],   
+
+    # Rotate Cube AWAY
+
+    #       Left                Back                 Right
+    [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],
+    [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],     
+]
+
+ALL_POSSIBLE_MOVES = [
+
+    ["top", "horizontal", "left"],
+    ["top", "horizontal", "right"],
+    ["middle", "horizontal", "left"],
+    ["middle", "horizontal", "right"],
+    ["bottom", "horizontal", "left"],
+    ["bottom", "horizontal", "right"],
+    ["left", "vertical", "up"],
+    ["left", "vertical", "down"],
+    ["right", "vertical", "up"],
+    ["right", "vertical", "down"],
+    ["middle", "vertical", "up"],
+    ["middle", "vertical", "down"]
+
+]
+
+class TestMoves( unittest.TestCase ):
+
+    # def test__move_is_implemented( self ):
+    #     """
+    #     Confirms valid move permutations do not raise exceptions
+    #     """
+
+    #     move_errors = []
+
+    #     cube_client = RubiksCube()
+    #     for move in ALL_POSSIBLE_MOVES:
+
+    #         try:
+    #             section, orientation, direction = move
+    #             cube_client.move_cube(
+    #                 section=section,
+    #                 orientation=orientation,
+    #                 direction=direction,
+    #                 turns=1
+    #             )
+
+    #         except Exception as e:
+    #             move_errors.append( e )
+
+    #     err_details = f"Moves which raised exceptions: {move_errors}"
+    #     self.assertEqual( len( move_errors ) , 0 , err_details )
+
+    def run_test_file( self, test_data_path ):
+        file_data = None
+        if not os.path.exists( test_data_path ):
+            raise Exception(f"Given file path does not exist - {test_data_path}")
+        
+        with open( test_data_path, "r" ) as file:
+            file_data = json.load( file )
+            file.close()
+        TEST_MOVE = file_data.get("TEST_MOVE")
+        TEST_SOLUTION = file_data.get("TEST_SOLUTION")
+        section, orientation, direction, turns = TEST_MOVE
+        
+        cube_client = RubiksCube()
+        cube_client.move_cube(
+            section=section,
+            orientation=orientation,
+            direction=direction,
+            turns=turns
+        )
+        for move_check in TEST_SOLUTION:
+            test_side = move_check.get("expected_side")
+            generated_side = cube_client[ test_side ]
+            expected_value = move_check.get("expected_value")
+            err_details = f"generated_side ({test_side}): {generated_side} does not match expected value ({test_side}): {expected_value}"
+            self.assertEqual(
+                generated_side,
+                expected_value,
+                err_details
+            )
+
+    # def test__all__json_test_cases( self ):
+    #     """
+    #     Does not report correctly but this will run all test cases
+    #     """
+    #     all_tests = None
+    #     path_to_test_cases = "Project__RubicsCube/tests/test_cases/"
+    #     for dirpath, dirnames, filenames in os.walk( path_to_test_cases ):
+    #         all_tests = [ f"{dirpath}/{i}" for i in filenames ]
+    #     for test_case in all_tests:
+    #         self.run_test_file( test_case )
+
+    def test__move_cube__top_horizontal_left_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/top_horizontal_left_1.json" 
+        self.run_test_file( test_data_path )
+    
+    def test__move_cube__top_horizontal_right_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/top_horizontal_right_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__middle_horizontal_left_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/middle_horizontal_left_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__middle_horizontal_right_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/middle_horizontal_right_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__bottom_horizontal_left_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/bottom_horizontal_left_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__bottom_horizontal_right_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/bottom_horizontal_right_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__left_vertical_up_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/left_vertical_up_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__left_vertical_down_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/left_vertical_down_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__right_vertical_up_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/right_vertical_up_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__right_vertical_down_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/right_vertical_down_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__middle_vertical_up_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/middle_vertical_up_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__move_cube__middle_vertical_down_1( self ):
+        test_data_path = "Project__RubicsCube/tests/test_cases/middle_vertical_down_1.json" 
+        self.run_test_file( test_data_path )
+
+
+if __name__ == '__main__':
+    unittest.main()
