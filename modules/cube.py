@@ -1,7 +1,7 @@
 
 from collections import namedtuple
 from pprint import pprint
-import numpy as np
+import copy
 
 # I would like to set this up as a 3D Matrix. 
 # Perfect to start with but will be scrambled by the algorithm
@@ -320,7 +320,7 @@ class RubiksCube:
             # Move( "bottom", "horizontal", "left" ),
             # Move( "bottom", "horizontal", "right" ),
             Move( "left", "vertical", "up" ),
-            # Move( "left", "vertical", "down" ),
+            Move( "left", "vertical", "down" ),
             # Move( "right", "vertical", "up" ),
             # Move( "right", "vertical", "down" ),
             # Move( "middle", "vertical", "up" ),
@@ -378,7 +378,7 @@ class RubiksCube:
                     [],
                 ]
 
-                if spin_clockwise:
+                if spin_clockwise == True:
 
                     current_x = 0
                     current_y = 0
@@ -395,7 +395,7 @@ class RubiksCube:
                             current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
 
-                elif not spin_clockwise:
+                elif spin_clockwise == False:
 
                     current_x = 0
                     current_y = 0
@@ -414,39 +414,50 @@ class RubiksCube:
                     raise Exception("Error spinning side!")
 
                 # 2. slide each left vertical row up
-                if given_move.section == "left" and given_move.orientation == "vertical":
+                if given_move.section == "left" and given_move.orientation == "vertical" and given_move.direction == "up":
+
                     sides_to_spin = [
                         top_side,
                         front_side,
                         bottom_side,
                         back_side
                     ]
-                    print( f"Adjusting side data for move: {sides_to_spin}" )
-                    shift_index = 0 if given_move.section == "left" else 3
-                    iterator = 1 if spin_clockwise else -1
-                    min_index = len( sides_to_spin ) if spin_clockwise else -1
-                    
-                    for side in range( len( sides_to_spin ) - 1, min_index, iterator ):
-                    # for side in range( len( sides_to_spin ) ):
-                        print( f"side: {side}" )
-                        # for row_index in range( len( sides_to_spin[side] ) -1 , -1, -1 ):
-                        for row_index in range( len( sides_to_spin[side] )):
-                            next_side_index = None
-                            if spin_clockwise:
-                                next_side_index = side - 1 if side - 1 >= 0 else len( sides_to_spin ) - 1
-                            else:
-                                next_side_index = side + 1 if side + 1 <= len( sides_to_spin[side] ) else 0
+                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
-                            # print( f"{side}( {row_index}, {shift_index}) -> {next_side_index}( {row_index}, {shift_index})" )
-                            # sides_to_spin[next_side_index][row_index][shift_index] = sides_to_spin[side][row_index][shift_index]
-                            
-                            # print( next_side_index )
-                            print( f"{next_side_index}:({row_index},{shift_index}) -> {side}:({row_index},{shift_index})" )
+                    print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
-                            # print( f"{sides_to_spin[next_side_index][row_index][shift_index]} -> {sides_to_spin[side][row_index][shift_index]}" )
-                            sides_to_spin[side][row_index][shift_index] = sides_to_spin[next_side_index][row_index][shift_index]
+                    if spin_clockwise == False:
+                        shift_index = 0 if given_move.section == "left" else 3
+                        for side in range( len( sides_to_spin_static ) ):
+                            next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
+                            for row in range( len( sides_to_spin_static[side] ) ):
+                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
+                            # print( f"after: {sides_to_spin[ side ]}" )
 
-                        print( f"updated: {sides_to_spin[side]}" )
+                    top_side = sides_to_spin[0]
+                    front_side = sides_to_spin[1]
+                    bottom_side = sides_to_spin[2]
+                    back_side = sides_to_spin[3]
+
+                elif given_move.section == "left" and given_move.orientation == "vertical" and given_move.direction == "down":
+
+                    sides_to_spin = [
+                        top_side,
+                        front_side,
+                        bottom_side,
+                        back_side
+                    ]
+                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
+
+                    print( f"Adjusting side data for move: {sides_to_spin_static}" )
+
+                    if spin_clockwise == False:
+                        shift_index = 0 if given_move.section == "left" else 3
+                        for side in range( len( sides_to_spin_static ) ):
+                            next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
+                            for row in range( len( sides_to_spin_static[side] ) ):
+                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
+                            print( f"after: {sides_to_spin[ side ]}" )
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
@@ -493,7 +504,7 @@ class RubiksCube:
 
                 # here: edit this to return what you mean by "Moving the left sides vertical section up" 
                 # EXPECTED
-                updated_raw_cube = [
+                expected_solution = [
                     # top:
                     [
                         ['b', 'w', 'w'],
@@ -536,19 +547,76 @@ class RubiksCube:
 
                 updated_cube = spin_side( raw_cube, given_move )
 
-                print( updated_cube == updated_raw_cube )
+                print( updated_cube == expected_solution )
                 print( "returned:" )
                 for i in updated_cube:
                     print( i )
                 
                 print( "expected:" )
-                for i in updated_raw_cube:
+                for i in expected_solution:
+                    print( i )
+
+
+            elif given_move == Move( "left", "vertical", "down" ):
+
+                # here: edit this to return what you mean by "Moving the left sides vertical section up" 
+                # EXPECTED
+                expected_solution = [
+                    # top:
+                    [
+                        ['g', 'w', 'w'],
+                        ['g', 'w', 'w'],
+                        ['g', 'w', 'w'],
+                    ],
+                    # front:
+                    [
+                        ['w', 'b', 'b'],
+                        ['w', 'b', 'b'],
+                        ['w', 'b', 'b']
+                    ],
+                    # bottom:
+                    [
+                        ['b', 'y', 'y'],
+                        ['b', 'y', 'y'],
+                        ['b', 'y', 'y']
+                    ],
+                    # back:
+                    [
+                        ['y', 'g', 'g'],
+                        ['y', 'g', 'g'],
+                        ['y', 'g', 'g']
+                    ],
+                    # left:
+                    [
+                        ['r', 'r', 'r'],
+                        ['r', 'r', 'r'],
+                        ['r', 'r', 'r'],
+                    ],
+                    # right:
+                    [
+                        ['o', 'o', 'o'],
+                        ['o', 'o', 'o'],
+                        ['o', 'o', 'o']
+                    ]
+                ]
+
+                # how do you go from raw perfect cube to this?
+
+                updated_cube = spin_side( raw_cube, given_move )
+
+                print( updated_cube == expected_solution )
+                print( "returned:" )
+                for i in updated_cube:
+                    print( i )
+                
+                print( "expected:" )
+                for i in expected_solution:
                     print( i )
 
             else:
                 raise "given_move.section + given_move.orientation not implemented"
         
-        return self.refresh_cube_state( updated_raw_cube )
+        return self.refresh_cube_state( updated_cube )
 
 
         
