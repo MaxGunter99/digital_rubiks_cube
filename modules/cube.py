@@ -424,7 +424,7 @@ class RubiksCube:
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
-                    print( f"Adjusting side data for move: {sides_to_spin_static}" )
+                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
                     if spin_clockwise == False:
                         shift_index = 0 if given_move.section == "left" else 3
@@ -449,7 +449,7 @@ class RubiksCube:
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
-                    print( f"Adjusting side data for move: {sides_to_spin_static}" )
+                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
                     if spin_clockwise == False:
                         shift_index = 0 if given_move.section == "left" else 3
@@ -457,7 +457,7 @@ class RubiksCube:
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
                             for row in range( len( sides_to_spin_static[side] ) ):
                                 sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
-                            print( f"after: {sides_to_spin[ side ]}" )
+                            # print( f"after: {sides_to_spin[ side ]}" )
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
@@ -485,133 +485,12 @@ class RubiksCube:
         for _ in range( turns ):
 
             # do it here, you need to understand what you need to return from this function. That is the raw 3d matrix with applied move
-
-            # perfect cube copy, DO NOT EDIT
-            # [[['r', 'r', 'r'], ['w', 'w', 'w'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['w', 'w', 'w'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['w', 'w', 'w'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['b', 'b', 'b'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['b', 'b', 'b'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['b', 'b', 'b'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['y', 'y', 'y'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['y', 'y', 'y'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['y', 'y', 'y'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['g', 'g', 'g'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['g', 'g', 'g'], ['o', 'o', 'o']],
-            # [['r', 'r', 'r'], ['g', 'g', 'g'], ['o', 'o', 'o']]]
             
-            if given_move == Move( "left", "vertical", "up" ):
-
-                # here: edit this to return what you mean by "Moving the left sides vertical section up" 
-                # EXPECTED
-                expected_solution = [
-                    # top:
-                    [
-                        ['b', 'w', 'w'],
-                        ['b', 'w', 'w'],
-                        ['b', 'w', 'w'],
-                    ],
-                    # front:
-                    [
-                        ['y', 'b', 'b'],
-                        ['y', 'b', 'b'],
-                        ['y', 'b', 'b']
-                    ],
-                    # bottom:
-                    [
-                        ['g', 'y', 'y'],
-                        ['g', 'y', 'y'],
-                        ['g', 'y', 'y']
-                    ],
-                    # back:
-                    [
-                        ['w', 'g', 'g'],
-                        ['w', 'g', 'g'],
-                        ['w', 'g', 'g']
-                    ],
-                    # left:
-                    [
-                        ['r', 'r', 'r'],
-                        ['r', 'r', 'r'],
-                        ['r', 'r', 'r'],
-                    ],
-                    # right:
-                    [
-                        ['o', 'o', 'o'],
-                        ['o', 'o', 'o'],
-                        ['o', 'o', 'o']
-                    ]
-                ]
-
-                # how do you go from raw perfect cube to this?
-
+            if (
+                given_move == Move( "left", "vertical", "up" ) 
+                or given_move == Move( "left", "vertical", "down" )
+            ):
                 updated_cube = spin_side( raw_cube, given_move )
-
-                print( updated_cube == expected_solution )
-                print( "returned:" )
-                for i in updated_cube:
-                    print( i )
-                
-                print( "expected:" )
-                for i in expected_solution:
-                    print( i )
-
-
-            elif given_move == Move( "left", "vertical", "down" ):
-
-                # here: edit this to return what you mean by "Moving the left sides vertical section up" 
-                # EXPECTED
-                expected_solution = [
-                    # top:
-                    [
-                        ['g', 'w', 'w'],
-                        ['g', 'w', 'w'],
-                        ['g', 'w', 'w'],
-                    ],
-                    # front:
-                    [
-                        ['w', 'b', 'b'],
-                        ['w', 'b', 'b'],
-                        ['w', 'b', 'b']
-                    ],
-                    # bottom:
-                    [
-                        ['b', 'y', 'y'],
-                        ['b', 'y', 'y'],
-                        ['b', 'y', 'y']
-                    ],
-                    # back:
-                    [
-                        ['y', 'g', 'g'],
-                        ['y', 'g', 'g'],
-                        ['y', 'g', 'g']
-                    ],
-                    # left:
-                    [
-                        ['r', 'r', 'r'],
-                        ['r', 'r', 'r'],
-                        ['r', 'r', 'r'],
-                    ],
-                    # right:
-                    [
-                        ['o', 'o', 'o'],
-                        ['o', 'o', 'o'],
-                        ['o', 'o', 'o']
-                    ]
-                ]
-
-                # how do you go from raw perfect cube to this?
-
-                updated_cube = spin_side( raw_cube, given_move )
-
-                print( updated_cube == expected_solution )
-                print( "returned:" )
-                for i in updated_cube:
-                    print( i )
-                
-                print( "expected:" )
-                for i in expected_solution:
-                    print( i )
 
             else:
                 raise "given_move.section + given_move.orientation not implemented"
