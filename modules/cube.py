@@ -457,7 +457,7 @@ class RubiksCube:
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
                             for row in range( len( sides_to_spin_static[side] ) ):
                                 sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
-                            # print( f"after: {sides_to_spin[ side ]}" )
+                            print( f"after: {sides_to_spin[ side ]}" )
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
@@ -509,62 +509,7 @@ class RubiksCube:
         
         for _ in range( turns ):
 
-            # do it here, you need to understand what you need to return from this function. That is the raw 3d matrix with applied move
-            
-            # if (
-            #     given_move == Move( "left", "vertical", "up" ) 
-            #     or given_move == Move( "left", "vertical", "down" )
-            # ):
-
-            # else:
-            #     raise "given_move.section + given_move.orientation not implemented"
-
             updated_cube = spin_side( raw_cube, given_move )
-
-            expected_cube = [
-                # "top": 
-                [
-                    [ "w", "w", "g" ],
-                    [ "w", "w", "g" ],
-                    [ "w", "w", "g" ]
-                ],
-                # "front": 
-                [
-                    [ "b", "b", "w" ],
-                    [ "b", "b", "w" ],
-                    [ "b", "b", "w" ]
-                ],
-                # "bottom": 
-                [
-                    [ "y", "y", "b" ],
-                    [ "y", "y", "b" ],
-                    [ "y", "y", "b" ]
-                ],
-                # "back": 
-                [
-                    [ "g", "g", "y" ],
-                    [ "g", "g", "y" ],
-                    [ "g", "g", "y" ]
-                ],
-                # "left": 
-                [
-                    [ "r", "r", "r" ],
-                    [ "r", "r", "r" ],
-                    [ "r", "r", "r" ]
-                ],
-                # "right": 
-                [
-                    [ "o", "o", "o" ],
-                    [ "o", "o", "o" ],
-                    [ "o", "o", "o" ]
-                ]
-            ]
-
-            print( f"updated_cube: {updated_cube}" )
-            print( f"expected_cube: {expected_cube}" )
-
-            print( f"Check passed status: {updated_cube == expected_cube}" )
-            assert updated_cube == expected_cube
         
         return self.refresh_cube_state( updated_cube )
 

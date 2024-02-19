@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "digital-rubics-cube"
+version = "0.1.0"
+description = ""
+authors = ["Max Gunter <maxgunter99@gmail.com>"]
+readme = "README.md"
+packages = [{include = "digital_rubics_cube"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

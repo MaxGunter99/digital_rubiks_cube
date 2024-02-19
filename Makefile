@@ -3,9 +3,16 @@
 
 define COMMAND_LIST
 
-	make get-perfect-cube
+	make run-cube
+	make test-cube
 
 endef
 
-get-perfect-cube:
+activate-virtual-environment:
+	potry shell
+
+run-cube:
 	python3 run_me.py
+
+test-cube:
+	python -m unittest test_cube_moves

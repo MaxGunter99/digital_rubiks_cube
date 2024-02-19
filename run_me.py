@@ -151,14 +151,39 @@ def get_perfect_cube():
 
 cube_client = RubiksCube()
 
+# ------- COMPLETED MOVES -------
+
+# cube_client.move_cube(
+#     section="left",
+#     orientation="vertical",
+#     direction="up",
+#     turns=1
+# )
+
+# cube_client.move_cube(
+#     section="left",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
+
 cube_client.move_cube(
-    section="left",
+    section="right",
     orientation="vertical",
-    direction="up",
+    direction="down",
     turns=1
 )
 
-pprint( cube_client.raw_cube )
+#  ------- WIP -------
+
+# cube_client.move_cube(
+#     section="right",
+#     orientation="vertical",
+#     direction="up",
+#     turns=1
+# )
+
+# pprint( cube_client.raw_cube )
 
 cube_client.visualize_cube()
 

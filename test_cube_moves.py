@@ -4,7 +4,8 @@ import json
 import unittest
 from copy import deepcopy
 
-from Project__RubicsCube.modules.cube import RubiksCube
+from modules.cube import RubiksCube
+
 
 RAW_CUBE = [
 
@@ -109,63 +110,52 @@ class TestMoves( unittest.TestCase ):
                 err_details
             )
 
-    # def test__all__json_test_cases( self ):
-    #     """
-    #     Does not report correctly but this will run all test cases
-    #     """
-    #     all_tests = None
-    #     path_to_test_cases = "Project__RubicsCube/tests/test_cases/"
-    #     for dirpath, dirnames, filenames in os.walk( path_to_test_cases ):
-    #         all_tests = [ f"{dirpath}/{i}" for i in filenames ]
-    #     for test_case in all_tests:
-    #         self.run_test_file( test_case )
-
     def test__move_cube__top_horizontal_left_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/top_horizontal_left_1.json" 
+        test_data_path = "test_cases/top_horizontal_left_1.json" 
         self.run_test_file( test_data_path )
     
     def test__move_cube__top_horizontal_right_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/top_horizontal_right_1.json" 
+        test_data_path = "test_cases/top_horizontal_right_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__middle_horizontal_left_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/middle_horizontal_left_1.json" 
+        test_data_path = "test_cases/middle_horizontal_left_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__middle_horizontal_right_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/middle_horizontal_right_1.json" 
+        test_data_path = "test_cases/middle_horizontal_right_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__bottom_horizontal_left_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/bottom_horizontal_left_1.json" 
+        test_data_path = "test_cases/bottom_horizontal_left_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__bottom_horizontal_right_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/bottom_horizontal_right_1.json" 
+        test_data_path = "test_cases/bottom_horizontal_right_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__left_vertical_up_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/left_vertical_up_1.json" 
+        test_data_path = "test_cases/left_vertical_up_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__left_vertical_down_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/left_vertical_down_1.json" 
+        test_data_path = "test_cases/left_vertical_down_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__right_vertical_up_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/right_vertical_up_1.json" 
+        test_data_path = "test_cases/right_vertical_up_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__right_vertical_down_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/right_vertical_down_1.json" 
+        test_data_path = "test_cases/right_vertical_down_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__middle_vertical_up_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/middle_vertical_up_1.json" 
+        test_data_path = "test_cases/middle_vertical_up_1.json" 
         self.run_test_file( test_data_path )
 
     def test__move_cube__middle_vertical_down_1( self ):
-        test_data_path = "Project__RubicsCube/tests/test_cases/middle_vertical_down_1.json" 
+        test_data_path = "test_cases/middle_vertical_down_1.json" 
         self.run_test_file( test_data_path )
 
 
