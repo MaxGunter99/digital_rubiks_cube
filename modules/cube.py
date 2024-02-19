@@ -97,7 +97,7 @@ class RubiksCube:
         # If initialized without cube, will start with perfect cube
         if not cube:
             details = "No cube data sent, starting with perfect cube"
-            print( details )
+            # print( details )
 
             cube_supplied = True if cube else False # Extra Cube Attributes
             new_cube = self.reset_cube()
@@ -352,8 +352,8 @@ class RubiksCube:
             #     "direction"
             # ]
 
-            print( given_move.section )
-            print( given_move.direction )
+            # print( given_move.section )
+            # print( given_move.direction )
 
             top_side = cube_data[ 0 ]
             front_side = cube_data[ 1 ]
@@ -363,7 +363,7 @@ class RubiksCube:
             right_side = cube_data[ 5 ]
 
             # 1. rotate left side
-            print( f"left side: {left_side}" )
+            # print( f"left side: {left_side}" )
 
             rotated_side = left_side if given_move.section == "left" else right_side
             spin_clockwise = False if given_move.section == "left" else True
@@ -388,7 +388,7 @@ class RubiksCube:
                         min_index = -1
                         iterator = -1
                         for row in range( len( rotated_side ) - 1, min_index, iterator ):
-                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+                            # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                             new_data[current_y].append( rotated_side[row][sticker] )
 
@@ -457,7 +457,7 @@ class RubiksCube:
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
                             for row in range( len( sides_to_spin_static[side] ) ):
                                 sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
-                            print( f"after: {sides_to_spin[ side ]}" )
+                            # print( f"after: {sides_to_spin[ side ]}" )
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
@@ -474,7 +474,7 @@ class RubiksCube:
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
-                    print( f"Adjusting side data for move: {sides_to_spin_static}" )
+                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
                     if spin_clockwise == True:
                         shift_index = 0 if given_move.section == "left" else 2
@@ -483,6 +483,31 @@ class RubiksCube:
                             for row in range( len( sides_to_spin_static[side] ) ):
                                 sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
                                 # print( f"after: {sides_to_spin[ side ]}" )
+
+                    top_side = sides_to_spin[0]
+                    front_side = sides_to_spin[1]
+                    bottom_side = sides_to_spin[2]
+                    back_side = sides_to_spin[3]
+
+                elif given_move.section == "right" and given_move.orientation == "vertical" and given_move.direction == "up":
+
+                    sides_to_spin = [
+                        top_side,
+                        front_side,
+                        bottom_side,
+                        back_side
+                    ]
+                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
+
+                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
+
+                    if spin_clockwise == True:
+                        shift_index = 0 if given_move.section == "left" else 2
+                        for side in range( len( sides_to_spin_static ) ):
+                            next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
+                            for row in range( len( sides_to_spin_static[side] ) ):
+                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
+                            print( f"after: {sides_to_spin[ side ]}" )
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
