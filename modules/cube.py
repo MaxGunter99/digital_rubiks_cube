@@ -87,22 +87,19 @@ class RubiksCube:
         self.front_side = None
         self.back_side = None
         self.bottom_side = None
-
-        # Validation Enforced:
-        # if cube and not isinstance( self.cube , Cube ):
-        #     details = f"RubiksCube -> self.cube is not of type: Cube - {self.cube}"
-        #     raise TypeError( details )
-
         
         # If initialized without cube, will start with perfect cube
+        cube_supplied = True if cube else False # Extra Cube Attributes
         if not cube:
             details = "No cube data sent, starting with perfect cube"
-            # print( details )
-
-            cube_supplied = True if cube else False # Extra Cube Attributes
+            print( details )
             new_cube = self.reset_cube()
             self.raw_cube = new_cube
             self.refresh_cube_state()
+        elif cube is not None:
+            details = f"Starting with custom cube override data! - {cube}"
+            print( details )
+            self.raw_cube = cube
 
         # Extra Cube Attributes:
         self.cube_supplied = cube_supplied

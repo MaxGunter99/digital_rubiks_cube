@@ -90,9 +90,12 @@ class TestMoves( unittest.TestCase ):
             file.close()
         TEST_MOVE = file_data.get("TEST_MOVE")
         TEST_SOLUTION = file_data.get("TEST_SOLUTION")
+        TEST_CUBE_OVERRIDE = file_data.get("TEST_CUBE_OVERRIDE", None)
+        if TEST_CUBE_OVERRIDE is not None:
+            print(f"USING CUSTOM CUBE OVERRIDE: {TEST_CUBE_OVERRIDE}")
         section, orientation, direction, turns = TEST_MOVE
         
-        cube_client = RubiksCube()
+        cube_client = RubiksCube(cube=TEST_CUBE_OVERRIDE)
         cube_client.move_cube(
             section=section,
             orientation=orientation,
@@ -109,6 +112,8 @@ class TestMoves( unittest.TestCase ):
                 expected_value,
                 err_details
             )
+
+    # ------- TEST EVERY POSSIBLE MOVE -------
 
     def test__move_cube__top_horizontal_left_1( self ):
         test_data_path = "tests/test_cases/top_horizontal_left_1.json" 
@@ -156,6 +161,12 @@ class TestMoves( unittest.TestCase ):
 
     def test__move_cube__middle_vertical_down_1( self ):
         test_data_path = "tests/test_cases/middle_vertical_down_1.json" 
+        self.run_test_file( test_data_path )
+
+    # ------- CUSTOM CUBE INPUT TESTS -------
+        
+    def test__custom__move_cube__left_vertical_down_1( self ):
+        test_data_path = "tests/test_cases/custom_left_vertical_down_1.json" 
         self.run_test_file( test_data_path )
 
 
