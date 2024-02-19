@@ -321,8 +321,8 @@ class RubiksCube:
             # Move( "bottom", "horizontal", "right" ),
             Move( "left", "vertical", "up" ),
             Move( "left", "vertical", "down" ),
-            # Move( "right", "vertical", "up" ),
-            # Move( "right", "vertical", "down" ),
+            Move( "right", "vertical", "up" ),
+            Move( "right", "vertical", "down" ),
             # Move( "middle", "vertical", "up" ),
             # Move( "middle", "vertical", "down" )
         ]
@@ -427,7 +427,7 @@ class RubiksCube:
                     # print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
                     if spin_clockwise == False:
-                        shift_index = 0 if given_move.section == "left" else 3
+                        shift_index = 0 if given_move.section == "left" else 2
                         for side in range( len( sides_to_spin_static ) ):
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
                             for row in range( len( sides_to_spin_static[side] ) ):
@@ -452,12 +452,37 @@ class RubiksCube:
                     # print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
                     if spin_clockwise == False:
-                        shift_index = 0 if given_move.section == "left" else 3
+                        shift_index = 0 if given_move.section == "left" else 2
                         for side in range( len( sides_to_spin_static ) ):
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
                             for row in range( len( sides_to_spin_static[side] ) ):
                                 sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
                             # print( f"after: {sides_to_spin[ side ]}" )
+
+                    top_side = sides_to_spin[0]
+                    front_side = sides_to_spin[1]
+                    bottom_side = sides_to_spin[2]
+                    back_side = sides_to_spin[3]
+
+                elif given_move.section == "right" and given_move.orientation == "vertical" and given_move.direction == "down":
+
+                    sides_to_spin = [
+                        top_side,
+                        front_side,
+                        bottom_side,
+                        back_side
+                    ]
+                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
+
+                    print( f"Adjusting side data for move: {sides_to_spin_static}" )
+
+                    if spin_clockwise == True:
+                        shift_index = 0 if given_move.section == "left" else 2
+                        for side in range( len( sides_to_spin_static ) ):
+                            next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
+                            for row in range( len( sides_to_spin_static[side] ) ):
+                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
+                                # print( f"after: {sides_to_spin[ side ]}" )
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
@@ -486,14 +511,60 @@ class RubiksCube:
 
             # do it here, you need to understand what you need to return from this function. That is the raw 3d matrix with applied move
             
-            if (
-                given_move == Move( "left", "vertical", "up" ) 
-                or given_move == Move( "left", "vertical", "down" )
-            ):
-                updated_cube = spin_side( raw_cube, given_move )
+            # if (
+            #     given_move == Move( "left", "vertical", "up" ) 
+            #     or given_move == Move( "left", "vertical", "down" )
+            # ):
 
-            else:
-                raise "given_move.section + given_move.orientation not implemented"
+            # else:
+            #     raise "given_move.section + given_move.orientation not implemented"
+
+            updated_cube = spin_side( raw_cube, given_move )
+
+            expected_cube = [
+                # "top": 
+                [
+                    [ "w", "w", "g" ],
+                    [ "w", "w", "g" ],
+                    [ "w", "w", "g" ]
+                ],
+                # "front": 
+                [
+                    [ "b", "b", "w" ],
+                    [ "b", "b", "w" ],
+                    [ "b", "b", "w" ]
+                ],
+                # "bottom": 
+                [
+                    [ "y", "y", "b" ],
+                    [ "y", "y", "b" ],
+                    [ "y", "y", "b" ]
+                ],
+                # "back": 
+                [
+                    [ "g", "g", "y" ],
+                    [ "g", "g", "y" ],
+                    [ "g", "g", "y" ]
+                ],
+                # "left": 
+                [
+                    [ "r", "r", "r" ],
+                    [ "r", "r", "r" ],
+                    [ "r", "r", "r" ]
+                ],
+                # "right": 
+                [
+                    [ "o", "o", "o" ],
+                    [ "o", "o", "o" ],
+                    [ "o", "o", "o" ]
+                ]
+            ]
+
+            print( f"updated_cube: {updated_cube}" )
+            print( f"expected_cube: {expected_cube}" )
+
+            print( f"Check passed status: {updated_cube == expected_cube}" )
+            assert updated_cube == expected_cube
         
         return self.refresh_cube_state( updated_cube )
 
