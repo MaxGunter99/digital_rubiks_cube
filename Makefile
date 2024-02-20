@@ -3,13 +3,14 @@
 
 define COMMAND_LIST
 
+	make activate-virtual-environment
 	make run-cube
 	make test-cube
 
 endef
 
 activate-virtual-environment:
-	potry shell
+	poetry shell
 
 run-cube:
 	python3 run_me.py
