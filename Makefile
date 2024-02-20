@@ -1,5 +1,3 @@
-```make
-
 # THIS IS THE MAKEFILE, some useful saved commands
 
 define COMMAND_LIST
@@ -18,5 +16,3 @@ run-cube:
 
 test-cube:
 	python -m unittest discover -v -s tests -p 'test_*.py' -b
-
-```
