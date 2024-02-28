@@ -359,9 +359,6 @@ class RubiksCube:
             left_side = cube_data[ 4 ]
             right_side = cube_data[ 5 ]
 
-            # 1. rotate left side
-            # print( f"left side: {left_side}" )
-
             rotated_side = left_side if given_move.section == "left" else right_side
             spin_clockwise = False if ( 
                 given_move.section == "left" and given_move.orientation == "vertical" and given_move.direction == "up" 
@@ -378,66 +375,30 @@ class RubiksCube:
                     [],
                 ]
 
+                # 1. rotate side if its left or right
                 if given_move.section != "middle":
 
-                    if spin_clockwise == True:
+                    current_x = 0
+                    current_y = 0
 
-                        current_x = 0
-                        current_y = 0
+                    for sticker in range( len( rotated_side[0] ) ):
+                        for row in range( len( rotated_side ) - 1, -1, -1 ):
+                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
-                        for sticker in range( len( rotated_side[0] ) ):
-                            min_index = -1
-                            iterator = -1
-                            for row in range( len( rotated_side ) - 1, min_index, iterator ):
-                                print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+                            new_data[current_y].append( rotated_side[row][sticker] )
 
-                                new_data[current_y].append( rotated_side[row][sticker] )
-
+                            if spin_clockwise == True:
                                 current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
-                            current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
-
-                        if given_move.section == "left":
-                            left_side = new_data
-                        elif given_move.section == "right":
-                            right_side = new_data
-                        else:
-                            raise Exception( "rotated side can not be set, not implemented" )
-
-                    elif spin_clockwise == False:
-
-                        current_x = 0
-                        current_y = 0
-
-                        for sticker in range( len( rotated_side[0] ) ):
-                            for row in range( len( rotated_side ) - 1, -1, -1 ):
-
-                                print( f"({current_y, current_x}) -> ({row}, {sticker})" )
-
-                                # expect:
-                                # ((0, 0)) -> (2, 0)
-                                # ((0, 1)) -> (1, 0)
-                                # ((0, 2)) -> (0, 0)
-                                # ((1, 0)) -> (2, 1)
-                                # ((1, 1)) -> (1, 1)
-                                # ((1, 2)) -> (0, 1)
-                                # ((2, 0)) -> (2, 2)
-                                # ((2, 1)) -> (1, 2)
-                                # ((2, 2)) -> (0, 2)
-
-                                new_data[row].append( rotated_side[current_y][current_x] )
-
+                            elif spin_clockwise == False:
                                 current_x += 1 if current_x < len( rotated_side ) -1 else -current_x
-                            current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
+                        current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
 
-                        if given_move.section == "left":
-                            left_side = new_data
-                        elif given_move.section == "right":
-                            right_side = new_data
-                        else:
-                            raise Exception( "rotated side can not be set, not implemented" )
-
+                    if given_move.section == "left":
+                        left_side = new_data
+                    elif given_move.section == "right":
+                        right_side = new_data
                     else:
-                        raise Exception("Error spinning side!")
+                        raise Exception( "rotated side can not be set, not implemented" )
 
                 # 2. slide each left vertical row up
                 if given_move.section == "left" and given_move.orientation == "vertical":
@@ -537,7 +498,6 @@ class RubiksCube:
         # ----------------------------------------------
         
         for _ in range( turns ):
-
             updated_cube = spin_side( raw_cube, given_move )
         
         return self.refresh_cube_state( updated_cube )
