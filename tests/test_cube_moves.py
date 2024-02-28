@@ -156,13 +156,13 @@ class TestMoves( unittest.TestCase ):
         test_data_path = "tests/test_cases/right_vertical_down_1.json" 
         self.run_test_file( test_data_path )
 
-    # def test__move_cube__middle_vertical_up_1( self ):
-    #     test_data_path = "tests/test_cases/middle_vertical_up_1.json" 
-    #     self.run_test_file( test_data_path )
+    def test__move_cube__middle_vertical_up_1( self ):
+        test_data_path = "tests/test_cases/middle_vertical_up_1.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__move_cube__middle_vertical_down_1( self ):
-    #     test_data_path = "tests/test_cases/middle_vertical_down_1.json" 
-    #     self.run_test_file( test_data_path )
+    def test__move_cube__middle_vertical_down_1( self ):
+        test_data_path = "tests/test_cases/middle_vertical_down_1.json" 
+        self.run_test_file( test_data_path )
 
     # ------- CUSTOM CUBE INPUT TESTS -------
         
