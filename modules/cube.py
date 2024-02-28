@@ -477,8 +477,8 @@ class RubiksCube:
                     bottom_side = sides_to_spin[2]
                     back_side = sides_to_spin[3]
 
-                # elif given_move.section == "left" and given_move.orientation == "horizontal":
-                # elif given_move.section == "right" and given_move.orientation == "horizontal":
+                # elif given_move.section == "top" and given_move.orientation == "horizontal":
+                # elif given_move.section == "bottom" and given_move.orientation == "horizontal":
                             
                 else:
                     raise Exception("Given move not supported!")
