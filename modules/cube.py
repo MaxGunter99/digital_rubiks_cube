@@ -20,17 +20,6 @@ import copy
 """
 
 # Named Tuple:
-# Cube = namedtuple(
-#     'Cube', 
-#     [
-#         'left_side', 
-#         'top_side', 
-#         'right_side', 
-#         'front_side', 
-#         'back_side', 
-#         'bottom_side' 
-#     ]
-# )
 
 Move = namedtuple(
     "Move", 
@@ -359,10 +348,17 @@ class RubiksCube:
             left_side = cube_data[ 4 ]
             right_side = cube_data[ 5 ]
 
-            rotated_side = left_side if given_move.section == "left" else right_side
+            rotated_side = None
+            if given_move.orientation == "vertical":
+                rotated_side = left_side if given_move.section == "left" else right_side
+            elif given_move.orientation == "horizontal":
+                rotated_side = top_side if given_move.section == "top" else bottom_side
+
             spin_clockwise = False if ( 
                 given_move.section == "left" and given_move.orientation == "vertical" and given_move.direction == "up" 
                 or given_move.section == "right" and given_move.orientation == "vertical" and given_move.direction == "down"
+                or given_move.section == "top" and given_move.orientation == "horizontal" and given_move.direction == "left" 
+                or given_move.section == "bottom" and given_move.orientation == "horizontal" and given_move.direction == "right"
             ) else True
 
 
@@ -385,12 +381,14 @@ class RubiksCube:
                         for row in range( len( rotated_side ) - 1, -1, -1 ):
                             print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
-                            new_data[current_y].append( rotated_side[row][sticker] )
-
                             if spin_clockwise == True:
+                                new_data[current_y].append( rotated_side[row][sticker] )
                                 current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
                             elif spin_clockwise == False:
+                                new_data[row].append( rotated_side[current_y][current_x] )
                                 current_x += 1 if current_x < len( rotated_side ) -1 else -current_x
+
+                            
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
 
                     if given_move.section == "left":
