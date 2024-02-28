@@ -363,7 +363,11 @@ class RubiksCube:
             # print( f"left side: {left_side}" )
 
             rotated_side = left_side if given_move.section == "left" else right_side
-            spin_clockwise = False if given_move.section == "left" else True
+            rotated_side_index = 4 if rotated_side == "left" else 5
+            spin_clockwise = False if ( 
+                given_move.section == "left" and given_move.orientation == "vertical" and given_move.direction == "up" 
+                or given_move.section == "right" and given_move.orientation == "vertical" and given_move.direction == "down"
+            ) else True
 
 
             if rotated_side is not None and spin_clockwise is not None:
@@ -381,31 +385,57 @@ class RubiksCube:
                     current_y = 0
 
                     for sticker in range( len( rotated_side[0] ) ):
-
                         min_index = -1
                         iterator = -1
                         for row in range( len( rotated_side ) - 1, min_index, iterator ):
-                            # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                             new_data[current_y].append( rotated_side[row][sticker] )
 
                             current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
 
+                    if given_move.section == "left":
+                        left_side = new_data
+                    elif given_move.section == "right":
+                        right_side = new_data
+                    else:
+                        raise Exception( "rotated side can not be set, not implemented" )
+
                 elif spin_clockwise == False:
 
                     current_x = 0
                     current_y = 0
 
-                    min_index = -1
-                    iterator = -1
-                    for row in range( len( rotated_side ) - 1, min_index, iterator ):
-                        for sticker in range( len( rotated_side[0] ) ):
+                    for sticker in range( len( rotated_side[0] ) ):
+                        for row in range( len( rotated_side ) - 1, -1, -1 ):
 
-                            new_data[current_y].append( rotated_side[sticker][row] )
+                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
-                            current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
+                            # expect:
+                            # ((0, 0)) -> (2, 0)
+                            # ((0, 1)) -> (1, 0)
+                            # ((0, 2)) -> (0, 0)
+                            # ((1, 0)) -> (2, 1)
+                            # ((1, 1)) -> (1, 1)
+                            # ((1, 2)) -> (0, 1)
+                            # ((2, 0)) -> (2, 2)
+                            # ((2, 1)) -> (1, 2)
+                            # ((2, 2)) -> (0, 2)
+
+                            new_data[row].append( rotated_side[current_y][current_x] )
+
+                            current_x += 1 if current_x < len( rotated_side ) -1 else -current_x
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
+
+                    if given_move.section == "left":
+                        left_side = new_data
+                    elif given_move.section == "right":
+                        right_side = new_data
+                    else:
+                        raise Exception( "rotated side can not be set, not implemented" )
+
+                    print( new_data )
 
                 else:
                     raise Exception("Error spinning side!")
@@ -448,7 +478,7 @@ class RubiksCube:
 
                     # print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
-                    if spin_clockwise == False:
+                    if spin_clockwise == True:
                         shift_index = 0 if given_move.section == "left" else 2
                         for side in range( len( sides_to_spin_static ) ):
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
@@ -473,11 +503,12 @@ class RubiksCube:
 
                     # print( f"Adjusting side data for move: {sides_to_spin_static}" )
 
-                    if spin_clockwise == True:
+                    if spin_clockwise == False:
                         shift_index = 0 if given_move.section == "left" else 2
                         for side in range( len( sides_to_spin_static ) ):
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
                             for row in range( len( sides_to_spin_static[side] ) ):
+                                print(  f"{side} - {row} {shift_index}")
                                 sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
                                 # print( f"after: {sides_to_spin[ side ]}" )
 
