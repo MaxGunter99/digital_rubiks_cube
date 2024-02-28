@@ -320,8 +320,8 @@ class RubiksCube:
             Move( "left", "vertical", "down" ),
             Move( "right", "vertical", "up" ),
             Move( "right", "vertical", "down" ),
-            # Move( "middle", "vertical", "up" ),
-            # Move( "middle", "vertical", "down" )
+            Move( "middle", "vertical", "up" ),
+            Move( "middle", "vertical", "down" )
         ]
         # moves list ^
         if given_move not in validate_moves:
@@ -379,69 +379,71 @@ class RubiksCube:
                     [],
                 ]
 
-                if spin_clockwise == True:
+                if given_move.section != "middle":
 
-                    current_x = 0
-                    current_y = 0
+                    if spin_clockwise == True:
 
-                    for sticker in range( len( rotated_side[0] ) ):
-                        min_index = -1
-                        iterator = -1
-                        for row in range( len( rotated_side ) - 1, min_index, iterator ):
-                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+                        current_x = 0
+                        current_y = 0
 
-                            new_data[current_y].append( rotated_side[row][sticker] )
+                        for sticker in range( len( rotated_side[0] ) ):
+                            min_index = -1
+                            iterator = -1
+                            for row in range( len( rotated_side ) - 1, min_index, iterator ):
+                                print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
-                            current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
-                        current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
+                                new_data[current_y].append( rotated_side[row][sticker] )
 
-                    if given_move.section == "left":
-                        left_side = new_data
-                    elif given_move.section == "right":
-                        right_side = new_data
+                                current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
+                            current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
+
+                        if given_move.section == "left":
+                            left_side = new_data
+                        elif given_move.section == "right":
+                            right_side = new_data
+                        else:
+                            raise Exception( "rotated side can not be set, not implemented" )
+
+                    elif spin_clockwise == False:
+
+                        current_x = 0
+                        current_y = 0
+
+                        for sticker in range( len( rotated_side[0] ) ):
+                            for row in range( len( rotated_side ) - 1, -1, -1 ):
+
+                                print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+
+                                # expect:
+                                # ((0, 0)) -> (2, 0)
+                                # ((0, 1)) -> (1, 0)
+                                # ((0, 2)) -> (0, 0)
+                                # ((1, 0)) -> (2, 1)
+                                # ((1, 1)) -> (1, 1)
+                                # ((1, 2)) -> (0, 1)
+                                # ((2, 0)) -> (2, 2)
+                                # ((2, 1)) -> (1, 2)
+                                # ((2, 2)) -> (0, 2)
+
+                                new_data[row].append( rotated_side[current_y][current_x] )
+
+                                current_x += 1 if current_x < len( rotated_side ) -1 else -current_x
+                            current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
+
+                        if given_move.section == "left":
+                            left_side = new_data
+                        elif given_move.section == "right":
+                            right_side = new_data
+                        else:
+                            raise Exception( "rotated side can not be set, not implemented" )
+
+                        print( new_data )
+
                     else:
-                        raise Exception( "rotated side can not be set, not implemented" )
-
-                elif spin_clockwise == False:
-
-                    current_x = 0
-                    current_y = 0
-
-                    for sticker in range( len( rotated_side[0] ) ):
-                        for row in range( len( rotated_side ) - 1, -1, -1 ):
-
-                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
-
-                            # expect:
-                            # ((0, 0)) -> (2, 0)
-                            # ((0, 1)) -> (1, 0)
-                            # ((0, 2)) -> (0, 0)
-                            # ((1, 0)) -> (2, 1)
-                            # ((1, 1)) -> (1, 1)
-                            # ((1, 2)) -> (0, 1)
-                            # ((2, 0)) -> (2, 2)
-                            # ((2, 1)) -> (1, 2)
-                            # ((2, 2)) -> (0, 2)
-
-                            new_data[row].append( rotated_side[current_y][current_x] )
-
-                            current_x += 1 if current_x < len( rotated_side ) -1 else -current_x
-                        current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
-
-                    if given_move.section == "left":
-                        left_side = new_data
-                    elif given_move.section == "right":
-                        right_side = new_data
-                    else:
-                        raise Exception( "rotated side can not be set, not implemented" )
-
-                    print( new_data )
-
-                else:
-                    raise Exception("Error spinning side!")
+                        raise Exception("Error spinning side!")
 
                 # 2. slide each left vertical row up
-                if given_move.section == "left" and given_move.orientation == "vertical" and given_move.direction == "up":
+                if given_move.section == "left" and given_move.orientation == "vertical":
 
                     sides_to_spin = [
                         top_side,
@@ -451,47 +453,23 @@ class RubiksCube:
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
-                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
-
-                    if spin_clockwise == False:
-                        shift_index = 0 if given_move.section == "left" else 2
-                        for side in range( len( sides_to_spin_static ) ):
+                    shift_index = 0 if given_move.section == "left" else 2
+                    for side in range( len( sides_to_spin_static ) ):
+                        next_side = None
+                        if spin_clockwise == False:
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
-                            for row in range( len( sides_to_spin_static[side] ) ):
-                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
-                            # print( f"after: {sides_to_spin[ side ]}" )
-
-                    top_side = sides_to_spin[0]
-                    front_side = sides_to_spin[1]
-                    bottom_side = sides_to_spin[2]
-                    back_side = sides_to_spin[3]
-
-                elif given_move.section == "left" and given_move.orientation == "vertical" and given_move.direction == "down":
-
-                    sides_to_spin = [
-                        top_side,
-                        front_side,
-                        bottom_side,
-                        back_side
-                    ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
-
-                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
-
-                    if spin_clockwise == True:
-                        shift_index = 0 if given_move.section == "left" else 2
-                        for side in range( len( sides_to_spin_static ) ):
+                        elif spin_clockwise == True:
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
-                            for row in range( len( sides_to_spin_static[side] ) ):
-                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
-                            # print( f"after: {sides_to_spin[ side ]}" )
+
+                        for row in range( len( sides_to_spin_static[side] ) ):
+                            sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
                     back_side = sides_to_spin[3]
 
-                elif given_move.section == "right" and given_move.orientation == "vertical" and given_move.direction == "down":
+                elif given_move.section == "right" and given_move.orientation == "vertical":
 
                     sides_to_spin = [
                         top_side,
@@ -501,41 +479,17 @@ class RubiksCube:
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
-                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
-
-                    if spin_clockwise == False:
-                        shift_index = 0 if given_move.section == "left" else 2
-                        for side in range( len( sides_to_spin_static ) ):
+                    shift_index = 0 if given_move.section == "left" else 2
+                    for side in range( len( sides_to_spin_static ) ):
+                        next_side = None
+                        if spin_clockwise == False:
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
-                            for row in range( len( sides_to_spin_static[side] ) ):
-                                print(  f"{side} - {row} {shift_index}")
-                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
-                                # print( f"after: {sides_to_spin[ side ]}" )
-
-                    top_side = sides_to_spin[0]
-                    front_side = sides_to_spin[1]
-                    bottom_side = sides_to_spin[2]
-                    back_side = sides_to_spin[3]
-
-                elif given_move.section == "right" and given_move.orientation == "vertical" and given_move.direction == "up":
-
-                    sides_to_spin = [
-                        top_side,
-                        front_side,
-                        bottom_side,
-                        back_side
-                    ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
-
-                    # print( f"Adjusting side data for move: {sides_to_spin_static}" )
-
-                    if spin_clockwise == True:
-                        shift_index = 0 if given_move.section == "left" else 2
-                        for side in range( len( sides_to_spin_static ) ):
+                        elif spin_clockwise == True:
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
-                            for row in range( len( sides_to_spin_static[side] ) ):
-                                sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
-                            print( f"after: {sides_to_spin[ side ]}" )
+                            
+                        for row in range( len( sides_to_spin_static[side] ) ):
+                            print(  f"{side} - {row} {shift_index}")
+                            sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
