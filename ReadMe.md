@@ -21,28 +21,6 @@ Project designed by: Michael ( Max ) Gunter
 
 This is an interactive Python project that brings the classic Rubik's Cube into the digital realm. This project leverages a sophisticated Python 3D matrix data structure to store and manipulate the values of each side of the Rubik's Cube
 
-## Project Milestones
-
-### Milestone 1: Project Initialization
-- **Status:** Completed
-- **Description:** This milestone involves initializing the RubiksCube class, setting the cube as a 3D matrix and providing functions which will mutate the cubes data.
-
-### Milestone 2: Implement Vertical Moves ( Up & Down )
-- **Status:** Completed
-- **Description:** This milestone involves manipulation capabilities by implementing vertical moves.
-
-### Milestone 3: Implement Horizontal Moves ( Left & Right )
-- **Status:** In Progress
-- **Description:** The next milestone involves extending the cube manipulation capabilities by implementing horizontal moves.
-
-### Milestone 4: Rotating the Cube
-- **Status:** Planned
-- **Description:** Because we will only be referencing all moves from one side, we'll want to be able to rotate the cube as if you were examining it by hand.
-
-### Milestone 5: Solve Algorithm
-- **Status:** Planned
-- **Description:** Once horizontal moves and cube rotations are implemented, the project will focus on developing an efficient algorithm to solve the Rubik's Cube. The goal is to create a solution that outputs the list of optimal moves to return the cube to its solved state.
-
 ## Run Commands:
 [Link to Makefile](Makefile)
 
@@ -153,3 +131,25 @@ cube_client.visualize_cube()
 ```
 
 ---
+
+## Project Milestones
+
+### Milestone 1: Project Initialization
+- **Status:** Completed
+- **Description:** This milestone involves initializing the RubiksCube class, setting the cube as a 3D matrix and providing functions which will mutate the cubes data.
+
+### Milestone 2: Implement Vertical Moves ( Up & Down )
+- **Status:** Completed
+- **Description:** This milestone involves manipulation capabilities by implementing vertical moves.
+
+### Milestone 3: Implement Horizontal Moves ( Left & Right )
+- **Status:** In Progress
+- **Description:** The next milestone involves extending the cube manipulation capabilities by implementing horizontal moves.
+
+### Milestone 4: Rotating the Cube
+- **Status:** Planned
+- **Description:** Because we will only be referencing all moves from one side, we'll want to be able to rotate the cube as if you were examining it by hand.
+
+### Milestone 5: Solve Algorithm
+- **Status:** Planned
+- **Description:** Once horizontal moves and cube rotations are implemented, the project will focus on developing an efficient algorithm to solve the Rubik's Cube. The goal is to create a solution that outputs the list of optimal moves to return the cube to its solved state.
