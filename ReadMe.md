@@ -1,6 +1,3 @@
-
-Project designed by: Michael ( Max ) Gunter
-
 ```
    _ _ _
   /_/_/_/\
@@ -17,6 +14,13 @@ Project designed by: Michael ( Max ) Gunter
   \/_/ /_/ \/_____/ \/_____/ \/_/ \/_/\/_/ \/_____/     \/_____/ \/_____/ \/_____/ \/_____/ 
                   
 ```
+
+Project designed by: Michael ( Max ) Gunter
+
+# Project Overview:
+
+This is an interactive Python project that brings the classic Rubik's Cube into the digital realm. This project leverages a sophisticated Python 3D matrix data structure to store and manipulate the values of each side of the Rubik's Cube
+
 # Run Commands:
 [Link to Makefile](Makefile)
 
