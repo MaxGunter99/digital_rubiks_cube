@@ -22,6 +22,17 @@ Project designed by: Michael ( Max ) Gunter
 
 # Usage Examples:
 
+- [Initialize & Visualize a Perfect Cube](#example-get-perfect-cube)
+- [Initialize, Move, and Visualize a Cube](#example-move-cube)
+
+---
+
+## Initialize & Visualize a Perfect Cube
+<a name="example-get-perfect-cube"></a>
+
+This will initialize the RubiksCube class, returning a perfect cube. Then Visualize the cube, outputting it to the console.
+
+**Code Example:**
 ```
 cube_client = RubiksCube()
 
@@ -34,7 +45,59 @@ cube_client.move_cube(
 
 cube_client.visualize_cube()
 ```
-### Output:
+
+**Visualize Cube Output:**
+```
+
+                     Back                     
+
+                ['g', 'g', 'g']                
+                ['g', 'g', 'g']                
+                ['g', 'g', 'g']                
+
+     Left            Top            Right     
+
+['r', 'r', 'r'] ['w', 'w', 'w'] ['o', 'o', 'o']
+['r', 'r', 'r'] ['w', 'w', 'w'] ['o', 'o', 'o']
+['r', 'r', 'r'] ['w', 'w', 'w'] ['o', 'o', 'o']
+
+                     Front                     
+
+                ['b', 'b', 'b']                
+                ['b', 'b', 'b']                
+                ['b', 'b', 'b']                
+
+                    Bottom                    
+
+                ['y', 'y', 'y']                
+                ['y', 'y', 'y']                
+                ['y', 'y', 'y']                
+
+```
+
+---
+
+## Initialize, Move, and Visualize a Cube
+<a name="example-move-cube"></a>
+
+This will initialize the RubiksCube class, then the cube will be mutated, moving the right vertical section down
+
+**Code:**
+```
+cube_client = RubiksCube()
+
+cube_client.move_cube(
+   section="right",
+   orientation="vertical",
+   direction="down",
+   turns=1
+)
+
+cube_client.visualize_cube()
+```
+
+**Visualize Cube Output:**
+
 ```
                      Back                     
 
