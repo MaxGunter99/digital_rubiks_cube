@@ -27,8 +27,9 @@ Project designed by: Michael ( Max ) Gunter
 
 ---
 
-## Initialize & Visualize a Perfect Cube
 <a name="example-get-perfect-cube"></a>
+
+## Initialize & Visualize a Perfect Cube
 
 This will initialize the RubiksCube class, returning a perfect cube. Then Visualize the cube, outputting it to the console.
 
@@ -77,8 +78,9 @@ cube_client.visualize_cube()
 
 ---
 
-## Initialize, Move, and Visualize a Cube
 <a name="example-move-cube"></a>
+
+## Initialize, Move, and Visualize a Cube
 
 This will initialize the RubiksCube class, then the cube will be mutated, moving the right vertical section down
 
