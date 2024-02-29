@@ -53,31 +53,29 @@ cube_client.visualize_cube()
 
 **Visualize Cube Output:**
 ```
-
                      Back                     
 
                 ['g', 'g', 'g']                
                 ['g', 'g', 'g']                
                 ['g', 'g', 'g']                
 
-     Left            Top            Right     
+                      Top                      
 
-['r', 'r', 'r'] ['w', 'w', 'w'] ['o', 'o', 'o']
-['r', 'r', 'r'] ['w', 'w', 'w'] ['o', 'o', 'o']
-['r', 'r', 'r'] ['w', 'w', 'w'] ['o', 'o', 'o']
+                ['w', 'w', 'w']                
+                ['w', 'w', 'w']                
+                ['w', 'w', 'w']                
 
-                     Front                     
+     Left           Front           Right     
 
-                ['b', 'b', 'b']                
-                ['b', 'b', 'b']                
-                ['b', 'b', 'b']                
+['r', 'r', 'r'] ['b', 'b', 'b'] ['o', 'o', 'o']
+['r', 'r', 'r'] ['b', 'b', 'b'] ['o', 'o', 'o']
+['r', 'r', 'r'] ['b', 'b', 'b'] ['o', 'o', 'o']
 
                     Bottom                    
 
                 ['y', 'y', 'y']                
                 ['y', 'y', 'y']                
-                ['y', 'y', 'y']                
-
+                ['y', 'y', 'y']
 ```
 
 ---
@@ -111,23 +109,23 @@ cube_client.visualize_cube()
                 ['y', 'g', 'g']                
                 ['y', 'g', 'g']                
 
-     Left            Top            Right     
+                      Top                      
 
-['r', 'r', 'r'] ['w', 'w', 'g'] ['o', 'o', 'o']
-['r', 'r', 'r'] ['w', 'w', 'g'] ['o', 'o', 'o']
-['r', 'r', 'r'] ['w', 'w', 'g'] ['o', 'o', 'o']
+                ['w', 'w', 'g']                
+                ['w', 'w', 'g']                
+                ['w', 'w', 'g']                
 
-                     Front                     
+     Left           Front           Right     
 
-                ['b', 'b', 'w']                
-                ['b', 'b', 'w']                
-                ['b', 'b', 'w']                
+['r', 'r', 'r'] ['b', 'b', 'w'] ['o', 'o', 'o']
+['r', 'r', 'r'] ['b', 'b', 'w'] ['o', 'o', 'o']
+['r', 'r', 'r'] ['b', 'b', 'w'] ['o', 'o', 'o']
 
                     Bottom                    
 
                 ['y', 'y', 'b']                
                 ['y', 'y', 'b']                
-                ['y', 'y', 'b']                
+                ['y', 'y', 'b']
 ```
 
 ---

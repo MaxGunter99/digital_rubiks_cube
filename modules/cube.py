@@ -541,8 +541,8 @@ class RubiksCube:
 
         for data in [
             ( None, None, back_label , back_side,None, None),
-            ( left_label, left_side, top_label, top_side, right_label, right_side ),
-            ( None, None, front_label, front_side, None, None ),
+            ( None, None, top_label, top_side, None, None ),
+            ( left_label, left_side, front_label, front_side, right_label, right_side ),
             ( None, None, bottom_label, bottom_side, None, None ),
 
         ]:
