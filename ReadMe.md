@@ -17,17 +17,39 @@
 
 Project designed by: Michael ( Max ) Gunter
 
-# Project Overview:
+## Overview:
 
 This is an interactive Python project that brings the classic Rubik's Cube into the digital realm. This project leverages a sophisticated Python 3D matrix data structure to store and manipulate the values of each side of the Rubik's Cube
 
-# Run Commands:
+## Project Milestones
+
+### Milestone 1: Project Initialization
+- **Status:** Completed
+- **Description:** This milestone involves initializing the RubiksCube class, setting the cube as a 3D matrix and providing functions which will mutate the cubes data.
+
+### Milestone 2: Implement Vertical Moves ( Up & Down )
+- **Status:** Completed
+- **Description:** This milestone involves manipulation capabilities by implementing vertical moves.
+
+### Milestone 3: Implement Horizontal Moves ( Left & Right )
+- **Status:** In Progress
+- **Description:** The next milestone involves extending the cube manipulation capabilities by implementing horizontal moves.
+
+### Milestone 4: Rotating the Cube
+- **Status:** Planned
+- **Description:** Because we will only be referencing all moves from one side, we'll want to be able to rotate the cube as if you were examining it by hand.
+
+### Milestone 5: Solve Algorithm
+- **Status:** Planned
+- **Description:** Once horizontal moves and cube rotations are implemented, the project will focus on developing an efficient algorithm to solve the Rubik's Cube. The goal is to create a solution that outputs the list of optimal moves to return the cube to its solved state.
+
+## Run Commands:
 [Link to Makefile](Makefile)
 
-# Usage Examples:
+## Getting Started:
 
 - [Initialize & Visualize a Perfect Cube](#example-get-perfect-cube)
-- [Initialize, Move, and Visualize a Cube](#example-move-cube)
+- [Initialize, Move & Visualize a Cube](#example-move-cube)
 
 ---
 
@@ -84,7 +106,7 @@ cube_client.visualize_cube()
 
 <a name="example-move-cube"></a>
 
-## Initialize, Move, and Visualize a Cube
+## Initialize, Move & Visualize a Cube
 
 This will initialize the RubiksCube class, then the cube will be mutated, moving the right vertical section down. After the cube has mutated we will be able to visualize it.
 
@@ -129,3 +151,5 @@ cube_client.visualize_cube()
                 ['y', 'y', 'b']                
                 ['y', 'y', 'b']                
 ```
+
+---
