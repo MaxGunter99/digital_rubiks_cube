@@ -40,14 +40,6 @@ This will initialize the RubiksCube class, returning a perfect cube. Then Visual
 **Code Example:**
 ```
 cube_client = RubiksCube()
-
-cube_client.move_cube(
-   section="right",
-   orientation="vertical",
-   direction="down",
-   turns=1
-)
-
 cube_client.visualize_cube()
 ```
 
