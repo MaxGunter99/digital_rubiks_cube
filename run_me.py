@@ -167,14 +167,12 @@ cube_client = RubiksCube()
 #     turns=1
 # )
 
-cube_client.move_cube(
-    section="right",
-    orientation="vertical",
-    direction="down",
-    turns=1
-)
-
-#  ------- WIP -------
+# cube_client.move_cube(
+#     section="right",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
 
 # cube_client.move_cube(
 #     section="right",
@@ -182,6 +180,20 @@ cube_client.move_cube(
 #     direction="up",
 #     turns=1
 # )
+
+# cube_client.move_cube(
+#     section="middle",
+#     orientation="horizontal",
+#     direction="left",
+#     turns=1
+# )
+
+cube_client.move_cube(
+    section="middle",
+    orientation="horizontal",
+    direction="right",
+    turns=1
+)
 
 # pprint( cube_client.raw_cube )
 

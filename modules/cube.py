@@ -301,8 +301,8 @@ class RubiksCube:
         validate_moves = [
             # Move( "top", "horizontal", "left" ),
             # Move( "top", "horizontal", "right" ),
-            # Move( "middle", "horizontal", "left" ),
-            # Move( "middle", "horizontal", "right" ),
+            Move( "middle", "horizontal", "left" ),
+            Move( "middle", "horizontal", "right" ),
             # Move( "bottom", "horizontal", "left" ),
             # Move( "bottom", "horizontal", "right" ),
             Move( "left", "vertical", "up" ),
@@ -479,6 +479,31 @@ class RubiksCube:
 
                 # elif given_move.section == "top" and given_move.orientation == "horizontal":
                 # elif given_move.section == "bottom" and given_move.orientation == "horizontal":
+                elif given_move.section == "middle" and given_move.orientation == "horizontal":
+
+                    sides_to_spin = [
+                        front_side,
+                        left_side,
+                        back_side,
+                        right_side
+                    ]
+                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
+
+                    shift_index = 1
+                    for side in range( len( sides_to_spin_static ) ):
+                        next_side = None
+                        if given_move.direction == "left":
+                            next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
+                        elif given_move.direction == "right":
+                            next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
+
+                        for row in range( len( sides_to_spin_static[side] ) ):
+                            sides_to_spin[ side ][ shift_index ][ row ] = sides_to_spin_static[ next_side ][ shift_index ][ row ]
+
+                    front_side = sides_to_spin[0]
+                    left_side = sides_to_spin[1]
+                    back_side = sides_to_spin[2]
+                    right_side = sides_to_spin[3]
                             
                 else:
                     raise Exception("Given move not supported!")

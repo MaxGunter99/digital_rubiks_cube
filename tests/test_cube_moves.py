@@ -124,13 +124,13 @@ class TestMoves( unittest.TestCase ):
     #     test_data_path = "tests/test_cases/top_horizontal_right_1.json" 
     #     self.run_test_file( test_data_path )
 
-    # def test__move_cube__middle_horizontal_left_1( self ):
-    #     test_data_path = "tests/test_cases/middle_horizontal_left_1.json" 
-    #     self.run_test_file( test_data_path )
+    def test__move_cube__middle_horizontal_left_1( self ):
+        test_data_path = "tests/test_cases/middle_horizontal_left_1.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__move_cube__middle_horizontal_right_1( self ):
-    #     test_data_path = "tests/test_cases/middle_horizontal_right_1.json" 
-    #     self.run_test_file( test_data_path )
+    def test__move_cube__middle_horizontal_right_1( self ):
+        test_data_path = "tests/test_cases/middle_horizontal_right_1.json" 
+        self.run_test_file( test_data_path )
 
     # def test__move_cube__bottom_horizontal_left_1( self ):
     #     test_data_path = "tests/test_cases/bottom_horizontal_left_1.json" 
