@@ -150,7 +150,7 @@ cube_client.visualize_cube()
 
 ### Milestone 5: Solve Algorithm
 - **Status:** Planned
-- **Description:** Once horizontal moves and cube rotations are implemented, the project will focus on developing an efficient algorithm to solve the Rubik's Cube. The goal is to create a solution that outputs the list of optimal moves to return the cube to its solved state.
+- **Description:** Once horizontal moves and cube rotations are implemented, the project will focus on developing an efficient algorithm to solve the Rubik's Cube. The goal is to create a solution that outputs a list of optimal moves to return the cube to its solved state.
 
 ### Milestone 6: Convert to a Python Module
 - **Status:** Planned
