@@ -82,7 +82,7 @@ cube_client.visualize_cube()
 
 ## Initialize, Move, and Visualize a Cube
 
-This will initialize the RubiksCube class, then the cube will be mutated, moving the right vertical section down
+This will initialize the RubiksCube class, then the cube will be mutated, moving the right vertical section down. After the cube has mutated we will be able to visualize it.
 
 **Code:**
 ```
