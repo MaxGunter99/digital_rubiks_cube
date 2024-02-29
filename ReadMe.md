@@ -152,6 +152,6 @@ cube_client.visualize_cube()
 - **Status:** Planned
 - **Description:** Once horizontal moves and cube rotations are implemented, the project will focus on developing an efficient algorithm to solve the Rubik's Cube. The goal is to create a solution that outputs the list of optimal moves to return the cube to its solved state.
 
-## Milestone 6: Convert to a Python Module
+### Milestone 6: Convert to a Python Module
 - **Status:** Planned
 - **Description:** In this milestone, the project will be transformed into a Python module, allowing users to install and use it as part of their Python projects. This step involves packaging, distribution, and making it available through standard Python package management tools.
