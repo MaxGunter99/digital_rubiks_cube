@@ -78,7 +78,7 @@ cube_client.visualize_cube()
 
 This will initialize the RubiksCube class, then the cube will be mutated, moving the right vertical section down. After the cube has mutated we will be able to visualize it.
 
-**Code:**
+**Code Example:**
 ```
 cube_client = RubiksCube()
 
