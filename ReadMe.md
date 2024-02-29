@@ -134,7 +134,7 @@ cube_client.visualize_cube()
 
 ### Milestone 3: Implement Horizontal Moves ( Left & Right )
 - **Status:** In Progress
-- **Description:** The next milestone involves extending the cube manipulation capabilities by implementing horizontal moves.
+- **Description:** This milestone involves completing the cube manipulation capabilities by implementing horizontal moves.
 
 ### Milestone 4: Rotating the Cube
 - **Status:** Planned
