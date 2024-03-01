@@ -408,11 +408,11 @@ class RubiksCube:
                             print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                             if spin_clockwise == True:
-                                new_data[current_y].append( rotated_side[row][sticker] )
-                                current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
-                            elif spin_clockwise == False:
                                 new_data[row].append( rotated_side[current_y][current_x] )
                                 current_x += 1 if current_x < len( rotated_side ) -1 else -current_x
+                            elif spin_clockwise == False:
+                                new_data[current_y].append( rotated_side[row][sticker] )
+                                current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
                             
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
 

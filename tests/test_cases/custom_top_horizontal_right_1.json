@@ -37,9 +37,9 @@
         {
             "expected_side": "top_side",
             "expected_value": [
-                [ "w", "x", "w" ],
                 [ "w", "w", "w" ],
-                [ "w", "w", "w" ]
+                [ "w", "w", "w" ],
+                [ "w", "x", "w" ]
             ]
         },
         {
