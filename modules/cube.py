@@ -661,6 +661,15 @@ class RubiksCube:
                 updated_cube[3] = right_side
                 updated_cube[4] = back_side
                 updated_cube[5] = front_side
+            
+            elif direction == "up":
+                top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
+                updated_cube[0] = front_side
+                updated_cube[1] = bottom_side
+                updated_cube[2] = back_side
+                updated_cube[3] = top_side
+                updated_cube[4] = spin_side( left_side, False )
+                updated_cube[5] = spin_side( right_side, True )
 
         return self.refresh_cube_state( updated_cube )
         
