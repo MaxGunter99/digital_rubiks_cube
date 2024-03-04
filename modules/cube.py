@@ -714,12 +714,6 @@ class RubiksCube:
         right_label, right_side = generate_side_str( "Right", cube.right_side )
         front_label, front_side = generate_side_str( "Front", cube.front_side )
         back_label ,back_side = generate_side_str( "Back", cube.back_side )
-
-        # REVERSE BACKSIDE VALUES BECAUSE OUR DATA STRUCTURE IS NOT A REAL 3D OBJECT
-        # referring to the back side of the cube makes you rotate it physically. Were only recording data by spinning around the cube on one axis
-        # back_side = [ i[::-1] for i in back_side ]
-        # left_side = [ i[::-1] for i in left_side ]
-
         bottom_label, bottom_side = generate_side_str( "Bottom", cube.bottom_side )
 
 
