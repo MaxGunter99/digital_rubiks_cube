@@ -600,7 +600,60 @@ class RubiksCube:
         
         return self.refresh_cube_state( updated_cube )
 
+    def rotate_cube(
+        self,
+        direction=None,
+        turns=0
+    ):
+        """
+        This function spins the cube in different directions to be able to operate all moves on each side
 
+        direction input options: up, down, left, right
+        turns input: int, number of rotations
+        """
+
+        direction_options = [ "left", "right", "up", "down" ]
+
+        updated_cube = self.raw_cube
+
+        if direction not in direction_options:
+            raise Exception( f"Error rotating cube, direction {direction} is not implemented, available options are {direction_options}" )
+        
+        def spin_side( side_data, spin_clockwise ):
+            new_data = [
+                [],
+                [],
+                []
+            ]
+            current_x = 0
+            current_y = 0
+
+            for sticker in range( len( side_data[0] ) ):
+                for row in range( len( side_data ) - 1, -1, -1 ):
+                    print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+
+                    if spin_clockwise == True:
+                        new_data[current_y].append( side_data[row][sticker] )
+                        current_x += 1 if sticker <= len( side_data ) - 1 else 0
+                    elif spin_clockwise == False:
+                        new_data[row].append( side_data[current_y][current_x] )
+                        current_x += 1 if current_x < len( side_data ) -1 else -current_x
+                current_y += 1 if row <= len( side_data[0] ) - 1 else 0
+
+            return new_data
+        
+        for _ in range( turns ):
+        
+            if direction == "left":
+                top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
+                updated_cube[0] = spin_side( top_side, True ) # rotate counter clockwise
+                updated_cube[1] = right_side
+                updated_cube[2] = spin_side( bottom_side, False )
+                updated_cube[3] = left_side
+                updated_cube[4] = front_side
+                updated_cube[5] = back_side
+
+        return self.refresh_cube_state( updated_cube )
         
     def visualize_cube(self):
 
