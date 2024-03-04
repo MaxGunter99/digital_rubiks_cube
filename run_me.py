@@ -188,14 +188,51 @@ cube_client = RubiksCube()
 #     turns=1
 # )
 
-cube_client.move_cube(
-    section="middle",
-    orientation="horizontal",
-    direction="right",
-    turns=1
-)
+# cube_client.move_cube(
+#     section="middle",
+#     orientation="horizontal",
+#     direction="right",
+#     turns=1
+# )
+
+# cube_client.move_cube(
+#     section="right",
+#     orientation="vertical",
+#     direction="up",
+#     turns=1
+# )
+
+# cube_client.move_cube(
+#     section="right",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
+
+# cube_client.move_cube(
+#     section="middle",
+#     orientation="horizontal",
+#     direction="left",
+#     turns=1
+# )
 
 # pprint( cube_client.raw_cube )
+
+# cube_client.rotate_cube("left", 1)
+# cube_client.rotate_cube("right", 1)
+# cube_client.rotate_cube("up", 1)
+# cube_client.rotate_cube("down", 1)
+
+# ------ manual testing with physical cube -------
+
+cube_client.move_cube(
+    section="right",
+    orientation="vertical",
+    direction="down",
+    turns=1
+)
+cube_client.rotate_cube("left", 1)
+cube_client.rotate_cube("down", 5)
 
 cube_client.visualize_cube()
 

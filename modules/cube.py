@@ -437,6 +437,7 @@ class RubiksCube:
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0 if given_move.section == "left" else 2
+                    shift_index_back_side = 2 if given_move.section == "left" else 0
                     for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if spin_clockwise == False:
@@ -445,6 +446,8 @@ class RubiksCube:
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
 
                         for row in range( len( sides_to_spin_static[side] ) ):
+                            if side == 3:
+                                shift_index=shift_index_back_side
                             sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
 
                     top_side = sides_to_spin[0]
@@ -463,6 +466,7 @@ class RubiksCube:
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0 if given_move.section == "left" else 2
+                    shift_index_back_side = 2 if given_move.section == "left" else 0
                     for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if spin_clockwise == False:
@@ -471,6 +475,8 @@ class RubiksCube:
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
 
                         for row in range( len( sides_to_spin_static[side] ) ):
+                            if side == 3:
+                                shift_index=shift_index_back_side
                             sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
 
                     top_side = sides_to_spin[0]
@@ -643,9 +649,9 @@ class RubiksCube:
             return new_data
         
         for _ in range( turns ):
+            top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
         
             if direction == "left":
-                top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
                 updated_cube[0] = spin_side( top_side, True )
                 updated_cube[1] = right_side
                 updated_cube[2] = spin_side( bottom_side, False )
@@ -654,7 +660,6 @@ class RubiksCube:
                 updated_cube[5] = back_side
 
             elif direction == "right":
-                top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
                 updated_cube[0] = spin_side( top_side, False )
                 updated_cube[1] = left_side
                 updated_cube[2] = spin_side( bottom_side, True )
@@ -663,18 +668,16 @@ class RubiksCube:
                 updated_cube[5] = front_side
             
             elif direction == "up":
-                top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
                 updated_cube[0] = front_side
                 updated_cube[1] = bottom_side
                 updated_cube[2] = back_side
-                updated_cube[3] = top_side
+                updated_cube[3] = top_side[::-1]
                 updated_cube[4] = spin_side( left_side, False )
                 updated_cube[5] = spin_side( right_side, True )
 
             elif direction == "down":
-                top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
                 updated_cube[0] = back_side
-                updated_cube[1] = top_side
+                updated_cube[1] = top_side[::-1]
                 updated_cube[2] = front_side
                 updated_cube[3] = bottom_side
                 updated_cube[4] = spin_side( left_side, True )
@@ -714,8 +717,8 @@ class RubiksCube:
 
         # REVERSE BACKSIDE VALUES BECAUSE OUR DATA STRUCTURE IS NOT A REAL 3D OBJECT
         # referring to the back side of the cube makes you rotate it physically. Were only recording data by spinning around the cube on one axis
-        back_side = [ i[::-1] for i in back_side ]
-        left_side = [ i[::-1] for i in left_side ]
+        # back_side = [ i[::-1] for i in back_side ]
+        # left_side = [ i[::-1] for i in left_side ]
 
         bottom_label, bottom_side = generate_side_str( "Bottom", cube.bottom_side )
 

@@ -28,9 +28,9 @@
         {
             "expected_side": "back_side",
             "expected_value": [
-                [ "y", "g", "g" ],
-                [ "y", "g", "g" ],
-                [ "y", "g", "g" ]
+                [ "g", "g", "y" ],
+                [ "g", "g", "y" ],
+                [ "g", "g", "y" ]
             ]
         },
         {

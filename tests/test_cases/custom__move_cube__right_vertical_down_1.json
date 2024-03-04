@@ -60,9 +60,9 @@
         {
             "expected_side": "back_side",
             "expected_value": [
-                [ "g", "g", "y" ],
-                [ "g", "g", "y" ],
-                [ "g", "g", "y" ]
+                [ "y", "g", "g" ],
+                [ "y", "g", "g" ],
+                [ "y", "g", "g" ]
             ]
         },
         {
