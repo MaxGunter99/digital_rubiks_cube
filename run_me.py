@@ -271,23 +271,27 @@ cube_client = RubiksCube()
 #     turns=1
 # )
 
-# PASSES
+# PASSES - perfect cube just turned around
 
 # -------
 
-cube_client.move_cube(
-    section="left",
-    orientation="vertical",
-    direction="down",
-    turns=1
-)
-cube_client.rotate_cube("right", 2)
+# cube_client.move_cube(
+#     section="left",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
+# cube_client.rotate_cube("right", 2)
 # cube_client.move_cube(
 #     section="right",
 #     orientation="vertical",
 #     direction="down",
 #     turns=1
 # )
+
+# PASSES - perfect cube just turned around
+
+# -------
 
 cube_client.visualize_cube()
 

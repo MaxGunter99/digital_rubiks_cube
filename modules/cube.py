@@ -379,7 +379,7 @@ class RubiksCube:
 
                     for sticker in range( len( rotated_side[0] ) ):
                         for row in range( len( rotated_side ) - 1, -1, -1 ):
-                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+                            # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                             if spin_clockwise == True:
                                 new_data[current_y].append( rotated_side[row][sticker] )
@@ -405,7 +405,7 @@ class RubiksCube:
 
                     for sticker in range( len( rotated_side[0] ) ):
                         for row in range( len( rotated_side ) -1, -1, -1 ):
-                            print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+                            # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                             if spin_clockwise == True:
                                 new_data[row].append( rotated_side[current_y][current_x] )
@@ -465,7 +465,6 @@ class RubiksCube:
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0 if given_move.section == "left" else 2
-                    shift_index_back_side = 2 if given_move.section == "left" else 0
                     for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if spin_clockwise == False:
@@ -632,6 +631,7 @@ class RubiksCube:
             raise Exception( f"Error rotating cube, direction {direction} is not implemented, available options are {direction_options}" )
         
         def spin_side( side_data, spin_clockwise ):
+            # print( f"IN ROTATE CUBE - spinning side - {side_data} - clockwise is: {spin_clockwise}" )
             new_data = [
                 [],
                 [],
@@ -642,7 +642,7 @@ class RubiksCube:
 
             for sticker in range( len( side_data[0] ) ):
                 for row in range( len( side_data ) - 1, -1, -1 ):
-                    print( f"({current_y, current_x}) -> ({row}, {sticker})" )
+                    # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                     if spin_clockwise == True:
                         new_data[current_y].append( side_data[row][sticker] )
