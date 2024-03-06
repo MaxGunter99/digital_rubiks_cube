@@ -111,6 +111,7 @@ class TestMoves( unittest.TestCase ):
                 direction=direction,
                 turns=turns
             )
+        cube_client.visualize_cube()
         for move_check in TEST_SOLUTION:
             test_side = move_check.get("expected_side")
             generated_side = cube_client[ test_side ]
@@ -242,7 +243,16 @@ class TestMoves( unittest.TestCase ):
     def test__custom__rotate_cube_down_1( self ):
         test_data_path = "tests/test_cases/custom__rotate_cube__down_1.json" 
         self.run_test_file( test_data_path )
-    
+
+    # SIMPLE SOLVE
+        
+    def test__custom__simple_solve_1( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__simple_solve_1.json" 
+        self.run_test_file( test_data_path ) 
+
+    def test__custom__simple_solve_2( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__simple_solve_2.json" 
+        self.run_test_file( test_data_path ) 
 
 
 

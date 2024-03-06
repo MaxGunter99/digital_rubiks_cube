@@ -255,7 +255,39 @@ cube_client = RubiksCube()
 # cube_client.rotate_cube("left", 1)
 # cube_client.rotate_cube("down", 5)
 
+# -----
+
+# cube_client.move_cube(
+#     section="right",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
+# cube_client.rotate_cube("left", 2)
+# cube_client.move_cube(
+#     section="left",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
+
 # PASSES
+
+# -------
+
+cube_client.move_cube(
+    section="left",
+    orientation="vertical",
+    direction="down",
+    turns=1
+)
+cube_client.rotate_cube("right", 2)
+# cube_client.move_cube(
+#     section="right",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
 
 cube_client.visualize_cube()
 

@@ -432,12 +432,11 @@ class RubiksCube:
                         top_side,
                         front_side,
                         bottom_side,
-                        back_side
+                        [ i[::-1] for i in back_side ] # because were reversing it to display correctly, reverse order to keep logic simple
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0 if given_move.section == "left" else 2
-                    shift_index_back_side = 2 if given_move.section == "left" else 0
                     for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if spin_clockwise == False:
@@ -446,14 +445,13 @@ class RubiksCube:
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
 
                         for row in range( len( sides_to_spin_static[side] ) ):
-                            if side == 3:
-                                shift_index=shift_index_back_side
                             sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
-                    back_side = sides_to_spin[3]
+                    # back_side = sides_to_spin[3]
+                    back_side = [ i[::-1] for i in sides_to_spin[3] ]
 
                 elif given_move.section == "right" and given_move.orientation == "vertical":
 
@@ -461,7 +459,8 @@ class RubiksCube:
                         top_side,
                         front_side,
                         bottom_side,
-                        back_side
+                        # back_side
+                        [ i[::-1] for i in back_side ] # because were reversing it to display correctly, reverse order to keep logic simple
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
@@ -475,14 +474,13 @@ class RubiksCube:
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
 
                         for row in range( len( sides_to_spin_static[side] ) ):
-                            if side == 3:
-                                shift_index=shift_index_back_side
                             sides_to_spin[ side ][ row ][ shift_index ] = sides_to_spin_static[ next_side ][ row ][ shift_index ]
 
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
-                    back_side = sides_to_spin[3]
+                    # back_side = sides_to_spin[3]
+                    back_side = [ i[::-1] for i in sides_to_spin[3] ]
 
                 elif given_move.section == "middle" and given_move.orientation == "vertical":
 
@@ -490,7 +488,8 @@ class RubiksCube:
                         top_side,
                         front_side,
                         bottom_side,
-                        back_side
+                        # back_side
+                        [ i[::-1] for i in back_side ] # because were reversing it to display correctly, reverse order to keep logic simple
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
@@ -509,12 +508,14 @@ class RubiksCube:
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
                     back_side = sides_to_spin[3]
+                    # back_side = [ i[::-1] for i in sides_to_spin[3] ]
 
                 elif given_move.section == "top" and given_move.orientation == "horizontal":
                     sides_to_spin = [
                         front_side,
                         left_side,
-                        back_side,
+                        # back_side,
+                        [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
                         right_side
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
@@ -533,6 +534,7 @@ class RubiksCube:
                     front_side = sides_to_spin[0]
                     left_side = sides_to_spin[1]
                     back_side = sides_to_spin[2]
+                    # back_side = [ i[::-1] for i in sides_to_spin[2] ]
                     right_side = sides_to_spin[3]
                 
                 elif given_move.section == "bottom" and given_move.orientation == "horizontal":
@@ -540,6 +542,7 @@ class RubiksCube:
                         front_side,
                         left_side,
                         back_side,
+                        # [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
                         right_side
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
@@ -558,6 +561,7 @@ class RubiksCube:
                     front_side = sides_to_spin[0]
                     left_side = sides_to_spin[1]
                     back_side = sides_to_spin[2]
+                    # back_side = [ i[::-1] for i in sides_to_spin[2] ]
                     right_side = sides_to_spin[3]
 
                 elif given_move.section == "middle" and given_move.orientation == "horizontal":
@@ -565,7 +569,8 @@ class RubiksCube:
                     sides_to_spin = [
                         front_side,
                         left_side,
-                        back_side,
+                        # back_side,
+                        [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
                         right_side
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
@@ -584,6 +589,7 @@ class RubiksCube:
                     front_side = sides_to_spin[0]
                     left_side = sides_to_spin[1]
                     back_side = sides_to_spin[2]
+                    # back_side = [ i[::-1] for i in sides_to_spin[2] ]
                     right_side = sides_to_spin[3]
                             
                 else:
