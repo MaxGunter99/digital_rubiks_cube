@@ -235,8 +235,8 @@ class RubiksCube:
         update -> analyze -> display
         """
 
-        print( "... Refreshing cube state! raw_cube:" )
-        pprint( raw_cube )
+        print( "... Refreshing cube state!" )
+        # pprint( raw_cube )
 
         return_value = None
         
@@ -419,7 +419,7 @@ class RubiksCube:
                             
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
 
-                    print( new_data )
+                    # print( new_data )
 
                     if given_move.section == "top":
                         top_side = new_data
@@ -659,8 +659,8 @@ class RubiksCube:
     
         
         def rotate_cube_data( cube_data ):
-            print( "ROTATING CUBE, given cube_data:" )
-            pprint( cube_data )
+            # print( "ROTATING CUBE, given cube_data:" )
+            # pprint( cube_data )
             top_side = cube_data[0]
             front_side = cube_data[1]
             bottom_side = cube_data[2]
