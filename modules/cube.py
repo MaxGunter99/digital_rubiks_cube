@@ -686,9 +686,9 @@ class RubiksCube:
             
             elif direction == "up":
                 new_top_side = front_side
-                new_front_side = [ i for i in bottom_side[::-1] ]
-                new_bottom_side = back_side
-                new_back_side = [ i for i in top_side[::-1] ]
+                new_front_side = bottom_side
+                new_bottom_side = [ i[::-1] for i in back_side[::-1] ]
+                new_back_side = [ i[::-1] for i in top_side[::-1] ]
                 new_left_side = spin_side( left_side, False )
                 new_right_side = spin_side( right_side, True )
 
