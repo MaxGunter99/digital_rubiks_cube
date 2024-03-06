@@ -26,8 +26,10 @@ This is an interactive Python project that brings the classic Rubik's Cube into 
 
 ## Getting Started:
 
-- [Initialize & Visualize a Perfect Cube](#example-get-perfect-cube)
-- [Initialize, Move & Visualize a Cube](#example-move-cube)
+- [Initialize Perfect Cube](#example-get-perfect-cube)
+- [Move & Visualize a Cube](#example-move-cube)
+- [Cube Rotation](#example-rotate-cube)
+- [Simple Manual Solve](#example-simple-solve)
 
 ---
 
@@ -43,7 +45,7 @@ cube_client = RubiksCube()
 cube_client.visualize_cube()
 ```
 
-**Visualize Cube Output:**
+**Output:**
 ```
                      Back                     
 
@@ -92,7 +94,7 @@ cube_client.move_cube(
 cube_client.visualize_cube()
 ```
 
-**Visualize Cube Output:**
+**Output:**
 
 ```
                      Back                     
@@ -118,6 +120,107 @@ cube_client.visualize_cube()
                 ['y', 'y', 'b']                
                 ['y', 'y', 'b']                
                 ['y', 'y', 'b']
+```
+
+---
+
+<a name="example-rotate-cube"></a>
+
+## Cube Rotation
+
+Cube rotation allows us to operate all given moves on any side of the cube just by rotating it to the desired side.
+
+**Code Example:**
+```
+cube_client = RubiksCube()
+
+cube_client.rotate_cube(
+   direction="left", 
+   turns=1
+)
+cube_client.visualize_cube()
+``````
+
+**Output:**
+
+```
+                     Back                     
+
+                ['r', 'r', 'r']                
+                ['r', 'r', 'r']                
+                ['r', 'r', 'r']                
+
+                      Top                      
+
+                ['w', 'w', 'w']                
+                ['w', 'w', 'w']                
+                ['w', 'w', 'w']                
+
+     Left           Front           Right     
+
+['b', 'b', 'b'] ['o', 'o', 'o'] ['g', 'g', 'g']
+['b', 'b', 'b'] ['o', 'o', 'o'] ['g', 'g', 'g']
+['b', 'b', 'b'] ['o', 'o', 'o'] ['g', 'g', 'g']
+
+                    Bottom                    
+
+                ['y', 'y', 'y']                
+                ['y', 'y', 'y']                
+                ['y', 'y', 'y'] 
+```
+
+---
+
+<a name="example-simple-solve"></a>
+
+## Simple Solve Example
+
+This example shows how you could solve the cube without repeating or reversing moves. It is expected to return a perfect cube, just turned around
+
+```
+cube_client = RubiksCube()
+cube_client.move_cube(
+   section="left",
+   orientation="vertical",
+   direction="down",
+   turns=1
+)
+cube_client.rotate_cube("right", 2)
+cube_client.move_cube(
+   section="right",
+   orientation="vertical",
+   direction="down",
+   turns=1
+)
+cube_client.visualize_cube()
+```
+
+**Output:**
+
+```
+                     Back                     
+
+                ['b', 'b', 'b']                
+                ['b', 'b', 'b']                
+                ['b', 'b', 'b']                
+
+                      Top                      
+
+                ['w', 'w', 'w']                
+                ['w', 'w', 'w']                
+                ['w', 'w', 'w']                
+
+     Left           Front           Right     
+
+['o', 'o', 'o'] ['g', 'g', 'g'] ['r', 'r', 'r']
+['o', 'o', 'o'] ['g', 'g', 'g'] ['r', 'r', 'r']
+['o', 'o', 'o'] ['g', 'g', 'g'] ['r', 'r', 'r']
+
+                    Bottom                    
+
+                ['y', 'y', 'y']                
+                ['y', 'y', 'y']                
+                ['y', 'y', 'y']  
 ```
 
 ---
