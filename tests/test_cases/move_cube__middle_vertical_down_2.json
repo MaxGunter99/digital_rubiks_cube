@@ -1,0 +1,53 @@
+{
+    "TEST_MOVE": [ "middle", "vertical", "down", 2 ]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ "w", "y", "w" ],
+                [ "w", "y", "w" ],
+                [ "w", "y", "w" ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ "b", "g", "b" ],
+                [ "b", "g", "b" ],
+                [ "b", "g", "b" ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ "y", "w", "y" ],
+                [ "y", "w", "y" ],
+                [ "y", "w", "y" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ "g", "b", "g" ],
+                [ "g", "b", "g" ],
+                [ "g", "b", "g" ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ "o", "o", "o" ],
+                [ "o", "o", "o" ],
+                [ "o", "o", "o" ]
+            ]
+        }
+    ]
+}
