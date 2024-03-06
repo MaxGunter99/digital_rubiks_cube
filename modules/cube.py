@@ -235,6 +235,9 @@ class RubiksCube:
         update -> analyze -> display
         """
 
+        print( "... Refreshing cube state! raw_cube:" )
+        pprint( raw_cube )
+
         return_value = None
         
         if not raw_cube:
@@ -608,7 +611,7 @@ class RubiksCube:
         
         for _ in range( turns ):
             updated_cube = spin_side( raw_cube, given_move )
-        
+
         return self.refresh_cube_state( updated_cube )
 
     def rotate_cube(
@@ -653,43 +656,65 @@ class RubiksCube:
                 current_y += 1 if row <= len( side_data[0] ) - 1 else 0
 
             return new_data
+    
         
-        for _ in range( turns ):
-            top_side, front_side, bottom_side, back_side, left_side, right_side = copy.deepcopy( updated_cube )
+        def rotate_cube_data( cube_data ):
+            print( "ROTATING CUBE, given cube_data:" )
+            pprint( cube_data )
+            top_side = cube_data[0]
+            front_side = cube_data[1]
+            bottom_side = cube_data[2]
+            back_side = cube_data[3]
+            left_side = cube_data[4]
+            right_side = cube_data[5]
         
             if direction == "left":
-                updated_cube[0] = spin_side( top_side, True )
-                updated_cube[1] = right_side
-                updated_cube[2] = spin_side( bottom_side, False )
-                updated_cube[3] = left_side
-                updated_cube[4] = front_side
-                updated_cube[5] = back_side
+                new_top_side = spin_side( top_side, True )
+                new_front_side = right_side
+                new_bottom_side = spin_side( bottom_side, False )
+                new_back_side = left_side
+                new_left_side = front_side
+                new_right_side = back_side
 
             elif direction == "right":
-                updated_cube[0] = spin_side( top_side, False )
-                updated_cube[1] = left_side
-                updated_cube[2] = spin_side( bottom_side, True )
-                updated_cube[3] = right_side
-                updated_cube[4] = back_side
-                updated_cube[5] = front_side
+                new_top_side = spin_side( top_side, False )
+                new_front_side = left_side
+                new_bottom_side = spin_side( bottom_side, True )
+                new_back_side = right_side
+                new_left_side = back_side
+                new_right_side = front_side
             
             elif direction == "up":
-                updated_cube[0] = front_side
-                updated_cube[1] = bottom_side
-                updated_cube[2] = back_side
-                updated_cube[3] = top_side[::-1]
-                updated_cube[4] = spin_side( left_side, False )
-                updated_cube[5] = spin_side( right_side, True )
+                new_top_side = front_side
+                new_front_side = [ i for i in bottom_side[::-1] ]
+                new_bottom_side = back_side
+                new_back_side = [ i for i in top_side[::-1] ]
+                new_left_side = spin_side( left_side, False )
+                new_right_side = spin_side( right_side, True )
 
             elif direction == "down":
-                updated_cube[0] = back_side
-                updated_cube[1] = top_side[::-1]
-                updated_cube[2] = front_side
-                updated_cube[3] = bottom_side
-                updated_cube[4] = spin_side( left_side, True )
-                updated_cube[5] = spin_side( right_side, False )
+                new_top_side = [ i[::-1] for i in back_side[::-1] ]
+                new_front_side = top_side
+                new_bottom_side = front_side
+                new_back_side = [ i[::-1] for i in bottom_side[::-1] ]
+                new_left_side = spin_side( left_side, True )
+                new_right_side = spin_side( right_side, False )
 
-        return self.refresh_cube_state( updated_cube )
+            else:
+                raise Exception( "Rotation direction not implemented" )
+
+            return [
+                new_top_side,
+                new_front_side,
+                new_bottom_side,
+                new_back_side,
+                new_left_side,
+                new_right_side
+            ]
+
+        for _ in range( turns ):
+            updated_cube = rotate_cube_data( self.raw_cube )
+            self.refresh_cube_state( updated_cube )
         
     def visualize_cube(self):
 
