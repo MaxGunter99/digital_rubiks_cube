@@ -243,10 +243,14 @@ cube_client.visualize_cube()
 - **Status:** Completed
 - **Description:** Because we will only be referencing all moves from one side, we'll want to be able to rotate the cube as if you were examining it by hand.
 
-### Milestone 5: Solve Algorithm
+### Milestone 5: Testing
 - **Status:** In Progress
-- **Description:** Once horizontal moves and cube rotations are implemented, the project will focus on developing an efficient algorithm to solve the Rubik's Cube. The goal is to create a solution that outputs a list of optimal moves to return the cube to its solved state.
+- **Description:** This project has been powered by test driven development, curiosity, and the iterative process. This milestone is to ensure all moves are covered properly by writing tests. A manual but invaluable asset. Testing every move will ensure the algorithms reliability, we do not scramble our cube making it impossible to solve!
 
-### Milestone 6: Convert to a Python Module
+### Milestone 6: Solve Algorithm
+- **Status:** In Progress
+- **Description:** Once testing is completed, the project will focus on developing an efficient algorithm to solve a Rubik's Cube. The goal is to create a solution that outputs a list of optimal moves to return the cube to its solved state.
+
+### Milestone 7: Convert to a Python Module
 - **Status:** Planned
 - **Description:** In this milestone, the project will be transformed into a Python module, allowing users to install and use it as part of their Python projects. This step involves packaging, distribution, and making it available through standard Python package management tools.
