@@ -440,7 +440,22 @@ class RubiksCube:
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0 if given_move.section == "left" else 2
-                    for side in range( len( sides_to_spin_static ) ):
+                    iterator = None
+                    stop_int = None
+                    start_int = None
+
+                    if given_move.direction == "down":
+                        iterator = 1
+                        stop_int = len( sides_to_spin_static )
+                        start_int = -1
+                        
+                    elif given_move.direction == "up":
+                        iterator = -1
+                        stop_int = -1
+                        start_int = len( sides_to_spin_static ) - 1
+
+                    for side in range( start_int, stop_int, iterator ):
+                    # for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if spin_clockwise == False:
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
@@ -523,7 +538,23 @@ class RubiksCube:
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0
-                    for side in range( len( sides_to_spin_static ) ):
+                    # for side in range( len( sides_to_spin_static ) ):
+
+                    iterator = None
+                    stop_int = None
+                    start_int = None
+
+                    if given_move.direction == "left":
+                        iterator = 1
+                        stop_int = len( sides_to_spin_static )
+                        start_int = -1
+                        
+                    elif given_move.direction == "right":
+                        iterator = -1
+                        stop_int = -1
+                        start_int = len( sides_to_spin_static ) - 1
+
+                    for side in range( start_int, stop_int, iterator ):
                         next_side = None
                         if given_move.direction == "left":
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
@@ -578,12 +609,31 @@ class RubiksCube:
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 1
-                    for side in range( len( sides_to_spin_static ) ):
+                    # for side in range( len( sides_to_spin_static ) ):
+
+                    iterator = None
+                    stop_int = None
+                    start_int = None
+
+                    if given_move.direction == "left":
+                        iterator = 1
+                        stop_int = len( sides_to_spin_static )
+                        start_int = -1
+                        
+                    elif given_move.direction == "right":
+                        iterator = -1
+                        stop_int = -1
+                        start_int = len( sides_to_spin_static ) - 1
+
+                    for side in range( start_int, stop_int, iterator ):
                         next_side = None
                         if given_move.direction == "left":
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
+
                         elif given_move.direction == "right":
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
+
+                        print( f"SIDE: {side} -> NEXT SIDE: {next_side}" )
 
                         for row in range( len( sides_to_spin_static[side] ) ):
                             sides_to_spin[ side ][ shift_index ][ row ] = sides_to_spin_static[ next_side ][ shift_index ][ row ]
@@ -611,6 +661,7 @@ class RubiksCube:
         
         for _ in range( turns ):
             updated_cube = spin_side( raw_cube, given_move )
+            raw_cube = updated_cube
 
         return self.refresh_cube_state( updated_cube )
 

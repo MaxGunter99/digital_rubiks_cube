@@ -1,5 +1,5 @@
 {
-    "TEST_MOVE": [ "bottom", "horizontal", "right", 4 ]
+    "TEST_MOVE": [ "bottom", "horizontal", "left", 4 ]
     , "TEST_SOLUTION": [
         {
             "expected_side": "top_side",
