@@ -1,2 +1,4 @@
 */__pycache__/*
+__pycache__
 *.pyc
+test_cube_moves_output.txt
