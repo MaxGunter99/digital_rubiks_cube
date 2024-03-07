@@ -232,19 +232,19 @@ cube_client.visualize_cube()
 - **Description:** This milestone involves initializing the RubiksCube class, setting the cube as a 3D matrix and providing functions which will mutate the cubes data.
 
 ### Milestone 2: Writing Tests
-- **Status:** In Progress
+- **Status:** Completed
 - **Description:** This project has been powered by test driven development, curiosity, and the iterative process. This milestone is to ensure all moves are covered properly by writing tests. A manual but invaluable asset. Testing every move will ensure the algorithms reliability, we do not scramble our cube making it impossible to solve.
 
 ### Milestone 3: Implement Vertical Moves ( Up & Down )
-- **Status:** In Progress
+- **Status:** Completed
 - **Description:** This milestone involves manipulation capabilities by implementing vertical moves.
 
 ### Milestone 4: Implement Horizontal Moves ( Left & Right )
-- **Status:** In Progress
+- **Status:** Completed
 - **Description:** This milestone involves completing the cube manipulation capabilities by implementing horizontal moves.
 
 ### Milestone 5: Rotating the Cube
-- **Status:** In Progress
+- **Status:** Completed
 - **Description:** Because we will only be referencing all moves from one side, we'll want to be able to rotate the cube as if you were examining it by hand.
 
 ### Milestone 6: Solve Algorithm
