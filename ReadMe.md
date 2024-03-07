@@ -231,7 +231,7 @@ cube_client.visualize_cube()
 - **Status:** Completed
 - **Description:** This milestone involves initializing the RubiksCube class, setting the cube as a 3D matrix and providing functions which will mutate the cubes data.
 
-### Milestone 2: Writing Testing
+### Milestone 2: Writing Tests
 - **Status:** In Progress
 - **Description:** This project has been powered by test driven development, curiosity, and the iterative process. This milestone is to ensure all moves are covered properly by writing tests. A manual but invaluable asset. Testing every move will ensure the algorithms reliability, we do not scramble our cube making it impossible to solve.
 
