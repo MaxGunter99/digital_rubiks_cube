@@ -1,0 +1,85 @@
+{
+    "TEST_MOVE": [ "middle", "horizontal", "right", 3 ]
+    , "TEST_CUBE_OVERRIDE": [
+        [
+            [ "w", "x", "w" ],
+            [ "w", "w", "w" ],
+            [ "w", "w", "w" ]
+        ],
+        [
+            [ "b", "b", "b" ],
+            [ "b", "b", "x" ],
+            [ "b", "b", "b" ]
+        ],
+        [
+            [ "y", "x", "y" ],
+            [ "y", "y", "y" ],
+            [ "y", "y", "y" ]
+        ],
+        [
+            [ "g", "g", "g" ],
+            [ "g", "g", "g" ],
+            [ "g", "g", "g" ]
+        ],
+        [
+            [ "r", "r", "r" ],
+            [ "r", "r", "r" ],
+            [ "r", "r", "r" ]
+        ],
+        [
+            [ "o", "o", "o" ],
+            [ "o", "o", "o" ],
+            [ "o", "o", "o" ]
+        ]
+    ]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ "w", "x", "w" ],
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ "b", "b", "b" ],
+                [ "o", "o", "o" ],
+                [ "b", "b", "b" ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ "y", "x", "y" ],
+                [ "y", "y", "y" ],
+                [ "y", "y", "y" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ "g", "g", "g" ],
+                [ "r", "r", "r" ],
+                [ "g", "g", "g" ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ "r", "r", "r" ],
+                [ "b", "b", "x" ],
+                [ "r", "r", "r" ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ "o", "o", "o" ],
+                [ "g", "g", "g" ],
+                [ "o", "o", "o" ]
+            ]
+        }
+    ]
+}
