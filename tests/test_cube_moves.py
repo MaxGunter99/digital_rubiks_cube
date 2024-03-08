@@ -489,49 +489,49 @@ class TestMoves( unittest.TestCase ):
         test_data_path = "tests/test_cases/custom__move_cube__left_vertical_down_4.json" 
         self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__left_vertical_up_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__left_vertical_up_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__left_vertical_up_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__left_vertical_up_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__right_vertical_up_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__right_vertical_up_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__right_vertical_up_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__right_vertical_up_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__right_vertical_down_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__right_vertical_down_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__right_vertical_down_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__right_vertical_down_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__top_horizontal_right_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__top_horizontal_right_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__top_horizontal_right_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__top_horizontal_right_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__top_horizontal_left_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__top_horizontal_left_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__top_horizontal_left_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__top_horizontal_left_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__bottom_horizontal_right_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__bottom_horizontal_right_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__bottom_horizontal_right_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__bottom_horizontal_right_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__bottom_horizontal_left_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__bottom_horizontal_left_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__bottom_horizontal_left_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__bottom_horizontal_left_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__middle_horizontal_left_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__middle_horizontal_left_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__middle_horizontal_left_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__middle_horizontal_left_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__middle_horizontal_right_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__middle_horizontal_right_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__middle_horizontal_right_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__middle_horizontal_right_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__middle_vertical_up_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__middle_vertical_up_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__middle_vertical_up_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__middle_vertical_up_4.json" 
+        self.run_test_file( test_data_path )
 
-    # def test__custom__move_cube__middle_vertical_down_4( self ):
-    #     test_data_path = "tests/test_cases/custom__move_cube__middle_vertical_down_4.json" 
-    #     self.run_test_file( test_data_path )
+    def test__custom__move_cube__middle_vertical_down_4( self ):
+        test_data_path = "tests/test_cases/custom__move_cube__middle_vertical_down_4.json" 
+        self.run_test_file( test_data_path )
 
     # ------- TEST EVERY POSSIBLE MOVE ( function: rotate_cube ) -------
         

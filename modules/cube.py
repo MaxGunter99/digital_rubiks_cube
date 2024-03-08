@@ -366,7 +366,7 @@ class RubiksCube:
 
 
             if rotated_side is not None and spin_clockwise is not None:
-                print( f"spinning this side: {rotated_side} - clockwise is {spin_clockwise}" )
+                # print( f"spinning this side: {rotated_side} - clockwise is {spin_clockwise}" )
 
                 new_data = [
                     [],
@@ -433,31 +433,14 @@ class RubiksCube:
 
                     sides_to_spin = [
                         top_side,
-                        # top_side if given_move.direction == "up" else top_side[::-1],
                         front_side,
                         bottom_side if given_move.direction == "up" else bottom_side[::-1],
-                        # back_side
-                        [ i[::-1] for i in back_side ]  # because were reversing it to display correctly, reverse order to keep logic simple
-                        # back_side[::-1]
+                        [ i[::-1] for i in back_side ] if given_move.direction == "up" else [ i[::-1] for i in back_side[::-1] ]  # because were reversing it to display correctly, reverse order to keep logic simple
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0 if given_move.section == "left" else 2
-                    iterator = None
-                    stop_int = None
-                    start_int = None
 
-                    # if given_move.direction == "down":
-                    #     iterator = 1
-                    #     stop_int = len( sides_to_spin_static )
-                    #     start_int = -1
-                        
-                    # elif given_move.direction == "up":
-                    #     iterator = -1
-                    #     stop_int = -1
-                    #     start_int = len( sides_to_spin_static ) - 1
-
-                    # for side in range( start_int, stop_int, iterator ):
                     for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if spin_clockwise == False:
@@ -471,8 +454,6 @@ class RubiksCube:
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
-                    # back_side = sides_to_spin[3]
-                    # back_side = sides_to_spin[3][::-1]
                     back_side = [ i[::-1] for i in sides_to_spin[3] ]
 
                 elif given_move.section == "right" and given_move.orientation == "vertical":
@@ -481,8 +462,7 @@ class RubiksCube:
                         top_side,
                         front_side,
                         bottom_side if given_move.direction == "up" else bottom_side[::-1],
-                        # back_side
-                        [ i[::-1] for i in back_side ] # because were reversing it to display correctly, reverse order to keep logic simple
+                        [ i[::-1] for i in back_side ] if given_move.direction == "up" else [ i[::-1] for i in back_side[::-1] ]
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
@@ -633,10 +613,11 @@ class RubiksCube:
             updated_cube = spin_side( raw_cube, given_move )
             raw_cube = updated_cube
 
-            # self.refresh_cube_state( updated_cube )
-            # self.visualize_cube()
+            self.refresh_cube_state( updated_cube )
+            self.visualize_cube()
 
-        return self.refresh_cube_state( updated_cube )
+        # return self.refresh_cube_state( updated_cube )
+        return
 
     def rotate_cube(
         self,
