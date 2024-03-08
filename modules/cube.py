@@ -433,9 +433,12 @@ class RubiksCube:
 
                     sides_to_spin = [
                         top_side,
+                        # top_side if given_move.direction == "up" else top_side[::-1],
                         front_side,
-                        bottom_side,
-                        [ i[::-1] for i in back_side ] # because were reversing it to display correctly, reverse order to keep logic simple
+                        bottom_side if given_move.direction == "up" else bottom_side[::-1],
+                        # back_side
+                        [ i[::-1] for i in back_side ]  # because were reversing it to display correctly, reverse order to keep logic simple
+                        # back_side[::-1]
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
@@ -444,18 +447,18 @@ class RubiksCube:
                     stop_int = None
                     start_int = None
 
-                    if given_move.direction == "down":
-                        iterator = 1
-                        stop_int = len( sides_to_spin_static )
-                        start_int = -1
+                    # if given_move.direction == "down":
+                    #     iterator = 1
+                    #     stop_int = len( sides_to_spin_static )
+                    #     start_int = -1
                         
-                    elif given_move.direction == "up":
-                        iterator = -1
-                        stop_int = -1
-                        start_int = len( sides_to_spin_static ) - 1
+                    # elif given_move.direction == "up":
+                    #     iterator = -1
+                    #     stop_int = -1
+                    #     start_int = len( sides_to_spin_static ) - 1
 
-                    for side in range( start_int, stop_int, iterator ):
-                    # for side in range( len( sides_to_spin_static ) ):
+                    # for side in range( start_int, stop_int, iterator ):
+                    for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if spin_clockwise == False:
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
@@ -469,6 +472,7 @@ class RubiksCube:
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
                     # back_side = sides_to_spin[3]
+                    # back_side = sides_to_spin[3][::-1]
                     back_side = [ i[::-1] for i in sides_to_spin[3] ]
 
                 elif given_move.section == "right" and given_move.orientation == "vertical":
@@ -476,7 +480,7 @@ class RubiksCube:
                     sides_to_spin = [
                         top_side,
                         front_side,
-                        bottom_side,
+                        bottom_side if given_move.direction == "up" else bottom_side[::-1],
                         # back_side
                         [ i[::-1] for i in back_side ] # because were reversing it to display correctly, reverse order to keep logic simple
                     ]
@@ -502,11 +506,10 @@ class RubiksCube:
                 elif given_move.section == "middle" and given_move.orientation == "vertical":
 
                     sides_to_spin = [
-                        top_side,
+                        top_side if given_move.direction == "down" else top_side[::-1],
                         front_side,
-                        bottom_side,
-                        # back_side
-                        [ i[::-1] for i in back_side ] # because were reversing it to display correctly, reverse order to keep logic simple
+                        bottom_side if given_move.direction == "up" else bottom_side[::-1],
+                        back_side[::-1]
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
@@ -525,36 +528,18 @@ class RubiksCube:
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
                     back_side = sides_to_spin[3]
-                    # back_side = [ i[::-1] for i in sides_to_spin[3] ]
 
                 elif given_move.section == "top" and given_move.orientation == "horizontal":
                     sides_to_spin = [
                         front_side,
                         left_side,
-                        # back_side,
-                        [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
+                        back_side,
                         right_side
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0
-                    # for side in range( len( sides_to_spin_static ) ):
-
-                    iterator = None
-                    stop_int = None
-                    start_int = None
-
-                    if given_move.direction == "left":
-                        iterator = 1
-                        stop_int = len( sides_to_spin_static )
-                        start_int = -1
-                        
-                    elif given_move.direction == "right":
-                        iterator = -1
-                        stop_int = -1
-                        start_int = len( sides_to_spin_static ) - 1
-
-                    for side in range( start_int, stop_int, iterator ):
+                    for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if given_move.direction == "left":
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
@@ -567,7 +552,6 @@ class RubiksCube:
                     front_side = sides_to_spin[0]
                     left_side = sides_to_spin[1]
                     back_side = sides_to_spin[2]
-                    # back_side = [ i[::-1] for i in sides_to_spin[2] ]
                     right_side = sides_to_spin[3]
                 
                 elif given_move.section == "bottom" and given_move.orientation == "horizontal":
@@ -603,29 +587,15 @@ class RubiksCube:
                         front_side,
                         left_side,
                         # back_side,
-                        [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
+                        back_side if given_move.direction == "left" else back_side[::-1],
+                        # [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
                         right_side
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 1
-                    # for side in range( len( sides_to_spin_static ) ):
 
-                    iterator = None
-                    stop_int = None
-                    start_int = None
-
-                    if given_move.direction == "left":
-                        iterator = 1
-                        stop_int = len( sides_to_spin_static )
-                        start_int = -1
-                        
-                    elif given_move.direction == "right":
-                        iterator = -1
-                        stop_int = -1
-                        start_int = len( sides_to_spin_static ) - 1
-
-                    for side in range( start_int, stop_int, iterator ):
+                    for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if given_move.direction == "left":
                             next_side = side - 1 if side - 1 >= 0 else len( sides_to_spin_static ) - 1
@@ -662,6 +632,9 @@ class RubiksCube:
         for _ in range( turns ):
             updated_cube = spin_side( raw_cube, given_move )
             raw_cube = updated_cube
+
+            # self.refresh_cube_state( updated_cube )
+            # self.visualize_cube()
 
         return self.refresh_cube_state( updated_cube )
 
