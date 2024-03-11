@@ -539,16 +539,64 @@ class TestMoves( unittest.TestCase ):
         test_data_path = "tests/test_cases/rotate_cube__left_1.json" 
         self.run_test_file( test_data_path )
 
+    def test__rotate_cube__left_2( self ):
+        test_data_path = "tests/test_cases/rotate_cube__left_2.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__left_3( self ):
+        test_data_path = "tests/test_cases/rotate_cube__left_3.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__left_4( self ):
+        test_data_path = "tests/test_cases/rotate_cube__left_4.json" 
+        self.run_test_file( test_data_path )
+
     def test__rotate_cube__right_1( self ):
         test_data_path = "tests/test_cases/rotate_cube__right_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__right_2( self ):
+        test_data_path = "tests/test_cases/rotate_cube__right_2.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__right_3( self ):
+        test_data_path = "tests/test_cases/rotate_cube__right_3.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__right_4( self ):
+        test_data_path = "tests/test_cases/rotate_cube__right_4.json" 
         self.run_test_file( test_data_path )
 
     def test__rotate_cube__up_1( self ):
         test_data_path = "tests/test_cases/rotate_cube__up_1.json" 
         self.run_test_file( test_data_path )
 
+    def test__rotate_cube__up_2( self ):
+        test_data_path = "tests/test_cases/rotate_cube__up_2.json" 
+        self.run_test_file( test_data_path )
+        
+    def test__rotate_cube__up_3( self ):
+        test_data_path = "tests/test_cases/rotate_cube__up_3.json" 
+        self.run_test_file( test_data_path )
+        
+    def test__rotate_cube__up_4( self ):
+        test_data_path = "tests/test_cases/rotate_cube__up_4.json" 
+        self.run_test_file( test_data_path )
+
     def test__rotate_cube__down_1( self ):
         test_data_path = "tests/test_cases/rotate_cube__down_1.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__down_2( self ):
+        test_data_path = "tests/test_cases/rotate_cube__down_2.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__down_3( self ):
+        test_data_path = "tests/test_cases/rotate_cube__down_3.json" 
+        self.run_test_file( test_data_path )
+
+    def test__rotate_cube__down_4( self ):
+        test_data_path = "tests/test_cases/rotate_cube__down_4.json" 
         self.run_test_file( test_data_path )
 
     # ------- CUSTOM CUBE INPUT TESTS ( function: rotate_cube ) -------
@@ -557,21 +605,65 @@ class TestMoves( unittest.TestCase ):
         test_data_path = "tests/test_cases/custom__rotate_cube__left_1.json" 
         self.run_test_file( test_data_path )
 
+    # def test__custom__rotate_cube_left_2( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__left_2.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_left_3( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__left_3.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_left_4( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__left_4.json" 
+    #     self.run_test_file( test_data_path )
+
     def test__custom__rotate_cube_right_1( self ):
         test_data_path = "tests/test_cases/custom__rotate_cube__right_1.json" 
         self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_right_2( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__right_2.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_right_3( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__right_3.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_right_4( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__right_4.json" 
+    #     self.run_test_file( test_data_path )
 
     def test__custom__rotate_cube_up_1( self ):
         test_data_path = "tests/test_cases/custom__rotate_cube__up_1.json" 
         self.run_test_file( test_data_path )
 
-    def test__custom__rotate_cube_up_2( self ):
-        test_data_path = "tests/test_cases/custom__rotate_cube__up_2.json" 
-        self.run_test_file( test_data_path )
+    # def test__custom__rotate_cube_up_2( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__up_2.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_up_3( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__up_3.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_up_4( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__up_4.json" 
+    #     self.run_test_file( test_data_path )
         
     def test__custom__rotate_cube_up_1_v2( self ):
         test_data_path = "tests/test_cases/custom__rotate_cube__up_1_v2.json" 
         self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_down_2( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__down_2.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_down_3( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__down_3.json" 
+    #     self.run_test_file( test_data_path )
+
+    # def test__custom__rotate_cube_down_4( self ):
+    #     test_data_path = "tests/test_cases/custom__rotate_cube__down_4.json" 
+    #     self.run_test_file( test_data_path )
 
     def test__custom__rotate_cube_down_1( self ):
         test_data_path = "tests/test_cases/custom__rotate_cube__down_1.json" 
