@@ -3,17 +3,17 @@
     "TEST_MOVE": [ "right", 1 ]
     , "TEST_CUBE_OVERRIDE": [
         [
-            [ "w", "x", "w" ],
+            [ "w", "w", "x" ],
             [ "w", "w", "w" ],
             [ "w", "w", "w" ]
         ],
         [
-            [ "b", "b", "b" ],
+            [ "b", "b", "x" ],
             [ "b", "b", "b" ],
             [ "b", "b", "b" ]
         ],
         [
-            [ "y", "x", "y" ],
+            [ "y", "y", "x" ],
             [ "y", "y", "y" ],
             [ "y", "y", "y" ]
         ],
@@ -37,8 +37,8 @@
         {
             "expected_side": "top_side",
             "expected_value": [
-                [ "w", "w", "w" ],
                 [ "x", "w", "w" ],
+                [ "w", "w", "w" ],
                 [ "w", "w", "w" ]
             ]
         },
@@ -54,8 +54,8 @@
             "expected_side": "bottom_side",
             "expected_value": [
                 [ "y", "y", "y" ],
-                [ "y", "y", "x" ],
-                [ "y", "y", "y" ]
+                [ "y", "y", "y" ],
+                [ "y", "y", "x" ]
             ]
         },
         {
@@ -77,7 +77,7 @@
         {
             "expected_side": "right_side",
             "expected_value": [
-                [ "b", "b", "b" ],
+                [ "b", "b", "x" ],
                 [ "b", "b", "b" ],
                 [ "b", "b", "b" ]
             ]

@@ -1,0 +1,93 @@
+
+{
+    "TEST_MOVE": [ "up", 2 ]
+    , "TEST_CUBE_OVERRIDE_MOVES_INPUT": [
+        "move_cube( middle, horizontal, left, 1 )",
+        "rotate_cube(up, 2)",
+        "move_cube( left, vertical, down, 1 )",
+        "move_cube( right, vertical, up, 1 )",
+        "move_cube( middle, horizontal, left, 1 )"
+    ]
+    , "TEST_CUBE_OVERRIDE": [
+        [
+            [ "b", "y", "g" ],
+            [ "o", "y", "r" ],
+            [ "b", "y", "g" ]
+        ],
+        [
+            [ "y", "g", "w" ],
+            [ "o", "g", "o" ],
+            [ "y", "g", "w" ]
+        ],
+        [
+            [ "g", "w", "b" ],
+            [ "r", "w", "o" ],
+            [ "g", "w", "b" ]
+        ],
+        [
+            [ "y", "b", "w" ],
+            [ "r", "b", "r" ],
+            [ "y", "b", "w" ]
+        ],
+        [
+            [ "r", "b", "r" ],
+            [ "y", "r", "w" ],
+            [ "r", "b", "r" ]
+        ],
+        [
+            [ "o", "g", "o" ],
+            [ "y", "o", "w" ],
+            [ "o", "g", "o" ]
+        ]
+    ]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ "g", "w", "b" ],
+                [ "r", "w", "o" ],
+                [ "g", "w", "b" ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ "w", "b", "y" ],
+                [ "r", "b", "r" ],
+                [ "w", "b", "y" ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ "b", "y", "g" ],
+                [ "o", "y", "r" ],
+                [ "b", "y", "g" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ "w", "g", "y" ],
+                [ "o", "g", "o" ],
+                [ "w", "g", "y" ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ "r", "b", "r" ],
+                [ "w", "r", "y" ],
+                [ "r", "b", "r" ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ "o", "g", "o" ],
+                [ "w", "o", "y" ],
+                [ "o", "g", "o" ]
+            ]
+        }
+    ]
+}

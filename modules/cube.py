@@ -1,6 +1,7 @@
 
 from collections import namedtuple
 from pprint import pprint
+import random
 import copy
 
 # I would like to set this up as a 3D Matrix. 
@@ -219,8 +220,6 @@ class RubiksCube:
         ]
         #  more manageable right?
 
-        # TODO: Given the raw cube data, we need to add references
-
         return perfect_cube
 
 
@@ -252,17 +251,6 @@ class RubiksCube:
         left_side = raw_cube[ 4 ]
         right_side = raw_cube[ 5 ]
         
-        # formatted_cube = Cube(
-        #     left_side,
-        #     top_side,
-        #     right_side,
-        #     front_side,
-        #     back_side,
-        #     bottom_side,
-        # )
-
-        # if formatted_cube:
-        # self.cube = formatted_cube
         self.raw_cube = raw_cube
         self.left_side = left_side
         self.top_side = top_side
@@ -289,10 +277,7 @@ class RubiksCube:
         turns: turns specified area x times
         """
 
-        # self.cube!
-        # cube = self.cube
         raw_cube = self.raw_cube
-        updated_raw_cube = None
 
         if not section or not orientation or not direction or not turns:
             raise Exception( f"missing param in move_cube" )
@@ -334,16 +319,6 @@ class RubiksCube:
             direction: left or right
             """
 
-            # "Move", 
-            # [
-            #     "section", 
-            #     "orientation", 
-            #     "direction"
-            # ]
-
-            # print( given_move.section )
-            # print( given_move.direction )
-
             top_side = cube_data[ 0 ]
             front_side = cube_data[ 1 ]
             bottom_side = cube_data[ 2 ]
@@ -366,7 +341,6 @@ class RubiksCube:
 
 
             if rotated_side is not None and spin_clockwise is not None:
-                # print( f"spinning this side: {rotated_side} - clockwise is {spin_clockwise}" )
 
                 new_data = [
                     [],
@@ -382,7 +356,6 @@ class RubiksCube:
 
                     for sticker in range( len( rotated_side[0] ) ):
                         for row in range( len( rotated_side ) - 1, -1, -1 ):
-                            # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                             if spin_clockwise == True:
                                 new_data[current_y].append( rotated_side[row][sticker] )
@@ -390,7 +363,6 @@ class RubiksCube:
                             elif spin_clockwise == False:
                                 new_data[row].append( rotated_side[current_y][current_x] )
                                 current_x += 1 if current_x < len( rotated_side ) -1 else -current_x
-
                             
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
 
@@ -408,7 +380,6 @@ class RubiksCube:
 
                     for sticker in range( len( rotated_side[0] ) ):
                         for row in range( len( rotated_side ) -1, -1, -1 ):
-                            # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                             if spin_clockwise == True:
                                 new_data[row].append( rotated_side[current_y][current_x] )
@@ -418,8 +389,6 @@ class RubiksCube:
                                 current_x += 1 if sticker <= len( rotated_side ) - 1 else 0
                             
                         current_y += 1 if row <= len( rotated_side[0] ) - 1 else 0
-
-                    # print( new_data )
 
                     if given_move.section == "top":
                         top_side = new_data
@@ -480,7 +449,6 @@ class RubiksCube:
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
-                    # back_side = sides_to_spin[3]
                     back_side = [ i[::-1] for i in sides_to_spin[3] ]
 
                 elif given_move.section == "middle" and given_move.orientation == "vertical":
@@ -539,7 +507,6 @@ class RubiksCube:
                         front_side,
                         left_side,
                         back_side,
-                        # [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
                         right_side
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
@@ -558,7 +525,6 @@ class RubiksCube:
                     front_side = sides_to_spin[0]
                     left_side = sides_to_spin[1]
                     back_side = sides_to_spin[2]
-                    # back_side = [ i[::-1] for i in sides_to_spin[2] ]
                     right_side = sides_to_spin[3]
 
                 elif given_move.section == "middle" and given_move.orientation == "horizontal":
@@ -566,9 +532,7 @@ class RubiksCube:
                     sides_to_spin = [
                         front_side,
                         left_side,
-                        # back_side,
-                        back_side if given_move.direction == "left" else back_side[::-1],
-                        # [ i[::-1] for i in back_side ], # because were reversing it to display correctly, reverse order to keep logic simple
+                        back_side if given_move.direction == "left" else back_side[::-1], # because were reversing it to display correctly, reverse order to keep logic simple
                         right_side
                     ]
                     sides_to_spin_static = copy.deepcopy( sides_to_spin )
@@ -583,21 +547,17 @@ class RubiksCube:
                         elif given_move.direction == "right":
                             next_side = side + 1 if side + 1 < len( sides_to_spin_static ) else 0
 
-                        print( f"SIDE: {side} -> NEXT SIDE: {next_side}" )
-
                         for row in range( len( sides_to_spin_static[side] ) ):
                             sides_to_spin[ side ][ shift_index ][ row ] = sides_to_spin_static[ next_side ][ shift_index ][ row ]
 
                     front_side = sides_to_spin[0]
                     left_side = sides_to_spin[1]
                     back_side = sides_to_spin[2]
-                    # back_side = [ i[::-1] for i in sides_to_spin[2] ]
                     right_side = sides_to_spin[3]
                             
                 else:
                     raise Exception("Given move not supported!")
                 
-                # print( raw_cube )
             return [
                 top_side,
                 front_side,
@@ -613,11 +573,7 @@ class RubiksCube:
             updated_cube = spin_side( raw_cube, given_move )
             raw_cube = updated_cube
 
-            self.refresh_cube_state( updated_cube )
-            self.visualize_cube()
-
-        # return self.refresh_cube_state( updated_cube )
-        return
+        return self.refresh_cube_state( updated_cube )
 
     def rotate_cube(
         self,
@@ -626,6 +582,7 @@ class RubiksCube:
     ):
         """
         This function spins the cube in different directions to be able to operate all moves on each side
+        you are pushing the front of the cube in which direction?
 
         direction input options: up, down, left, right
         turns input: int, number of rotations
@@ -720,6 +677,38 @@ class RubiksCube:
         for _ in range( turns ):
             updated_cube = rotate_cube_data( self.raw_cube )
             self.refresh_cube_state( updated_cube )
+
+    def shuffle_cube( self, random_turns_count:int=0 ):
+        """
+        This will shuffle the cube given any number of turns
+        """
+        all_possible_moves = [
+            Move( "top", "horizontal", "left" ),
+            Move( "top", "horizontal", "right" ),
+            Move( "middle", "horizontal", "left" ),
+            Move( "middle", "horizontal", "right" ),
+            Move( "bottom", "horizontal", "left" ),
+            Move( "bottom", "horizontal", "right" ),
+            Move( "left", "vertical", "up" ),
+            Move( "left", "vertical", "down" ),
+            Move( "right", "vertical", "up" ),
+            Move( "right", "vertical", "down" ),
+            Move( "middle", "vertical", "up" ),
+            Move( "middle", "vertical", "down" )
+        ]
+        all_possible_rotations = [ "left", "right", "up", "down" ]
+
+        for _ in range( random_turns_count ):
+            print( "het" )
+            random_number = random.random()
+            random_move = random.choices( all_possible_moves )
+            random_rotation = random.choices( all_possible_rotations )
+
+            print( random_move )
+            print( random_rotation )
+            print( random_number )
+
+        return
         
     def visualize_cube(self):
 
@@ -736,8 +725,7 @@ class RubiksCube:
 
         # PRINT CUBE OUT FOR CLI:
         max_length = " " * len("['w', 'w', 'w']")
-        # spacing = " " * len("['w', 'w', 'w']")
-        spacing = " " * 1
+        spacing = " "
 
         def generate_side_str(label, side):
             center_line_length = len("['w', 'w', 'w']")
