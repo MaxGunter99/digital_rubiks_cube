@@ -85,7 +85,7 @@ class RubiksCube:
             print( details )
             new_cube = self.reset_cube()
             self.raw_cube = new_cube
-            self.refresh_cube_state()
+            self.refresh_cube_state(None)
         elif cube is not None:
             details = f"Starting with custom cube override data! - {cube}"
             print( details )
@@ -225,7 +225,7 @@ class RubiksCube:
 
     def refresh_cube_state(
         self
-        , raw_cube = None
+        , raw_cube:list
     ):
     # -> Cube:
         """
@@ -242,8 +242,6 @@ class RubiksCube:
         if not raw_cube:
             raw_cube = self.raw_cube
 
-        # print( raw_cube )
-
         top_side = raw_cube[ 0 ]
         front_side = raw_cube[ 1 ]
         bottom_side = raw_cube[ 2 ]
@@ -258,7 +256,6 @@ class RubiksCube:
         self.front_side = front_side
         self.back_side = back_side
         self.bottom_side = bottom_side
-
         return return_value
 
     def move_cube(
@@ -282,7 +279,7 @@ class RubiksCube:
         if not section or not orientation or not direction or not turns:
             raise Exception( f"missing param in move_cube" )
         
-        print( f"Moving the {section} sides {orientation} section {direction}" )
+        print( f"Moving the {section} sides {orientation} section {direction} {turns} time(s)" )
         given_move = Move( section, orientation, direction )
 
         # section : orientation
@@ -572,7 +569,6 @@ class RubiksCube:
         for _ in range( turns ):
             updated_cube = spin_side( raw_cube, given_move )
             raw_cube = updated_cube
-
         return self.refresh_cube_state( updated_cube )
 
     def rotate_cube(
@@ -589,11 +585,12 @@ class RubiksCube:
         """
 
         direction_options = [ "left", "right", "up", "down" ]
-
-        updated_cube = self.raw_cube
+        raw_cube = self.raw_cube
 
         if direction not in direction_options:
             raise Exception( f"Error rotating cube, direction {direction} is not implemented, available options are {direction_options}" )
+        
+        print( f"Rotating cube - {direction} - {turns} time(s)" )
         
         def spin_side( side_data, spin_clockwise ):
             # print( f"IN ROTATE CUBE - spinning side - {side_data} - clockwise is: {spin_clockwise}" )
@@ -621,8 +618,6 @@ class RubiksCube:
     
         
         def rotate_cube_data( cube_data ):
-            # print( "ROTATING CUBE, given cube_data:" )
-            # pprint( cube_data )
             top_side = cube_data[0]
             front_side = cube_data[1]
             bottom_side = cube_data[2]
@@ -664,7 +659,6 @@ class RubiksCube:
 
             else:
                 raise Exception( "Rotation direction not implemented" )
-
             return [
                 new_top_side,
                 new_front_side,
@@ -673,40 +667,57 @@ class RubiksCube:
                 new_left_side,
                 new_right_side
             ]
-
+        
+        updated_cube = None
         for _ in range( turns ):
-            updated_cube = rotate_cube_data( self.raw_cube )
-            self.refresh_cube_state( updated_cube )
+            updated_cube = rotate_cube_data( raw_cube )
+            raw_cube = updated_cube
+        return self.refresh_cube_state( updated_cube )
 
     def shuffle_cube( self, random_turns_count:int=0 ):
         """
         This will shuffle the cube given any number of turns
         """
+        if random_turns_count == 0:
+            details = "random_turns_count is 0, not shuffling the cube"
+            print(details)
+            return details
+        
+        print( "\nShuffling cube!!" )
+
         all_possible_moves = [
-            Move( "top", "horizontal", "left" ),
-            Move( "top", "horizontal", "right" ),
-            Move( "middle", "horizontal", "left" ),
-            Move( "middle", "horizontal", "right" ),
-            Move( "bottom", "horizontal", "left" ),
-            Move( "bottom", "horizontal", "right" ),
-            Move( "left", "vertical", "up" ),
-            Move( "left", "vertical", "down" ),
-            Move( "right", "vertical", "up" ),
-            Move( "right", "vertical", "down" ),
-            Move( "middle", "vertical", "up" ),
-            Move( "middle", "vertical", "down" )
+            [ "top", "horizontal", "left" ],
+            [ "top", "horizontal", "right" ],
+            [ "middle", "horizontal", "left" ],
+            [ "middle", "horizontal", "right" ],
+            [ "bottom", "horizontal", "left" ],
+            [ "bottom", "horizontal", "right" ],
+            [ "left", "vertical", "up" ],
+            [ "left", "vertical", "down" ],
+            [ "right", "vertical", "up" ],
+            [ "right", "vertical", "down" ],
+            [ "middle", "vertical", "up" ],
+            [ "middle", "vertical", "down" ]
         ]
         all_possible_rotations = [ "left", "right", "up", "down" ]
 
         for _ in range( random_turns_count ):
-            print( "het" )
-            random_number = random.random()
-            random_move = random.choices( all_possible_moves )
-            random_rotation = random.choices( all_possible_rotations )
 
-            print( random_move )
-            print( random_rotation )
-            print( random_number )
+            # define chance to rotate before making a random move
+            # 4 is 25% chance
+            # 2 is 50% chance
+            chance_to_rotate = 2
+            random_number = random.randrange( 0, 100 )
+            
+            if random_number % chance_to_rotate == 0:
+                rotate_direction = random.choices( all_possible_rotations )[0]
+                rotate_turns = random.randrange( 1, 3 )
+                self.rotate_cube( rotate_direction, rotate_turns )
+
+            move_data = random.choices( all_possible_moves )[0]
+            move_turns = random.randrange( 1, 3 )
+            move_section, move_orientation, move_direction = move_data
+            self.move_cube( move_section, move_orientation, move_direction, move_turns )
 
         return
         

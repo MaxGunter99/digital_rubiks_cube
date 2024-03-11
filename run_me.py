@@ -328,36 +328,37 @@ cube_client = RubiksCube()
 
 # -------
 
-cube_client.move_cube(
-    section="middle",
-    orientation="horizontal",
-    direction="left",
-    turns=1
-)
-cube_client.rotate_cube("up", 2)
-cube_client.move_cube(
-    section="left",
-    orientation="vertical",
-    direction="down",
-    turns=1
-)
-cube_client.rotate_cube("down", 1)
-cube_client.rotate_cube( "left", 2 )
-cube_client.move_cube(
-    section="right",
-    orientation="vertical",
-    direction="down",
-    turns=1
-)
-cube_client.rotate_cube( "down", 1 )
-cube_client.move_cube(
-    section="middle",
-    orientation="horizontal",
-    direction="left",
-    turns=1
-)
-
+# cube_client.move_cube(
+#     section="middle",
+#     orientation="horizontal",
+#     direction="left",
+#     turns=1
+# )
+# cube_client.rotate_cube("up", 2)
+# cube_client.move_cube(
+#     section="left",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
+# cube_client.rotate_cube("down", 1)
+# cube_client.rotate_cube( "left", 2 )
+# cube_client.move_cube(
+#     section="right",
+#     orientation="vertical",
+#     direction="down",
+#     turns=1
+# )
+# cube_client.rotate_cube( "down", 1 )
+# cube_client.move_cube(
+#     section="middle",
+#     orientation="horizontal",
+#     direction="left",
+#     turns=5
+# )
 # PASSES - perfect cube
+
+cube_client.shuffle_cube( random_turns_count=10 )
 
 cube_client.visualize_cube()
 
