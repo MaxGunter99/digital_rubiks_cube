@@ -29,7 +29,8 @@ This is an interactive Python project that brings the classic Rubik's Cube into 
 - [Initialize Perfect Cube](#example-get-perfect-cube)
 - [Move & Visualize a Cube](#example-move-cube)
 - [Cube Rotation](#example-rotate-cube)
-- [Simple Manual Solve](#example-simple-solve)
+- [Shuffle Cube Randomly](#example-shuffle-cube-randomly)
+- [Printing Moves Applied](#example-print-moves-applied)
 
 ---
 
@@ -171,56 +172,99 @@ cube_client.visualize_cube()
 
 ---
 
-<a name="example-simple-solve"></a>
+<a name="example-shuffle-cube-randomly"></a>
 
-## Simple Solve Example
+## Shuffling a Cube Randomly
 
-This example shows how you could solve the cube without repeating or reversing moves. It is expected to return a perfect cube, just turned around
+Getting a random cube can be used with the `cube_client.shuffle_cube()` function. This takes two arguments, the integer `random_turns_count`. To exclude random rotations, this can be disabled by passing `disable_rotations=True` when calling `shuffle_cube`, resulting in only applying moves to the front side of the cube
 
+**Code Example:**
 ```
 cube_client = RubiksCube()
-cube_client.move_cube(
-   section="left",
-   orientation="vertical",
-   direction="down",
-   turns=1
-)
-cube_client.rotate_cube("right", 2)
-cube_client.move_cube(
-   section="right",
-   orientation="vertical",
-   direction="down",
-   turns=1
-)
-cube_client.visualize_cube()
-```
+cube_client.shuffle_cube( random_turns_count=5 )
+``````
 
 **Output:**
 
 ```
                      Back                     
 
-                ['b', 'b', 'b']                
-                ['b', 'b', 'b']                
-                ['b', 'b', 'b']                
+                ['g', 'w', 'g']                
+                ['g', 'w', 'g']                
+                ['o', 'w', 'r']                
 
                       Top                      
 
-                ['w', 'w', 'w']                
-                ['w', 'w', 'w']                
-                ['w', 'w', 'w']                
+                ['w', 'b', 'w']                
+                ['w', 'g', 'y']                
+                ['w', 'o', 'y']                
 
      Left           Front           Right     
 
-['o', 'o', 'o'] ['g', 'g', 'g'] ['r', 'r', 'r']
-['o', 'o', 'o'] ['g', 'g', 'g'] ['r', 'r', 'r']
-['o', 'o', 'o'] ['g', 'g', 'g'] ['r', 'r', 'r']
+['r', 'r', 'r'] ['o', 'w', 'r'] ['g', 'g', 'b']
+['o', 'o', 'o'] ['b', 'y', 'b'] ['r', 'r', 'r']
+['b', 'b', 'g'] ['b', 'y', 'b'] ['o', 'o', 'o']
 
                     Bottom                    
 
+                ['w', 'r', 'y']                
+                ['y', 'b', 'y']                
+                ['y', 'g', 'y']                
+```
+
+---
+
+<a name="example-print-moves-applied"></a>
+
+## Printing Moves Applied
+
+To physically recreate a cube you have mutated here, simply log all of the tracked moves by using the `cube_client.print_tracked_moves()` function. This will output all rotations and moves to the console. Follow step by step to have a physical copy.
+
+An important note, cube rotations do not count as "moves" because the cube remains unchanged when rotating, in this example we will shuffle the cube 5 times but the cube will be randomly rotated applying moves to any side. To exclude random rotations, this can be disabled by passing `disable_rotations=True` when calling `shuffle_cube`
+
+**Code Example:**
+```
+cube_client = RubiksCube()
+cube_client.shuffle_cube( random_turns_count=5 )
+cube_client.print_tracked_moves()
+cube_client.visualize_cube()
+```
+
+**Output:**
+
+```
+{'action': 'move_cube', 'section': 'middle', 'orientation': 'vertical', 'direction': 'up', 'turns': 2}
+{'action': 'rotate_cube', 'direction': 'left', 'turns': 1}
+{'action': 'move_cube', 'section': 'middle', 'orientation': 'horizontal', 'direction': 'left', 'turns': 1}
+{'action': 'rotate_cube', 'direction': 'up', 'turns': 1}
+{'action': 'move_cube', 'section': 'top', 'orientation': 'horizontal', 'direction': 'right', 'turns': 1}
+{'action': 'rotate_cube', 'direction': 'up', 'turns': 1}
+{'action': 'move_cube', 'section': 'middle', 'orientation': 'horizontal', 'direction': 'right', 'turns': 1}
+{'action': 'move_cube', 'section': 'middle', 'orientation': 'horizontal', 'direction': 'right', 'turns': 1}
+
+                     Back                     
+
+                ['o', 'g', 'o']                
+                ['b', 'g', 'b']                
+                ['o', 'g', 'o']                
+
+                      Top                      
+
+                ['b', 'o', 'b']                
+                ['w', 'w', 'w']                
                 ['y', 'y', 'y']                
+
+     Left           Front           Right     
+
+['w', 'g', 'b'] ['r', 'r', 'r'] ['g', 'b', 'y']
+['r', 'r', 'y'] ['o', 'b', 'o'] ['w', 'o', 'o']
+['w', 'g', 'b'] ['r', 'r', 'r'] ['g', 'b', 'y']
+
+                    Bottom                    
+
+                ['w', 'w', 'w']                
                 ['y', 'y', 'y']                
-                ['y', 'y', 'y']  
+                ['g', 'r', 'g']   
 ```
 
 ---

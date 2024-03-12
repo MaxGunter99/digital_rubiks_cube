@@ -8,6 +8,9 @@ import copy
 # Perfect to start with but will be scrambled by the algorithm
 # random values for colors can not be given manually until later
 
+# OUTPUT ACTIONS
+print_moves = False # this is much faster without logging
+
 # RubiksCube is a class
 # but the cube reference is a namedtuple, this enables us to use stuff like:
 """
@@ -77,12 +80,14 @@ class RubiksCube:
         self.front_side = None
         self.back_side = None
         self.bottom_side = None
+        self.tracked_moves = []
         
         # If initialized without cube, will start with perfect cube
         cube_supplied = True if cube else False # Extra Cube Attributes
         if not cube:
             details = "No cube data sent, starting with perfect cube"
-            print( details )
+            if print_moves == True:
+                print( details )
             new_cube = self.reset_cube()
             self.raw_cube = new_cube
             self.refresh_cube_state(None)
@@ -107,78 +112,10 @@ class RubiksCube:
         }
         return dictionary[key]
 
-    def reset_cube( 
-        self
-        , perfect_cube_override = None
-    ) :
-    # -> Cube:
+    def reset_cube( self ) :
         """
         returns 3d matrix
         """
-
-        # Imagine a perfect cube on a desk with the white side facing up
-        # this data structure is built off of that idea ^
-
-        # perfect_cube = [
-        #     #       Left                Top                 Right
-        #     [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
-
-        #     # Rotate Cube AWAY
-        #     #       Left               Front                 Right
-        #     [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],  
-
-        #     # Rotate Cube AWAY
-        #     #       Left               Bottom                Right
-        #     [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],   
-
-        #     # Rotate Cube AWAY
-        #     #       Left                Back                 Right
-        #     [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],
-        #     [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],     
-        # ]
-
-        # could use this instead but that would defeat the purpose of this project, 
-        # 3d matrix = cube. Lets still get rid of the duplicate sides, 
-        # that is just duplicate work that could be prone to errors
-        # perfect_cube_json = {
-        #     "top": [
-        #         [ "w", "w", "w" ],
-        #         [ "w", "w", "w" ],
-        #         [ "w", "w", "w" ],
-        #     ],
-        #     "front": [
-        #         [ "b", "b", "b" ],
-        #         [ "b", "b", "b" ],
-        #         [ "b", "b", "b" ],
-        #     ],
-        #     "bottom": [
-        #         [ "y", "y", "y" ],
-        #         [ "y", "y", "y" ],
-        #         [ "y", "y", "y" ],
-        #     ],
-        #     "back": [
-        #         [ "g", "g", "g" ],
-        #         [ "g", "g", "g" ],
-        #         [ "g", "g", "g" ],
-        #     ],
-        #     "left": [
-        #         [ "r", "r", "r" ],
-        #         [ "r", "r", "r" ],
-        #         [ "r", "r", "r" ],
-        #     ],
-        #     "right": [
-        #         [ "o", "o", "o" ]
-        #         [ "o", "o", "o" ]
-        #         [ "o", "o", "o" ]
-        #     ]
-        # }
 
         perfect_cube = [
             # "top": 
@@ -218,7 +155,6 @@ class RubiksCube:
                 [ "o", "o", "o" ]
             ]
         ]
-        #  more manageable right?
 
         return perfect_cube
 
@@ -234,9 +170,9 @@ class RubiksCube:
         update -> analyze -> display
         """
 
-        print( "... Refreshing cube state!" )
-        # pprint( raw_cube )
-
+        if print_moves == True:
+            print( "... Refreshing cube state!" )
+            
         return_value = None
         
         if not raw_cube:
@@ -279,8 +215,17 @@ class RubiksCube:
         if not section or not orientation or not direction or not turns:
             raise Exception( f"missing param in move_cube" )
         
-        print( f"Moving the {section} sides {orientation} section {direction} {turns} time(s)" )
+        if print_moves == True:
+            print( f"Moving the {section} sides {orientation} section {direction} {turns} time(s)" )
+
         given_move = Move( section, orientation, direction )
+        self.tracked_moves.append({
+            "action": "move_cube",
+            "section": section,
+            "orientation": orientation,
+            "direction": direction,
+            "turns": turns
+        })
 
         # section : orientation
         validate_moves = [
@@ -304,7 +249,9 @@ class RubiksCube:
 
         # ---------- move_cube util functions ----------
 
-        def spin_side( cube_data, given_move ):
+        # def spin_side( cube_data, given_move ):
+        cube_data = raw_cube
+        for _ in range( turns ):
             """
             given the limitations of a cube you are only moving one side at a time 
             ... so we should only need one function for all moves
@@ -555,7 +502,7 @@ class RubiksCube:
                 else:
                     raise Exception("Given move not supported!")
                 
-            return [
+            cube_data = [
                 top_side,
                 front_side,
                 bottom_side,
@@ -564,12 +511,7 @@ class RubiksCube:
                 right_side,
             ]
 
-        # ----------------------------------------------
-        
-        for _ in range( turns ):
-            updated_cube = spin_side( raw_cube, given_move )
-            raw_cube = updated_cube
-        return self.refresh_cube_state( updated_cube )
+        return self.refresh_cube_state( cube_data )
 
     def rotate_cube(
         self,
@@ -590,7 +532,14 @@ class RubiksCube:
         if direction not in direction_options:
             raise Exception( f"Error rotating cube, direction {direction} is not implemented, available options are {direction_options}" )
         
-        print( f"Rotating cube - {direction} - {turns} time(s)" )
+        if print_moves == True:
+            print( f"Rotating cube - {direction} - {turns} time(s)" )
+
+        self.tracked_moves.append({
+            "action": "rotate_cube",
+            "direction": direction,
+            "turns": turns
+        })
         
         def spin_side( side_data, spin_clockwise ):
             # print( f"IN ROTATE CUBE - spinning side - {side_data} - clockwise is: {spin_clockwise}" )
@@ -615,9 +564,10 @@ class RubiksCube:
                 current_y += 1 if row <= len( side_data[0] ) - 1 else 0
 
             return new_data
-    
         
-        def rotate_cube_data( cube_data ):
+
+        cube_data = raw_cube
+        for _ in range( turns ):
             top_side = cube_data[0]
             front_side = cube_data[1]
             bottom_side = cube_data[2]
@@ -659,7 +609,8 @@ class RubiksCube:
 
             else:
                 raise Exception( "Rotation direction not implemented" )
-            return [
+            
+            cube_data = [
                 new_top_side,
                 new_front_side,
                 new_bottom_side,
@@ -667,14 +618,14 @@ class RubiksCube:
                 new_left_side,
                 new_right_side
             ]
-        
-        updated_cube = None
-        for _ in range( turns ):
-            updated_cube = rotate_cube_data( raw_cube )
-            raw_cube = updated_cube
-        return self.refresh_cube_state( updated_cube )
 
-    def shuffle_cube( self, random_turns_count:int=0 ):
+        return self.refresh_cube_state( cube_data )
+
+    def shuffle_cube( 
+        self, 
+        random_turns_count:int=0 ,
+        disable_rotations:bool=False
+    ):
         """
         This will shuffle the cube given any number of turns
         """
@@ -683,7 +634,8 @@ class RubiksCube:
             print(details)
             return details
         
-        print( "\nShuffling cube!!" )
+        if print_moves == True:
+            print( "\nShuffling cube!!" )
 
         all_possible_moves = [
             [ "top", "horizontal", "left" ],
@@ -709,7 +661,7 @@ class RubiksCube:
             chance_to_rotate = 2
             random_number = random.randrange( 0, 100 )
             
-            if random_number % chance_to_rotate == 0:
+            if disable_rotations == False and random_number % chance_to_rotate == 0:
                 rotate_direction = random.choices( all_possible_rotations )[0]
                 rotate_turns = random.randrange( 1, 3 )
                 self.rotate_cube( rotate_direction, rotate_turns )
@@ -720,19 +672,17 @@ class RubiksCube:
             self.move_cube( move_section, move_orientation, move_direction, move_turns )
 
         return
+    
+    def print_tracked_moves( self ):
+        if print_moves == True:
+            print("\n Printing moves applied to perfect cube:")
+        all_moves_applied = self.tracked_moves
+        if len( all_moves_applied ) > 0:
+            for move in all_moves_applied:
+                print( move )
+        return 
         
     def visualize_cube(self):
-
-        cube = self
-
-        # side_map = [
-        #     ( "Left", cube.left_side ),
-        #     ( "Top", cube.top_side ),
-        #     ( "Right", cube.right_side ),
-        #     ( "Front", cube.front_side ),
-        #     ( "Back", cube.back_side ),
-        #     ( "Bottom", cube.bottom_side )
-        # ]
 
         # PRINT CUBE OUT FOR CLI:
         max_length = " " * len("['w', 'w', 'w']")
@@ -744,12 +694,12 @@ class RubiksCube:
             return centered_word, side
 
 
-        left_label, left_side = generate_side_str( "Left", cube.left_side )
-        top_label, top_side = generate_side_str( "Top", cube.top_side )
-        right_label, right_side = generate_side_str( "Right", cube.right_side )
-        front_label, front_side = generate_side_str( "Front", cube.front_side )
-        back_label ,back_side = generate_side_str( "Back", cube.back_side )
-        bottom_label, bottom_side = generate_side_str( "Bottom", cube.bottom_side )
+        left_label, left_side = generate_side_str( "Left", self.left_side )
+        top_label, top_side = generate_side_str( "Top", self.top_side )
+        right_label, right_side = generate_side_str( "Right", self.right_side )
+        front_label, front_side = generate_side_str( "Front", self.front_side )
+        back_label ,back_side = generate_side_str( "Back", self.back_side )
+        bottom_label, bottom_side = generate_side_str( "Bottom", self.bottom_side )
 
 
         for data in [
@@ -787,4 +737,4 @@ class RubiksCube:
             print( base_str )
 
         print( "\n" )
-        return cube
+        return
