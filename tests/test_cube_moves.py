@@ -742,6 +742,51 @@ class TestMoves( unittest.TestCase ):
         self.run_test_file( test_data_path ) 
 
 
+    # ------- TEST RANDOM SHUFFLE -------
+    
+    def test__custom__random_shuffle_10_moves( self ):
+        test_data_path = "tests/test_cases/move_test/move_10_times.json" 
+
+        file_data = None
+        if not os.path.exists( test_data_path ):
+            raise Exception(f"Given file path does not exist - {test_data_path}")
+        
+        with open( test_data_path, "r" ) as file:
+            file_data = json.load( file )
+            file.close()
+
+        TEST_CUBE_MOVES_INPUT = file_data.get("TEST_CUBE_MOVES_INPUT")
+        TEST_SOLUTION = file_data.get("TEST_SOLUTION")
+
+        cube_client = RubiksCube()
+
+        for move in TEST_CUBE_MOVES_INPUT:
+            action = move.get("action")
+
+            if action == "move_cube":
+                section =  move.get("section")
+                orientation =  move.get("orientation")
+                direction =  move.get("direction")
+                turns =  move.get("turns")
+                cube_client.move_cube(section, orientation, direction, turns)
+
+            elif action == "rotate_cube":
+                direction =  move.get("direction")
+                turns =  move.get("turns")
+                cube_client.rotate_cube( direction, turns )
+            
+        for move_check in TEST_SOLUTION:
+            test_side = move_check.get("expected_side")
+            generated_side = cube_client[ test_side ]
+            expected_value = move_check.get("expected_value")
+            err_details = f"generated_side ({test_side}): {generated_side} does not match expected value ({test_side}): {expected_value}"
+            self.assertEqual(
+                generated_side,
+                expected_value,
+                err_details
+            )
+
+
 
 if __name__ == '__main__':
     unittest.main()

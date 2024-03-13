@@ -1,0 +1,68 @@
+{
+    "TEST_CUBE_MOVES_INPUT": [
+        {"action": "rotate_cube", "direction": "left", "turns": 2},
+        {"action": "move_cube", "section": "bottom", "orientation": "horizontal", "direction": "right", "turns": 1},
+        {"action": "rotate_cube", "direction": "right", "turns": 1},
+        {"action": "move_cube", "section": "right", "orientation": "vertical", "direction": "down", "turns": 1},
+        {"action": "move_cube", "section": "left", "orientation": "vertical", "direction": "down", "turns": 2},
+        {"action": "move_cube", "section": "bottom", "orientation": "horizontal", "direction": "right", "turns": 1},
+        {"action": "move_cube", "section": "top", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "move_cube", "section": "middle", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "move_cube", "section": "right", "orientation": "vertical", "direction": "up", "turns": 2},
+        {"action": "move_cube", "section": "middle", "orientation": "vertical", "direction": "down", "turns": 1},
+        {"action": "rotate_cube", "direction": "down", "turns": 1},
+        {"action": "move_cube", "section": "middle", "orientation": "vertical", "direction": "up", "turns": 2},
+        {"action": "rotate_cube", "direction": "right", "turns": 2},
+        {"action": "move_cube", "section": "right", "orientation": "vertical", "direction": "up", "turns": 2}
+    ]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ "b", "r", "b" ],
+                [ "o", "w", "g" ],
+                [ "o", "y", "g" ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ "g", "r", "r" ],
+                [ "w", "b", "w" ],
+                [ "y", "g", "y" ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ "r", "o", "r" ],
+                [ "b", "y", "b" ],
+                [ "g", "w", "o" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ "w", "g", "w" ],
+                [ "y", "g", "y" ],
+                [ "b", "b", "o" ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ "r", "y", "y" ],
+                [ "b", "r", "r" ],
+                [ "w", "o", "b" ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ "w", "w", "o" ],
+                [ "o", "o", "g" ],
+                [ "g", "r", "y" ]
+            ]
+        }
+    ]
+}
