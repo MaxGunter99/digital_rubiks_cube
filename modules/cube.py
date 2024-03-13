@@ -246,9 +246,7 @@ class RubiksCube:
         # moves list ^
         if given_move not in validate_moves:
             raise Exception( f"Given move not in validate_moves: {section, orientation, direction}" )
-        
 
-        # ---------- move_cube util functions ----------
 
         # def spin_side( cube_data, given_move ):
         cube_data = raw_cube
@@ -347,16 +345,26 @@ class RubiksCube:
 
 
 
-                # 2. slide each left vertical row up
-                if given_move.section == "left" and given_move.orientation == "vertical":
-
+                # 2. slide each vertical/horizontal row up/down/left/right
+                if given_move.orientation == "vertical":
                     sides_to_spin = [
                         top_side,
                         front_side,
                         bottom_side,
                         back_side
+                    ] 
+                
+                elif given_move.orientation == "horizontal":
+                    sides_to_spin = [
+                        front_side,
+                        left_side,
+                        back_side,
+                        right_side
                     ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
+
+                sides_to_spin_static = copy.deepcopy( sides_to_spin )
+
+                if given_move.section == "left" and given_move.orientation == "vertical":
 
                     shift_index = 0
                     for side in range( len( sides_to_spin_static ) ):
@@ -376,14 +384,6 @@ class RubiksCube:
 
                 elif given_move.section == "right" and given_move.orientation == "vertical":
 
-                    sides_to_spin = [
-                        top_side,
-                        front_side,
-                        bottom_side,
-                        back_side
-                    ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
-
                     shift_index = 2
                     for side in range( len( sides_to_spin_static ) ):
                         next_side = None
@@ -401,14 +401,6 @@ class RubiksCube:
                     back_side = [ i[::-1] for i in ( sides_to_spin[3] )[::-1] ]
 
                 elif given_move.section == "middle" and given_move.orientation == "vertical":
-
-                    sides_to_spin = [
-                        top_side,
-                        front_side,
-                        bottom_side,
-                        back_side
-                    ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 1
                     for side in range( len( sides_to_spin_static ) ):
@@ -428,13 +420,6 @@ class RubiksCube:
 
 
                 elif given_move.section == "top" and given_move.orientation == "horizontal":
-                    sides_to_spin = [
-                        front_side,
-                        left_side,
-                        back_side,
-                        right_side
-                    ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 0
                     for side in range( len( sides_to_spin_static ) ):
@@ -453,13 +438,6 @@ class RubiksCube:
                     right_side = sides_to_spin[3]
                 
                 elif given_move.section == "bottom" and given_move.orientation == "horizontal":
-                    sides_to_spin = [
-                        front_side,
-                        left_side,
-                        back_side,
-                        right_side
-                    ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
 
                     shift_index = 2
                     for side in range( len( sides_to_spin_static ) ):
@@ -479,16 +457,7 @@ class RubiksCube:
 
                 elif given_move.section == "middle" and given_move.orientation == "horizontal":
 
-                    sides_to_spin = [
-                        front_side,
-                        left_side,
-                        back_side,
-                        right_side
-                    ]
-                    sides_to_spin_static = copy.deepcopy( sides_to_spin )
-
                     shift_index = 1
-
                     for side in range( len( sides_to_spin_static ) ):
                         next_side = None
                         if given_move.direction == "left":
@@ -564,7 +533,6 @@ class RubiksCube:
 
             for sticker in range( len( side_data[0] ) ):
                 for row in range( len( side_data ) - 1, -1, -1 ):
-                    # print( f"({current_y, current_x}) -> ({row}, {sticker})" )
 
                     if spin_clockwise == True:
                         new_data[current_y].append( side_data[row][sticker] )
@@ -629,9 +597,9 @@ class RubiksCube:
                 new_left_side,
                 new_right_side
             ]
-            self.refresh_cube_state( raw_cube=cube_data )
 
             if print_moves == True:
+                self.refresh_cube_state( raw_cube=cube_data )
                 self.visualize_cube()
 
         return self.refresh_cube_state( raw_cube=cube_data )
@@ -686,7 +654,7 @@ class RubiksCube:
             move_section, move_orientation, move_direction = move_data
             self.move_cube( move_section, move_orientation, move_direction, move_turns )
 
-        return
+        return True
     
     def print_tracked_moves( self ):
         if print_moves == True:
@@ -695,7 +663,7 @@ class RubiksCube:
         if len( all_moves_applied ) > 0:
             for move in all_moves_applied:
                 print( move )
-        return 
+        return True
         
     def visualize_cube(self):
 
