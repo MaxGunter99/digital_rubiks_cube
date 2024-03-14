@@ -2,3 +2,4 @@
 __pycache__
 *.pyc
 test_cube_moves_output.txt
+.DS_store

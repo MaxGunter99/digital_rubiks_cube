@@ -266,7 +266,7 @@ class RubiksCube:
             front_side = cube_data[ 1 ]
             bottom_side = cube_data[ 2 ]
             raw_back = cube_data[ 3 ]
-            back_side = [ i[::-1] for i in raw_back[::-1] ] if given_move.orientation != "horizontal" else raw_back
+            back_side = [ i[::-1] for i in raw_back[::-1] ] if given_move.orientation != "horizontal" else raw_back # reverse & flip back side if using vertical operations
             left_side = cube_data[ 4 ]
             right_side = cube_data[ 5 ]
 
@@ -291,8 +291,6 @@ class RubiksCube:
                     [],
                     [],
                 ]
-
-
 
                 # 1. vertical side rotations, left or right side
                 if given_move.section != "middle" and given_move.orientation == "vertical":
@@ -380,7 +378,7 @@ class RubiksCube:
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
-                    back_side = [ i[::-1] for i in ( sides_to_spin[3] )[::-1] ]
+                    back_side = [ i[::-1] for i in ( sides_to_spin[3] )[::-1] ]  # revert initial reverse & flip if using vertical operations
 
                 elif given_move.section == "right" and given_move.orientation == "vertical":
 
@@ -398,7 +396,7 @@ class RubiksCube:
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
-                    back_side = [ i[::-1] for i in ( sides_to_spin[3] )[::-1] ]
+                    back_side = [ i[::-1] for i in ( sides_to_spin[3] )[::-1] ] # revert initial reverse & flip if using vertical operations
 
                 elif given_move.section == "middle" and given_move.orientation == "vertical":
 
@@ -416,8 +414,7 @@ class RubiksCube:
                     top_side = sides_to_spin[0]
                     front_side = sides_to_spin[1]
                     bottom_side = sides_to_spin[2]
-                    back_side = [ i[::-1] for i in ( sides_to_spin[3] )[::-1] ]
-
+                    back_side = [ i[::-1] for i in ( sides_to_spin[3] )[::-1] ] # revert initial reverse & flip if using vertical operations
 
                 elif given_move.section == "top" and given_move.orientation == "horizontal":
 
@@ -486,9 +483,8 @@ class RubiksCube:
                 right_side,
             ]
 
-            self.refresh_cube_state( raw_cube=cube_data )
-
             if print_moves == True:
+                self.refresh_cube_state( raw_cube=cube_data )
                 self.visualize_cube()
 
         return self.refresh_cube_state( raw_cube=cube_data )
