@@ -1,0 +1,49 @@
+{
+    "TEST_CUBE_OVERRIDE_MOVES_INPUT": [
+        {"action": "move_cube", "section": "middle", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "rotate_cube", "direction": "up", "turns": 2},
+        {"action": "move_cube", "section": "left", "orientation": "vertical", "direction": "down", "turns": 1},
+        {"action": "move_cube", "section": "right", "orientation": "vertical", "direction": "up", "turns": 1},
+        {"action": "move_cube", "section": "middle", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "rotate_cube", "direction": "down", "turns": 1},
+        {"action": "move_cube", "section": "top", "orientation": "horizontal", "direction": "right", "turns": 1},
+        {"action": "move_cube", "section": "bottom", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "rotate_cube", "direction": "down", "turns": 1}
+    ]
+    , "TEST_CUBE_OVERRIDE": [
+        [
+            [ "r", "w", "r" ],
+            [ "r", "w", "o" ],
+            [ "o", "w", "o" ]
+        ],
+        [
+            [ "y", "r", "y" ],
+            [ "b", "b", "b" ],
+            [ "w", "r", "w" ]
+        ],
+        [
+            [ "r", "y", "r" ],
+            [ "o", "y", "r" ],
+            [ "o", "y", "o" ]
+        ],      
+        [
+            [ "y", "o", "y" ],
+            [ "g", "g", "g" ],
+            [ "w", "o", "w" ]
+        ],
+        [
+            [ "b", "b", "b" ],
+            [ "y", "r", "w" ],
+            [ "g", "b", "g" ]
+        ],
+        [
+            [ "g", "g", "g" ],
+            [ "y", "o", "w" ],
+            [ "b", "g", "b" ]
+        ]
+    ]
+    , "FUNCTION_INPUT": [ "top_side", "middle", "left" ]
+    , "TEST_SOLUTION": [
+        {"top_side": "w", "left_side": "r"}
+    ]
+}
