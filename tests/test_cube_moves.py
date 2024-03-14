@@ -133,22 +133,17 @@ class TestMoves( unittest.TestCase ):
         cube_client.solve_cube( step_override=STEP_NUMBER )
 
         for move_check in TEST_SOLUTION:
-            
             test_side = move_check.get("expected_side")
-            print( test_side )
             generated_side = cube_client[ test_side ]
             expected_value = move_check.get("expected_value")
 
             for row in range( len( expected_value ) ):
                 for sticker in range( len( expected_value[row] ) ):
-                    print( row, sticker )
-                    print( expected_value )
-                    print( generated_side )
                     expected_sticker = expected_value[row][sticker]
                     generated_sticker = generated_side[row][sticker]
 
                     if expected_sticker:
-                        err_details = f"Error in step: {STEP_NAME} - generated_side ({test_side}): {generated_side} does not match expected value ({test_side}): {expected_value}"
+                        err_details = f"\nERROR IN SOLVE STEP: {STEP_NAME}\n - generated_side ({test_side}): \n{generated_side} \ndoes not match expected value ({test_side}): \n{expected_value}"
                         self.assertEqual(
                             expected_sticker,
                             generated_sticker,
