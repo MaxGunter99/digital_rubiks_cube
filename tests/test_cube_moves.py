@@ -6,36 +6,6 @@ from copy import deepcopy
 
 from modules.cube import RubiksCube
 
-
-RAW_CUBE = [
-
-    #       Left                Top                 Right
-    [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "w", "w", "w" ], [ "o", "o", "o" ] ],
-
-    # Rotate Cube AWAY
-
-    #       Left               Front                 Right
-    [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "b", "b", "b" ], [ "o", "o", "o" ] ],  
-
-    # Rotate Cube AWAY
-
-    #       Left               Bottom                Right
-    [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "y", "y", "y" ], [ "o", "o", "o" ] ],   
-
-    # Rotate Cube AWAY
-
-    #       Left                Back                 Right
-    [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],
-    [ [ "r", "r", "r" ], [ "g", "g", "g" ], [ "o", "o", "o" ] ],     
-]
-
 ALL_POSSIBLE_MOVES = [
 
     ["top", "horizontal", "left"],
@@ -55,32 +25,10 @@ ALL_POSSIBLE_MOVES = [
 
 class TestMoves( unittest.TestCase ):
 
-    # def test__move_is_implemented( self ):
-    #     """
-    #     Confirms valid move permutations do not raise exceptions
-    #     """
-
-    #     move_errors = []
-
-    #     cube_client = RubiksCube()
-    #     for move in ALL_POSSIBLE_MOVES:
-
-    #         try:
-    #             section, orientation, direction = move
-    #             cube_client.move_cube(
-    #                 section=section,
-    #                 orientation=orientation,
-    #                 direction=direction,
-    #                 turns=1
-    #             )
-
-    #         except Exception as e:
-    #             move_errors.append( e )
-
-    #     err_details = f"Moves which raised exceptions: {move_errors}"
-    #     self.assertEqual( len( move_errors ) , 0 , err_details )
-
     def run_test_file( self, test_data_path ):
+        """
+        Tests single cube moves and validates it returns as expected
+        """
         file_data = None
         if not os.path.exists( test_data_path ):
             raise Exception(f"Given file path does not exist - {test_data_path}")
@@ -122,6 +70,90 @@ class TestMoves( unittest.TestCase ):
                 expected_value,
                 err_details
             )
+
+    def validate_custom_moves( self, test_data_path ):
+        """
+        Validates list of mutations returns expected response
+        """
+
+        file_data = None
+        if not os.path.exists( test_data_path ):
+            raise Exception(f"Given file path does not exist - {test_data_path}")
+        
+        with open( test_data_path, "r" ) as file:
+            file_data = json.load( file )
+            file.close()
+
+        TEST_CUBE_MOVES_INPUT = file_data.get("TEST_CUBE_MOVES_INPUT")
+        TEST_SOLUTION = file_data.get("TEST_SOLUTION")
+
+        cube_client = RubiksCube()
+
+        for move in TEST_CUBE_MOVES_INPUT:
+            action = move.get("action")
+
+            if action == "move_cube":
+                section =  move.get("section")
+                orientation =  move.get("orientation")
+                direction =  move.get("direction")
+                turns =  move.get("turns")
+                cube_client.move_cube(section, orientation, direction, turns)
+
+            elif action == "rotate_cube":
+                direction =  move.get("direction")
+                turns =  move.get("turns")
+                cube_client.rotate_cube( direction, turns )
+            
+        for move_check in TEST_SOLUTION:
+            test_side = move_check.get("expected_side")
+            generated_side = cube_client[ test_side ]
+            expected_value = move_check.get("expected_value")
+            err_details = f"generated_side ({test_side}): {generated_side} does not match expected value ({test_side}): {expected_value}"
+            self.assertEqual(
+                generated_side,
+                expected_value,
+                err_details
+            )
+
+    def test_solve_cube_step( self, test_data_path ):
+        file_data = None
+        if not os.path.exists( test_data_path ):
+            raise Exception(f"Given file path does not exist - {test_data_path}")
+        
+        with open( test_data_path, "r" ) as file:
+            file_data = json.load( file )
+            file.close()
+
+        STEP_NAME = file_data.get("STEP_NAME")
+        TEST_SOLUTION = file_data.get("TEST_SOLUTION")
+        TEST_CUBE_OVERRIDE = file_data.get("TEST_CUBE_OVERRIDE", None)
+        STEP_NUMBER = file_data.get( "STEP_NUMBER", None )
+
+        cube_client = RubiksCube( cube=TEST_CUBE_OVERRIDE )
+        cube_client.solve_cube( step_override=STEP_NUMBER )
+
+        for move_check in TEST_SOLUTION:
+            
+            test_side = move_check.get("expected_side")
+            print( test_side )
+            generated_side = cube_client[ test_side ]
+            expected_value = move_check.get("expected_value")
+
+            for row in range( len( expected_value ) ):
+                for sticker in range( len( expected_value[row] ) ):
+                    print( row, sticker )
+                    print( expected_value )
+                    print( generated_side )
+                    expected_sticker = expected_value[row][sticker]
+                    generated_sticker = generated_side[row][sticker]
+
+                    if expected_sticker:
+                        err_details = f"Error in step: {STEP_NAME} - generated_side ({test_side}): {generated_side} does not match expected value ({test_side}): {expected_value}"
+                        self.assertEqual(
+                            expected_sticker,
+                            generated_sticker,
+                            err_details
+                        )
 
     # ------- TEST EVERY POSSIBLE 1 MOVE ( function: move_cube ) -------
     # Format: test__class_function__section_orientation_direction_turns
@@ -745,46 +777,20 @@ class TestMoves( unittest.TestCase ):
     # ------- TEST RANDOM SHUFFLE -------
     
     def test__custom__random_shuffle_10_moves( self ):
-        test_data_path = "tests/test_cases/move_test/move_10_times.json" 
+        test_data_path = "tests/test_cases/move_test/move_10_times.json"
+        self.validate_custom_moves( test_data_path  )
 
-        file_data = None
-        if not os.path.exists( test_data_path ):
-            raise Exception(f"Given file path does not exist - {test_data_path}")
+    def test__custom__validate_test_solve_cube( self ):
+        test_data_path = "tests/test_cases/move_test/validate_test_solve_cube.json"
+        self.validate_custom_moves( test_data_path )
+
+    # ------- TESTING SOLVE STEPS -------
         
-        with open( test_data_path, "r" ) as file:
-            file_data = json.load( file )
-            file.close()
+    def test__solve_cube__step_1( self ):
+        test_data_path = "tests/test_cases/move_test/solve_step_1.json"
+        self.test_solve_cube_step( test_data_path )
 
-        TEST_CUBE_MOVES_INPUT = file_data.get("TEST_CUBE_MOVES_INPUT")
-        TEST_SOLUTION = file_data.get("TEST_SOLUTION")
 
-        cube_client = RubiksCube()
-
-        for move in TEST_CUBE_MOVES_INPUT:
-            action = move.get("action")
-
-            if action == "move_cube":
-                section =  move.get("section")
-                orientation =  move.get("orientation")
-                direction =  move.get("direction")
-                turns =  move.get("turns")
-                cube_client.move_cube(section, orientation, direction, turns)
-
-            elif action == "rotate_cube":
-                direction =  move.get("direction")
-                turns =  move.get("turns")
-                cube_client.rotate_cube( direction, turns )
-            
-        for move_check in TEST_SOLUTION:
-            test_side = move_check.get("expected_side")
-            generated_side = cube_client[ test_side ]
-            expected_value = move_check.get("expected_value")
-            err_details = f"generated_side ({test_side}): {generated_side} does not match expected value ({test_side}): {expected_value}"
-            self.assertEqual(
-                generated_side,
-                expected_value,
-                err_details
-            )
 
 
 

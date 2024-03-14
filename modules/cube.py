@@ -96,6 +96,7 @@ class RubiksCube:
             details = f"Starting with custom cube override data! - {cube}"
             print( details )
             self.raw_cube = cube
+            self.refresh_cube_state(None)
 
         # Extra Cube Attributes:
         self.cube_supplied = cube_supplied
@@ -651,6 +652,16 @@ class RubiksCube:
             self.move_cube( move_section, move_orientation, move_direction, move_turns )
 
         return True
+    
+    def solve_cube( self , step_override=None ):
+        """
+        This function should output a list of moves to solve the cube
+
+        we need to:
+            1. determine what steps have already been completed on the cube, lets write some real tests, TDD
+            2. We need a solve loop that will perform each step of the solve process
+        """
+        return
     
     def print_tracked_moves( self ):
         if print_moves == True:

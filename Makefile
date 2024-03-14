@@ -22,6 +22,5 @@ test-cube:
 test-cube-with-output:
 	python -m unittest discover -v -s tests -p 'test_*.py' -b > tests/test_cube_moves_output.txt 2>&1
 
-
 update-requirements:
 	poetry export -f requirements.txt --output requirements.txt
