@@ -150,6 +150,27 @@ class TestMoves( unittest.TestCase ):
                             err_details
                         )
 
+    def run_check_brick_value_test( self, test_data_path ):
+        file_data = None
+        if not os.path.exists( test_data_path ):
+            raise Exception(f"Given file path does not exist - {test_data_path}")
+        
+        with open( test_data_path, "r" ) as file:
+            file_data = json.load( file )
+            file.close()
+
+        FUNCTION_INPUT = file_data.get("FUNCTION_INPUT")
+        TEST_SOLUTION = file_data.get("TEST_SOLUTION")
+        TEST_CUBE_OVERRIDE = file_data.get("TEST_CUBE_OVERRIDE", None)
+
+        cube_client = RubiksCube( cube = TEST_CUBE_OVERRIDE )
+        side_name, row, direction = FUNCTION_INPUT
+        generated_value = cube_client.check_brick_value( side_name, row, direction )
+
+        self.assertNotEqual( generated_value, None, "generated_value should not return None" )
+        self.assertEqual( len( generated_value ), len( TEST_SOLUTION ), f"length of generated_value: {len(generated_value)} should be the same as the expected: {len(TEST_SOLUTION)}"  )
+        self.assertEqual( generated_value, TEST_SOLUTION )
+
     # ------- TEST EVERY POSSIBLE 1 MOVE ( function: move_cube ) -------
     # Format: test__class_function__section_orientation_direction_turns
 
@@ -780,29 +801,228 @@ class TestMoves( unittest.TestCase ):
         self.validate_custom_moves( test_data_path )
 
     # ------- TESTING CLASS FUNCTIONS -------
+
+    # TOP SIDE
+    def test__check_brick_value__top_side__bottom__left( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__bottom__left.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    def test__check_brick_value__top_side__bottom__right( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__bottom__right.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    def test__check_brick_value__top_side__middle__bottom( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__middle__bottom.json"
+        self.run_check_brick_value_test( test_data_path )
         
-    # def test__check_brick_value__top_side__middle__left( self ):
-    #     test_data_path = "tests/test_cases/class_function_tests/check_sticker_value__top_side__middle__left.json"
-    #     file_data = None
-    #     if not os.path.exists( test_data_path ):
-    #         raise Exception(f"Given file path does not exist - {test_data_path}")
+    def test__check_brick_value__top_side__middle__center( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__middle__center.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    def test__check_brick_value__top_side__middle__left( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__middle__left.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    def test__check_brick_value__top_side__middle__right( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__middle__right.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    def test__check_brick_value__top_side__middle__top( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__middle__top.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    def test__check_brick_value__top_side__top__right( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__top__right.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    def test__check_brick_value__top_side__top__left( self ):
+        test_data_path = "tests/test_cases/class_function_tests/check_brick_value__top_side__top__left.json"
+        self.run_check_brick_value_test( test_data_path )
+
+    # FRONT SIDE
+    # def test__check_brick_value__front_side__bottom__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__bottom__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__front_side__bottom__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__bottom__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__front_side__middle__bottom( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__middle__bottom.json"
+    #     self.run_check_brick_value_test( test_data_path )
         
-    #     with open( test_data_path, "r" ) as file:
-    #         file_data = json.load( file )
-    #         file.close()
+    # def test__check_brick_value__front_side__middle__center( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__middle__center.json"
+    #     self.run_check_brick_value_test( test_data_path )
 
-    #     FUNCTION_INPUT = file_data.get("FUNCTION_INPUT")
-    #     TEST_SOLUTION = file_data.get("TEST_SOLUTION")
-    #     TEST_CUBE_OVERRIDE = file_data.get("TEST_CUBE_OVERRIDE", None)
+    # def test__check_brick_value__front_side__middle__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__middle__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
 
-    #     cube_client = RubiksCube( cube = TEST_CUBE_OVERRIDE )
-    #     side_name, row, direction = FUNCTION_INPUT
-    #     generated_value = cube_client.check_brick_value( side_name, row, direction )
+    # def test__check_brick_value__front_side__middle__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__middle__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
 
+    # def test__check_brick_value__front_side__middle__top( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__middle__top.json"
+    #     self.run_check_brick_value_test( test_data_path )
 
-    #     self.assertNotEqual( generated_value, None, "generated_value should not return None" )
-    #     self.assertEqual( len( generated_value ), len( TEST_SOLUTION ), f"length of generated_value: {len(generated_value)} should be the same as the expected: {len(TEST_SOLUTION)}"  )
-    #     self.assertEqual( generated_value, TEST_SOLUTION )
+    # def test__check_brick_value__front_side__top__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__top__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__front_side__top__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__front_side__top__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # BOTTOM SIDE
+    # def test__check_brick_value__bottom_side__bottom__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__bottom__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__bottom_side__bottom__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__bottom__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__bottom_side__middle__bottom( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__middle__bottom.json"
+    #     self.run_check_brick_value_test( test_data_path )
+        
+    # def test__check_brick_value__bottom_side__middle__center( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__middle__center.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__bottom_side__middle__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__middle__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__bottom_side__middle__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__middle__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__bottom_side__middle__top( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__middle__top.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__bottom_side__top__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__top__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__bottom_side__top__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__bottom_side__top__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # BACK SIDE
+    # def test__check_brick_value__back_side__bottom__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__bottom__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__back_side__bottom__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__bottom__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__back_side__middle__bottom( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__middle__bottom.json"
+    #     self.run_check_brick_value_test( test_data_path )
+        
+    # def test__check_brick_value__back_side__middle__center( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__middle__center.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__back_side__middle__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__middle__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__back_side__middle__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__middle__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__back_side__middle__top( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__middle__top.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__back_side__top__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__top__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__back_side__top__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__back_side__top__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # LEFT SIDE
+    # def test__check_brick_value__left_side__bottom__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__bottom__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__left_side__bottom__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__bottom__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__left_side__middle__bottom( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__middle__bottom.json"
+    #     self.run_check_brick_value_test( test_data_path )
+        
+    # def test__check_brick_value__left_side__middle__center( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__middle__center.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__left_side__middle__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__middle__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__left_side__middle__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__middle__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__left_side__middle__top( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__middle__top.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__left_side__top__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__top__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__left_side__top__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__left_side__top__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # RIGHT SIDE
+    # def test__check_brick_value__right_side__bottom__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__bottom__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__right_side__bottom__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__bottom__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__right_side__middle__bottom( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__middle__bottom.json"
+    #     self.run_check_brick_value_test( test_data_path )
+        
+    # def test__check_brick_value__right_side__middle__center( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__middle__center.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__right_side__middle__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__middle__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__right_side__middle__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__middle__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__right_side__middle__top( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__middle__top.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__right_side__top__right( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__top__right.json"
+    #     self.run_check_brick_value_test( test_data_path )
+
+    # def test__check_brick_value__right_side__top__left( self ):
+    #     test_data_path = "tests/test_cases/class_function_tests/check_brick_value__right_side__top__left.json"
+    #     self.run_check_brick_value_test( test_data_path )
 
     # ------- TESTING SOLVE STEPS -------
         

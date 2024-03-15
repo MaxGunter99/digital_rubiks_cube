@@ -42,8 +42,6 @@
             [ "b", "g", "b" ]
         ]
     ]
-    , "FUNCTION_INPUT": [ "top_side", "middle", "left" ]
-    , "TEST_SOLUTION": [
-        {"top_side": "w", "left_side": "r"}
-    ]
+    , "FUNCTION_INPUT": [ "top_side", "middle", "center" ]
+    , "TEST_SOLUTION": {"top_side": "w"}
 }

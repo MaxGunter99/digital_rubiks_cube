@@ -114,6 +114,8 @@ class RubiksCube:
         }
         return dictionary[key]
 
+
+
     def reset_cube( self ) :
         """
         returns 3d matrix
@@ -161,6 +163,7 @@ class RubiksCube:
         return perfect_cube
 
 
+
     def refresh_cube_state(
         self
         , raw_cube:list
@@ -195,6 +198,8 @@ class RubiksCube:
         self.back_side = back_side
         self.bottom_side = bottom_side
         return return_value
+
+
 
     def move_cube(
         self,
@@ -490,6 +495,8 @@ class RubiksCube:
 
         return self.refresh_cube_state( raw_cube=cube_data )
 
+
+
     def rotate_cube(
         self,
         direction=None,
@@ -601,6 +608,8 @@ class RubiksCube:
 
         return self.refresh_cube_state( raw_cube=cube_data )
 
+
+
     def shuffle_cube( 
         self, 
         random_turns_count:int=0 ,
@@ -653,6 +662,113 @@ class RubiksCube:
 
         return True
     
+
+    def check_brick_value( self, side_name, row, direction ):
+        """
+        returns cube data as seen on a physical cube, read from the side and its connected sides
+        this will be useful for checking if/how many pieces are in the correct place, matching to a perfect cube
+
+        side_name: top_side, front_side, bottom_side, back_side, left_side, right_side
+        row: top, middle, bottom
+        direction: left, center, right
+        """
+        return_value = None
+        validate_side_names = [ "top_side", "front_side", "bottom_side", "back_side", "left_side", "right_side" ]
+        validate_row_names = [ "top", "middle", "bottom" ]
+        validate_direction_names = [ "left", "center", "right" ]
+
+        if (
+            side_name not in validate_side_names
+            or row not in validate_row_names
+            or direction not in validate_direction_names
+        ):
+            errors = []
+            errors.append(f"given side: {side_name} must be one of {validate_side_names}") if side_name not in validate_side_names else None
+            errors.append(f"given side: {row} must be one of {validate_row_names}") if row not in validate_row_names else None
+            errors.append(f"given side: {direction} must be one of {validate_direction_names}") if row not in validate_direction_names else None
+            raise Exception( f"Error in check_sticker_value - invalid argument(s) passed: side:{side_name}, row:{row}, direction:{direction} is not supported. Errors: {errors}" )
+        
+        grab_values = []
+
+        # excluding the center of each side -- from every side there is a top, bottom, left, and right side, define them here
+        # only one row from each of these sides is important 
+        # so how do I reference what row to grab? 
+        # group by: ( left, right, top, bottom )
+        side_relationship_mappings = {
+            "top_side": [ 
+                ( "back_side", "top_row" ), 
+                ( "front_side", "top_row" ), 
+                ( "left_side", "top_row" ), 
+                ( "right_side", "top_row" )
+            ],
+            "front_side": [ 
+                ( "top_side", "bottom_row" ), 
+                ( "bottom_side", "top_row" ), 
+                ( "left_side", "right_row" ), 
+                ( "right_side", "left_row" ) 
+            ],
+            "bottom_side": [ 
+                ( "front_side", "bottom_row" ), 
+                ( "back_side", "bottom_row" ), 
+                ( "left_side", "bottom_row" ), 
+                ( "right_side", "bottom_row" ) 
+            ],
+            "left_side": [ 
+                ( "top_side", "left_row" ), 
+                ( "bottom_side", "left_row" ), 
+                ( "back_side", "right_row" ), 
+                ( "right_side", "left_row" ) 
+            ],
+            "right_side": [ 
+                ( "top_side", "right_row" ), 
+                ( "bottom_side", "right_row" ), 
+                ( "front_side", "right_row" ), 
+                ( "back_side", "left_row" ) 
+            ]
+        }
+
+        # return middle, center data early, easy
+        if row == "middle" and direction == "center":
+            print( "returning 1 value" )
+            side_data = self[side_name][2][1]
+            return {side_name: side_data}
+        
+        # else grab data
+        required_relationships = side_relationship_mappings[side_name]
+        relationship_data = []
+        print( f"Grabbing these sides required_relationship: {required_relationships}" )
+        for side_name, related_row in required_relationships:
+            print( side_name, related_row )
+
+            if related_row in ["top_row", "bottom_row"]:
+                row_index = 0 if related_row == "top_row" else 2
+                relationship_data.append( self[side_name][row_index] )
+
+            elif related_row in ["left_row", "right_row"]:
+                sticker_index = 0 if related_row == "left_row" else 2
+                relationship_data.append([ row[sticker_index] for row in self[side_name] ])
+
+        print( f"relationship_data: {relationship_data}" )
+            
+        if (
+            row in [ "top", "bottom" ] and direction == "center"
+            or row == "middle" and direction in [ "left", "right" ]
+        ):
+            print( "returning 2 value" )
+
+        elif (
+            row in [ "top", "bottom" ] and direction in [ "left", "right" ]
+        ):
+            print( "returning 3 values" )
+            
+        else:
+            raise Exception("check_brick_value side not implemented")
+
+        print( grab_values )
+
+        return return_value
+
+
     def solve_cube( self , step_override=None ):
         """
         This function should output a list of moves to solve the cube
@@ -661,8 +777,15 @@ class RubiksCube:
             1. determine what steps have already been completed on the cube, lets write some real tests, TDD
             2. We need a solve loop that will perform each step of the solve process
         """
+
+        if step_override == 1:
+            print( "Starting Step 1!" )
+            # what do we want to assert? What were testing, the top cross needs to be solved
+
         return
     
+
+
     def print_tracked_moves( self ):
         if print_moves == True:
             print("\n Printing moves applied to perfect cube:")
