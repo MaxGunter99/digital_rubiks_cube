@@ -31,7 +31,7 @@
             [ "o", "o", "o" ]
         ]
     ]
-    , "FUNCTION_INPUT": [ "top_side", "middle", "right" ]
+    , "FUNCTION_INPUT": [ "top_side", "bottom", "right" ]
     , "TEST_SOLUTION": {
         "top_side": "x", 
         "right_side": "6",

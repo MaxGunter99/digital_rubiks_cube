@@ -31,10 +31,10 @@
             [ "o", "o", "o" ]
         ]
     ]
-    , "FUNCTION_INPUT": [ "top_side", "middle", "right" ]
+    , "FUNCTION_INPUT": [ "top_side", "top", "right" ]
     , "TEST_SOLUTION": {
         "top_side": "x", 
         "back_side": "3",
-        "left_side": "4"
+        "right_side": "4"
     }
 }
