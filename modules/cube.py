@@ -661,151 +661,30 @@ class RubiksCube:
             self.move_cube( move_section, move_orientation, move_direction, move_turns )
 
         return True
-    
 
-    def check_brick_value( self, side_name, row, direction ):
+    def check_sides( self ):
         """
-        returns cube data as seen on a physical cube, read from the side and its connected sides
-        this will be useful for checking if/how many pieces are in the correct place, matching to a perfect cube
-
-        side_name: top_side, front_side, bottom_side, back_side, left_side, right_side
-        row: top, middle, bottom
-        direction: left, center, right
+        this returns how many pieces per side match that side
+        a perfect cube should return this
+        {'top_side': 9, 'front_side': 9, 'bottom_side': 9, 'left_side': 9, 'right_side': 9}
         """
-        return_value = {}
-        validate_side_names = [ "top_side", "front_side", "bottom_side", "back_side", "left_side", "right_side" ]
-        validate_row_names = [ "top", "middle", "bottom" ]
-        validate_direction_names = [ "left", "center", "right" ]
+        return_data = {}
 
-        if print_moves:
-            print( f"Checking brick value for the {side_name}s - {row} row - {direction} brick" )
+        for side_name in ["top_side", "front_side", "bottom_side", "left_side", "right_side"]:
+            correct_placements = 0
+            current_side = self[side_name]
+            current_side_center = current_side[1][1]
+            for row_index in range( len( current_side ) ):
+                for sticker_index in range( len( current_side[row_index] ) ):
+                    sticker_value = current_side[row_index][sticker_index]
+                    if sticker_value == current_side_center:
+                        correct_placements += 1
+            return_data[side_name] = correct_placements
+        print( return_data )
+        return return_data
 
-        if (
-            side_name not in validate_side_names
-            or row not in validate_row_names
-            or direction not in validate_direction_names
-        ):
-            errors = []
-            errors.append(f"given side: {side_name} must be one of {validate_side_names}") if side_name not in validate_side_names else None
-            errors.append(f"given side: {row} must be one of {validate_row_names}") if row not in validate_row_names else None
-            errors.append(f"given side: {direction} must be one of {validate_direction_names}") if row not in validate_direction_names else None
-            raise Exception( f"Error in check_sticker_value - invalid argument(s) passed: side:{side_name}, row:{row}, direction:{direction} is not supported. Errors: {errors}" )
-        
-        grab_values = []
 
-        # excluding the center of each side -- from every side there is a top, bottom, left, and right side, define them here
-        # only one row from each of these sides is important 
-        # so how do I reference what row to grab? 
-        # group by: ( left, right, top, bottom )
-        side_relationship_mappings = {
-            "top_side": [ 
-                ( "back_side", "top" ), # top
-                ( "front_side", "top" ), # bottom
-                ( "left_side", "top" ), # left
-                ( "right_side", "top" ) # right
-            ],
-            "front_side": [ 
-                ( "top_side", "bottom" ), # top
-                ( "bottom_side", "top" ), # bottom
-                ( "left_side", "right" ), # left
-                ( "right_side", "left" ) # right
-            ],
-            "bottom_side": [ 
-                ( "front_side", "bottom" ), # top
-                ( "back_side", "bottom" ), # bottom
-                ( "left_side", "bottom" ), # left
-                ( "right_side", "bottom" ) # right
-            ],
-            "left_side": [ 
-                ( "top_side", "left" ), # top
-                ( "bottom_side", "left" ), # bottom
-                ( "back_side", "right" ), # left
-                ( "right_side", "left" ) # right
-            ],
-            "right_side": [ 
-                ( "top_side", "right" ),  # top
-                ( "bottom_side", "right" ), # bottom
-                ( "front_side", "right" ), # left
-                ( "back_side", "left" ) # right
-            ]
-        }
 
-        # return middle, center data early, easy
-        if row == "middle" and direction == "center":
-            print( "returning 1 value" )
-            side_data = self[side_name][2][1]
-            return { side_name: side_data }
-        
-        required_relationships = side_relationship_mappings[ side_name ]
-        # relationship_data = {}
-        # print( f"Grabbing these sides required_relationship: {required_relationships}" )
-
-        if (
-            row in [ "top", "bottom" ] and direction == "center"
-            or row == "middle" and direction in [ "left", "right" ]
-        ):
-            # this is for returning any middle pieces
-            print( "returning 2 value" )
-
-            # what sides do you need to get data for?
-            index_mapping = {
-                "top": 0,
-                "bottom": 1,
-                "left": 2,
-                "right": 3
-            }
-            use_mapping_key = row if row in [ "top", "bottom" ] else direction
-            selected_index = index_mapping.get( use_mapping_key )
-            related_side_name, related_row_name = required_relationships[ selected_index ]
-            loop_data = [
-                ( side_name, row, direction ),
-                ( related_side_name, related_row_name, "center" )
-            ]
-
-            for loop_side_name, loop_row, loop_sticker in loop_data:
-
-                row_index = None
-                if loop_row == "top":
-                    row_index = 0
-                elif loop_row == "middle":
-                    row_index = 1
-                elif loop_row == "bottom":
-                    row_index = 2
-
-                if loop_sticker == "left":
-                    sticker_index = 0
-                elif loop_sticker == "center":
-                    sticker_index = 1
-                elif loop_sticker == "right":
-                    sticker_index = 2
-
-                value = self[loop_side_name][row_index][sticker_index]
-                return_value[ loop_side_name ] = value
-
-        elif (
-            row in [ "top", "bottom" ] and direction in [ "left", "right" ]
-        ):
-            print( "returning 3 values" )
-            
-        else:
-            raise Exception("check_brick_value side not implemented")
-        
-        # TODO: do not grab all 4 rows of data, only needed sides, min 1, max 3
-        # for side_name, related_row in required_relationships:
-
-        #     if related_row in ["top_row", "bottom_row"]:
-        #         row_index = 0 if related_row == "top_row" else 2
-        #         relationship_data[side_name] = self[side_name][row_index]
-
-        #     elif related_row in ["left_row", "right_row"]:
-        #         sticker_index = 0 if related_row == "left_row" else 2
-        #         related_row_data = [ row[sticker_index] for row in self[side_name] ]
-        #         relationship_data[side_name] = related_row_data
-
-        # print( f"relationship_data: {relationship_data}" )
-        # print( grab_values )
-
-        return return_value
 
 
     def solve_cube( self , step_override=None ):
