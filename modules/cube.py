@@ -671,14 +671,9 @@ class RubiksCube:
         return_data = {}
 
         for side_name in ["top_side", "front_side", "bottom_side", "left_side", "right_side"]:
-            correct_placements = 0
             current_side = self[side_name]
             current_side_center = current_side[1][1]
-            for row_index in range( len( current_side ) ):
-                for sticker_index in range( len( current_side[row_index] ) ):
-                    sticker_value = current_side[row_index][sticker_index]
-                    if sticker_value == current_side_center:
-                        correct_placements += 1
+            correct_placements = str( current_side ).count(current_side_center)
             return_data[side_name] = correct_placements
         print( return_data )
         return return_data
