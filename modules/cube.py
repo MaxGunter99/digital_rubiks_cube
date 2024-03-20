@@ -664,6 +664,9 @@ class RubiksCube:
     
     # given a sticker on a side, I need to know if the attached colors match that side
     def read_brick( self, side_name, row_index, sticker_index ):
+        """
+        this generates prick data in json format, it will return details about each brick along with the parent information
+        """
 
         # config tells us what side data to grab given a side_name, row_index, and sticker_index
         # TODO: improve this in the future, this is hard coded
@@ -673,8 +676,8 @@ class RubiksCube:
                 # TOP ROW
                 [
                     [ ( "left_side", 0, 0 ), ( "back_side", 0, 2 )],
-                    [ ( "back_side", 0, 2 ) ],
-                    [ ( "left_side", 0, 0 ), ( "back_side", 0, 2 ) ],
+                    [ ( "back_side", 0, 1 ) ],
+                    [ ( "left_side", 0, 2 ), ( "back_side", 0, 0 ) ],
                 ],
 
                 # MIDDLE ROW
@@ -687,7 +690,7 @@ class RubiksCube:
                 # BOTTOM ROW
                 [
                     [ ( "left_side", 0, 2 ), ( "front_side", 0, 0 ) ],
-                    [ ( "front_side", 0, 2 ) ],
+                    [ ( "front_side", 0, 1 ) ],
                     [ ( "right_side", 0, 0 ), ( "front_side", 0, 2 ) ]
                 ]
             ],
@@ -695,7 +698,7 @@ class RubiksCube:
                 # TOP ROW
                 [
                     [ ( "top_side", 2, 0 ), ( "left_side", 0, 2 ) ],
-                    [ ( "top_side", 2, 2 ) ],
+                    [ ( "top_side", 2, 1 ) ],
                     [ ( "right_side", 0, 0 ), ( "top_side", 2, 2 ) ],
                 ],
                 
@@ -708,9 +711,9 @@ class RubiksCube:
 
                 # BOTTOM ROW
                 [
-                    [ ( "left_side", 0, 2 ), ( "front_side", 0, 0 ) ],
-                    [ ( "front_side", 0, 2 ) ],
-                    [ ( "right_side", 0, 0 ), ( "front_side", 0, 2 ) ]
+                    [ ( "left_side", 2, 2 ), ( "bottom_side", 0, 0 ) ],
+                    [ ( "bottom_side", 0, 1 ) ],
+                    [ ( "right_side", 0, 0 ), ( "bottom_side", 0, 2 ) ]
                 ]
             ],
             "bottom_side": [ 
@@ -718,7 +721,7 @@ class RubiksCube:
                 # TOP ROW
                 [
                     [ ( "front_side", 2, 0 ), ( "left_side", 2, 2 ) ],
-                    [ ( "front_side", 2, 2 ) ],
+                    [ ( "front_side", 2, 1 ) ],
                     [ ( "right_side", 2, 0 ), ( "front_side", 2, 2 ) ],
                 ],
                 
@@ -786,23 +789,32 @@ class RubiksCube:
         check_brick_relationships = side_relationship_mappings[side_name][row_index][sticker_index]
 
         related_values = {}
+        related_values["parent_data"] = {
+            "parent_side": side_name,
+            "parent_row_index": row_index,
+            "parent_sticker_index": sticker_index,
+            "parent_value": self[side_name][row_index][sticker_index]
+        }
         cube_in_place = False
         for related_side_name, related_row_index, related_sticker_index in check_brick_relationships:
             related_side_data = self[related_side_name]
             related_value = related_side_data[related_row_index][related_sticker_index]
             related_side_center = related_side_data[1][1]
             matches_side_center = related_side_center == related_value
-            related_values[related_side_name] = {
-                "row_index": related_row_index,
-                "related_sticker_index": related_sticker_index,
-                "value": related_value,
-                "matches_side": matches_side_center
-            }
+                
+            # only include parent data if its a center piece
+            if ( row_index, sticker_index ) != ( 1, 1 ):
+                related_values[related_side_name] = {
+                    "row_index": related_row_index,
+                    "related_sticker_index": related_sticker_index,
+                    "value": related_value,
+                    "matches_side": matches_side_center,
+                }
             cube_in_place = matches_side_center
         # print( side_name, related_values )
         return related_values, cube_in_place
 
-    def check_sides( self ):
+    def check_sides( self, value_override=None ):
         """
         this returns how many pieces per side match that side
         a perfect cube should return this
@@ -814,6 +826,8 @@ class RubiksCube:
             'top_side': {'brick_data': {...}, 'cubes_in_place': 9}
         }
         cubes_in_place minimum is always 1, the center brick
+        if you pass value_override, it will only return data for that side value
+        ex: you are trying find all of the 'g' pieces and their related side data
         """
 
         return_data = {}
@@ -824,26 +838,35 @@ class RubiksCube:
             current_side = self[side_name]
             current_side_center = current_side[1][1]
             cubes_in_place = 0
+            collected_data = []
 
             for row_index in range( len( current_side ) ):
                 for sticker_index in range( len( current_side[ row_index ] ) ):
                     sticker_value = current_side[ row_index ][ sticker_index ]
 
-                    # print( side_name, row_index, sticker_index, sticker_value )
-                    if sticker_value == current_side_center:
+                    if value_override is not None and sticker_value != value_override:
+                        pass
+
+                    elif (
+                        value_override is not None and sticker_value == value_override
+                        or value_override is None and sticker_value == current_side_center
+                    ):
                         brick_data, cube_in_place = self.read_brick( side_name, row_index, sticker_index )
                         if cube_in_place:
                             cubes_in_place += 1
+                        collected_data.append( brick_data )
 
 
             # tracking what side has the most cubes in place, a good starting point
-            return_data[side_name] = {
-                "brick_data": brick_data,
-                "cubes_in_place": cubes_in_place
-            }
+            if collected_data != []:
+                return_data[side_name] = {
+                    "brick_data": collected_data,
+                    "cubes_in_place": cubes_in_place
+                }
             if best_side_value == None or cubes_in_place > best_side_value:
                 best_side_name = side_name
                 best_side_value = cubes_in_place
+
         return_data["best_side_data"] = {
             "side_name": best_side_name,
             "cubes_in_place": best_side_value
@@ -885,12 +908,10 @@ class RubiksCube:
             cube_analysis = self.check_sides()
             best_side_data = cube_analysis.get( "best_side_data" )
             best_side_name = best_side_data.get( "side_name" )
-            # print( f"initial best_side_data: {best_side_data}" )
 
-            if best_side_name == "top_side":
-                step_1_status = "PASS"
+            print( f"initial best_side_data: {best_side_data}" )
 
-            else:
+            if best_side_name != "top_side":
                 rotation_mapping = {
                     "front_side": [
                         ("up", 1)
@@ -924,6 +945,19 @@ class RubiksCube:
             if best_side_name != "top_side":
                 details = f"Step 1: best side needs to be top_side, it is returning: {best_side_name}"
                 step_1_errors.append( details )
+
+            # what if we have a mixed cube?
+            # what pieces need to be moved?
+            # can this be found on the cube analysis?
+            # you need to find all of the pieces you are trying to solve for with their related data
+            # what value do we need to find?
+            top_color_value = self.top_side[1][1]
+            top_color_locations = self.check_sides( top_color_value )
+
+            print( f"self.top_side: {self.top_side}" )
+            print( f"top_color_value: {top_color_value}" )
+            print( f"top_color_locations: {top_color_locations}" )
+            
 
             if len( step_1_errors ):
                 print( f"Errors in step 1: {step_1_errors}" )
