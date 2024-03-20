@@ -358,7 +358,25 @@ cube_client = RubiksCube()
 # )
 # PASSES - perfect cube
 
-cube_client.shuffle_cube( random_turns_count=10 )
+# cube_client.shuffle_cube( random_turns_count=10 )
+# print("------")
+# cube_client.print_tracked_moves()
 
+# STEP 1 MANUAL TESTING
+# cube_client.move_cube(
+#     section="bottom",
+#     orientation="horizontal",
+#     direction="left",
+#     turns=1
+# )
+cube_client.move_cube(
+    section="top",
+    orientation="horizontal",
+    direction="left",
+    turns=1
+)
 cube_client.visualize_cube()
+cube_client.check_sides()
+cube_client.solve_cube()
+
 

@@ -799,7 +799,7 @@ class RubiksCube:
                 "matches_side": matches_side_center
             }
             cube_in_place = matches_side_center
-        print( side_name, related_values )
+        # print( side_name, related_values )
         return related_values, cube_in_place
 
     def check_sides( self ):
@@ -844,10 +844,13 @@ class RubiksCube:
             if best_side_value == None or cubes_in_place > best_side_value:
                 best_side_name = side_name
                 best_side_value = cubes_in_place
+        return_data["best_side_data"] = {
+            "side_name": best_side_name,
+            "cubes_in_place": best_side_value
+        }
 
-
-        pprint( return_data, depth=2 )
-        print( best_side_name, best_side_value )
+        # pprint( return_data, depth=2 )
+        # print( best_side_name, best_side_value )
         return return_data
 
 
@@ -856,17 +859,77 @@ class RubiksCube:
 
     def solve_cube( self , step_override=None ):
         """
-        This function should output a list of moves to solve the cube
+        This function should output a list of moves to solve the cube. 
+        step format: [ class_function, args ]
+        real example: [ 'rotate_cube', 'up', 1 ]
 
         we need to:
             1. determine what steps have already been completed on the cube, lets write some real tests, TDD
             2. We need a solve loop that will perform each step of the solve process
         """
 
-        if step_override == 1:
-            print( "Starting Step 1!" )
-            # what do we want to assert? What were testing, the top cross needs to be solved
+        steps_to_solve = []
 
+        step_1_status = "FAIL"
+
+        if step_override == None or step_override == 1:
+            print( "Starting Step 1!" )
+            step_1_errors = []
+            # what do we want to assert? What were testing, the top cross needs to be solved
+            # run check cube function to find the side with the most matching pieces, we can find this in best_side_data
+            # 'best_side_data': {'side_name': 'top_side', 'cubes_in_place': 9}
+
+            # if this is the top_side keep it there, if not rotate the cube to get the best side_name to the top
+            # how does step 1 pass? the best_side_name needs to == top_side
+            cube_analysis = self.check_sides()
+            best_side_data = cube_analysis.get( "best_side_data" )
+            best_side_name = best_side_data.get( "side_name" )
+            print( f"initial best_side_data: {best_side_data}" )
+
+            if best_side_name == "top_side":
+                step_1_status = "PASS"
+
+            else:
+                rotation_mapping = {
+                    "front_side": [
+                        ("up", 1)
+                    ],
+                    "back_side": [
+                        ("down", 1)
+                    ],
+                    "left_side": [
+                        ("right", 1),
+                        ("up", 1)
+                    ],
+                    "right_side": [
+                        ("left", 1),
+                        ("up", 1)
+                    ],
+                    "bottom_side": [
+                        ("up", 2)
+                    ]
+                }
+                steps_to_pass = rotation_mapping.get( best_side_name )
+                for direction, turns in steps_to_pass:
+                    self.rotate_cube( direction, turns )
+                    steps_to_solve.append({"rotate_cube", direction, turns})
+
+                    # re-run cube analysis function
+                    updated_cube_analysis = self.check_sides()
+                    best_side_data = updated_cube_analysis.get( "best_side_data" )
+                    best_side_name = best_side_data.get( "side_name" )
+
+            if best_side_name != "top_side":
+                details = f"Step 1: best side needs to be top_side, it is returning: {best_side_name}"
+                step_1_errors.append( details )
+
+            if len( step_1_errors ):
+                print( f"Errors in step 1: {step_1_errors}" )
+                raise Exception( f"Errors in step 1: {step_1_errors}" )
+            else:
+                step_1_status = "PASS"
+
+        print(f"steps_to_solve: {steps_to_solve}")
         return
     
 
