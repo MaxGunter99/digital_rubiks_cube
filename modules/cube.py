@@ -873,6 +873,7 @@ class RubiksCube:
         step_1_status = "FAIL"
 
         if step_override == None or step_override == 1:
+
             print( "Starting Step 1!" )
             step_1_errors = []
             # what do we want to assert? What were testing, the top cross needs to be solved
@@ -884,7 +885,7 @@ class RubiksCube:
             cube_analysis = self.check_sides()
             best_side_data = cube_analysis.get( "best_side_data" )
             best_side_name = best_side_data.get( "side_name" )
-            print( f"initial best_side_data: {best_side_data}" )
+            # print( f"initial best_side_data: {best_side_data}" )
 
             if best_side_name == "top_side":
                 step_1_status = "PASS"
@@ -912,7 +913,8 @@ class RubiksCube:
                 steps_to_pass = rotation_mapping.get( best_side_name )
                 for direction, turns in steps_to_pass:
                     self.rotate_cube( direction, turns )
-                    steps_to_solve.append({"rotate_cube", direction, turns})
+                    step_data = ["rotate_cube", direction, turns]
+                    steps_to_solve.append( step_data )
 
                     # re-run cube analysis function
                     updated_cube_analysis = self.check_sides()
@@ -929,8 +931,11 @@ class RubiksCube:
             else:
                 step_1_status = "PASS"
 
+        print({
+            "step_1_status": step_1_status
+        })
         print(f"steps_to_solve: {steps_to_solve}")
-        return
+        return steps_to_solve
     
 
 
