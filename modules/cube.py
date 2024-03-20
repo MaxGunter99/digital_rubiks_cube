@@ -661,21 +661,193 @@ class RubiksCube:
             self.move_cube( move_section, move_orientation, move_direction, move_turns )
 
         return True
+    
+    # given a sticker on a side, I need to know if the attached colors match that side
+    def read_brick( self, side_name, row_index, sticker_index ):
+
+        # config tells us what side data to grab given a side_name, row_index, and sticker_index
+        # TODO: improve this in the future, this is hard coded
+        side_relationship_mappings = {
+            "top_side": [ 
+
+                # TOP ROW
+                [
+                    [ ( "left_side", 0, 0 ), ( "back_side", 0, 2 )],
+                    [ ( "back_side", 0, 2 ) ],
+                    [ ( "left_side", 0, 0 ), ( "back_side", 0, 2 ) ],
+                ],
+
+                # MIDDLE ROW
+                [
+                    [ ( "left_side", 0, 1 ) ],
+                    [ ( "top_side", 1, 1 ) ],
+                    [ ( "right_side", 0, 1 ) ],
+                ],
+
+                # BOTTOM ROW
+                [
+                    [ ( "left_side", 0, 2 ), ( "front_side", 0, 0 ) ],
+                    [ ( "front_side", 0, 2 ) ],
+                    [ ( "right_side", 0, 0 ), ( "front_side", 0, 2 ) ]
+                ]
+            ],
+            "front_side": [ 
+                # TOP ROW
+                [
+                    [ ( "top_side", 2, 0 ), ( "left_side", 0, 2 ) ],
+                    [ ( "top_side", 2, 2 ) ],
+                    [ ( "right_side", 0, 0 ), ( "top_side", 2, 2 ) ],
+                ],
+                
+                # MIDDLE ROW
+                [
+                    [ ( "left_side", 1, 2 ) ],
+                    [ ( "front_side", 1, 1 ) ],
+                    [ ( "right_side", 1, 0 ) ],
+                ],
+
+                # BOTTOM ROW
+                [
+                    [ ( "left_side", 0, 2 ), ( "front_side", 0, 0 ) ],
+                    [ ( "front_side", 0, 2 ) ],
+                    [ ( "right_side", 0, 0 ), ( "front_side", 0, 2 ) ]
+                ]
+            ],
+            "bottom_side": [ 
+
+                # TOP ROW
+                [
+                    [ ( "front_side", 2, 0 ), ( "left_side", 2, 2 ) ],
+                    [ ( "front_side", 2, 2 ) ],
+                    [ ( "right_side", 2, 0 ), ( "front_side", 2, 2 ) ],
+                ],
+                
+                # MIDDLE ROW
+                [
+                    [ ( "left_side", 2, 1 ) ],
+                    [ ( "bottom_side", 1, 1 ) ],
+                    [ ( "right_side", 2, 1 ) ],
+                ],
+
+                # BOTTOM ROW
+                [
+                    [ ( "left_side", 2, 0 ), ( "back_side", 2, 2 ) ],
+                    [ ( "back_side", 2, 1 ) ],
+                    [ ( "back_side", 2, 0 ), ( "right_side", 2, 2 ) ]
+                ]
+            ],
+            "left_side": [ 
+
+                # TOP ROW
+                [
+                    [ ( "back_side", 0, 2 ), ( "top_side", 0, 0 ) ],
+                    [ ( "top_side", 1, 0 ) ],
+                    [ ( "top_side", 2, 0 ), ( "front_side", 0, 0 ) ],
+                ],
+                
+                # MIDDLE ROW
+                [
+                    [ ( "back_side", 1, 2 ) ],
+                    [ ( "left_side", 1, 1 ) ],
+                    [ ( "front_side", 1, 0 ) ],
+                ],
+
+                # BOTTOM ROW
+                [
+                    [ ( "back_side", 2, 2 ), ( "bottom_side", 2, 0 ) ],
+                    [ ( "bottom_side", 1, 0 ) ],
+                    [ ( "bottom_side", 0, 0 ), ( "front_side", 2, 0 ) ]
+                ]
+            ],
+            "right_side": [ 
+
+                # TOP ROW
+                [
+                    [ ( "top_side", 2, 2 ), ( "front_side", 0, 2 ) ],
+                    [ ( "top_side", 1, 2 ) ],
+                    [ ( "top_side", 0, 2 ), ( "back_side", 0, 0 ) ],
+                ],
+                
+                # MIDDLE ROW
+                [
+                    [ ( "front_side", 1, 2 ) ],
+                    [ ( "right_side", 1, 1 ) ],
+                    [ ( "back_side", 1, 0 ) ],
+                ],
+
+                # BOTTOM ROW
+                [
+                    [ ( "front_side", 2, 2 ), ( "bottom_side", 0, 2 ) ],
+                    [ ( "bottom_side", 1, 2 ) ],
+                    [ ( "bottom_side", 2, 2 ), ( "back_side", 2, 0 ) ]
+                ]
+            ]
+        }
+        check_brick_relationships = side_relationship_mappings[side_name][row_index][sticker_index]
+
+        related_values = {}
+        cube_in_place = False
+        for related_side_name, related_row_index, related_sticker_index in check_brick_relationships:
+            related_side_data = self[related_side_name]
+            related_value = related_side_data[related_row_index][related_sticker_index]
+            related_side_center = related_side_data[1][1]
+            matches_side_center = related_side_center == related_value
+            related_values[related_side_name] = {
+                "row_index": related_row_index,
+                "related_sticker_index": related_sticker_index,
+                "value": related_value,
+                "matches_side": matches_side_center
+            }
+            cube_in_place = matches_side_center
+        print( side_name, related_values )
+        return related_values, cube_in_place
 
     def check_sides( self ):
         """
         this returns how many pieces per side match that side
         a perfect cube should return this
-        {'top_side': 9, 'front_side': 9, 'bottom_side': 9, 'left_side': 9, 'right_side': 9}
+        {
+            'bottom_side': {'brick_data': {...}, 'cubes_in_place': 9},
+            'front_side': {'brick_data': {...}, 'cubes_in_place': 9},
+            'left_side': {'brick_data': {...}, 'cubes_in_place': 9},
+            'right_side': {'brick_data': {...}, 'cubes_in_place': 9},
+            'top_side': {'brick_data': {...}, 'cubes_in_place': 9}
+        }
+        cubes_in_place minimum is always 1, the center brick
         """
+
         return_data = {}
+        best_side_name = None # this is where to start
+        best_side_value = None
 
         for side_name in ["top_side", "front_side", "bottom_side", "left_side", "right_side"]:
             current_side = self[side_name]
             current_side_center = current_side[1][1]
-            correct_placements = str( current_side ).count(current_side_center)
-            return_data[side_name] = correct_placements
-        print( return_data )
+            cubes_in_place = 0
+
+            for row_index in range( len( current_side ) ):
+                for sticker_index in range( len( current_side[ row_index ] ) ):
+                    sticker_value = current_side[ row_index ][ sticker_index ]
+
+                    # print( side_name, row_index, sticker_index, sticker_value )
+                    if sticker_value == current_side_center:
+                        brick_data, cube_in_place = self.read_brick( side_name, row_index, sticker_index )
+                        if cube_in_place:
+                            cubes_in_place += 1
+
+
+            # tracking what side has the most cubes in place, a good starting point
+            return_data[side_name] = {
+                "brick_data": brick_data,
+                "cubes_in_place": cubes_in_place
+            }
+            if best_side_value == None or cubes_in_place > best_side_value:
+                best_side_name = side_name
+                best_side_value = cubes_in_place
+
+
+        pprint( return_data, depth=2 )
+        print( best_side_name, best_side_value )
         return return_data
 
 
