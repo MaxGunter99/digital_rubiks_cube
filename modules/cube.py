@@ -743,7 +743,7 @@ class RubiksCube:
 
                 # TOP ROW
                 [
-                    [ ( "top_side", 0, 3 ), ( "right_side", 0, 2 ) ],
+                    [ ( "top_side", 0, 2 ), ( "right_side", 0, 2 ) ],
                     [ ( "top_side", 0, 1 ) ],
                     [ ( "top_side", 0, 0 ), ( "left_side", 0, 0 ) ],
                 ],
@@ -824,6 +824,7 @@ class RubiksCube:
         cube_in_place = False
         for related_side_name, related_row_index, related_sticker_index in check_brick_relationships:
             related_side_data = self[related_side_name]
+            print( related_sticker_index )
             related_value = related_side_data[related_row_index][related_sticker_index]
             related_side_center = related_side_data[1][1]
             matches_side_center = related_side_center == related_value

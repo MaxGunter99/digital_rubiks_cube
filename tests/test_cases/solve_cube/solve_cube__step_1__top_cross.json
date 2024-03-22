@@ -13,7 +13,10 @@
     , "STEP_NAME": "1. Solve the top cross"
     , "STEP_NUMBER": 1
     , "STEPS_TO_SOLVE": [
-        ["rotate_cube", "up", 2]
+        ["move_cube", "top", "horizontal", "left", 1], 
+        ["rotate_cube", "right", 1], 
+        ["move_cube", "right", "vertical", "up", 1], 
+        ["move_cube", "left", "vertical", "down", 1]
     ]
     , "TEST_CUBE_OVERRIDE": [
         [
@@ -59,8 +62,8 @@
         {
             "expected_side": "front_side",
             "expected_value": [
-                [ null, "b", null ],
-                [ null, "b", null ],
+                [ null, "r", null ],
+                [ null, "r", null ],
                 [ null, null, null ]
             ]
         },
@@ -75,24 +78,24 @@
         {
             "expected_side": "back_side",
             "expected_value": [
-                [ null, "g", null ],
-                [ null, "g", null ],
+                [ null, "o", null ],
+                [ null, "o", null ],
                 [ null, null, null ]
             ]
         },
         {
             "expected_side": "left_side",
             "expected_value": [
-                [ null, "r", null ],
-                [ null, "r", null ],
+                [ null, "g", null ],
+                [ null, "g", null ],
                 [ null, null, null ]
             ]
         },
         {
             "expected_side": "right_side",
             "expected_value": [
-                [ null, "o", null ],
-                [ null, "o", null ],
+                [ null, "b", null ],
+                [ null, "b", null ],
                 [ null, null, null ]
             ]
         }
