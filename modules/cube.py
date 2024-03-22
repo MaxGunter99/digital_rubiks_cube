@@ -809,9 +809,7 @@ class RubiksCube:
                 ]
             ]
         }
-        print( f"SIDE NAME: {side_name}" )
         check_brick_relationships = side_relationship_mappings[side_name][row_index][sticker_index]
-
         related_values = {}
         parent_value = self[side_name][row_index][sticker_index]
         parent_center_color = self[side_name][1][1]
@@ -995,56 +993,54 @@ class RubiksCube:
                 bottom_row_pieces = []
 
                 for side_name, side_data in top_color_locations.items():
-                    print( f"Checking this sides data: {side_name}" )
+                    # print( f"Checking this sides data: {side_name}" )
 
-                    # if side_name == "best_side_data":
-                    #     continue
+                    if side_name == "best_side_data":
+                        continue
 
-                    if side_name != "best_side_data":
+                    sides_brick_data = side_data.get("brick_data")
 
-                        sides_brick_data = side_data.get("brick_data")
+                    for color_data in sides_brick_data:
+                        # length of 2
+                        # parent containing top_color_value
+                        if len( color_data ) == 2:
 
-                        for color_data in sides_brick_data:
-                            # length of 2
-                            # parent containing top_color_value
-                            if len( color_data ) == 2:
+                            # if both colors match the sides center, ie matches_side == True for parent and related sides then we should not move them
+                            brick_is_perfect = True if False not in [ color_data[i]["matches_side"] for i in color_data.keys() ] else False
+                            # print( f"brick_is_perfect??? {brick_is_perfect}" )
+                            bricks_parent_data = color_data["parent_data"]
 
-                                # if both colors match the sides center, ie matches_side == True for parent and related sides then we should not move them
-                                brick_is_perfect = True if False not in [ color_data[i]["matches_side"] for i in color_data.keys() ] else False
-                                print( f"brick_is_perfect??? {brick_is_perfect}" )
-                                bricks_parent_data = color_data["parent_data"]
+                            # if brick_is_perfect:
+                            bricks_parent_row = bricks_parent_data.get("parent_row_index")
+                            bricks_parent_sticker = bricks_parent_data.get("parent_sticker_index")
+                            top_indexes_to_fix[ ( bricks_parent_row, bricks_parent_sticker ) ] = brick_is_perfect
 
-                                # if brick_is_perfect:
-                                bricks_parent_row = bricks_parent_data.get("parent_row_index")
-                                bricks_parent_sticker = bricks_parent_data.get("parent_sticker_index")
-                                top_indexes_to_fix[ ( bricks_parent_row, bricks_parent_sticker ) ] = brick_is_perfect
+                            if not brick_is_perfect:
+                                # sorting pieces if they are not perfect
+                                parent_side = bricks_parent_data.get("parent_side")
+                                if parent_side == "top_side":
+                                    top_row_pieces.append( color_data )
 
-                                if not brick_is_perfect:
-                                    # sorting pieces if they are not perfect
-                                    parent_side = bricks_parent_data.get("parent_side")
-                                    if parent_side == "top_side":
-                                        top_row_pieces.append( color_data )
+                                elif (
+                                    "front_side" in color_data.keys() and color_data["front_side"]["row_index"] == 1
+                                    or "back_side" in color_data.keys() and color_data["back_side"]["row_index"] == 1
+                                    or "left_side" in color_data.keys() and color_data["left_side"]["row_index"] == 1
+                                    or "right_side" in color_data.keys() and color_data["right_side"]["row_index"] == 1
+                                ):
+                                    middle_row_pieces.append( color_data )
 
-                                    elif (
-                                        "front_side" in color_data.keys() and color_data["front_side"]["row_index"] == 1
-                                        or "back_side" in color_data.keys() and color_data["back_side"]["row_index"] == 1
-                                        or "left_side" in color_data.keys() and color_data["left_side"]["row_index"] == 1
-                                        or "right_side" in color_data.keys() and color_data["right_side"]["row_index"] == 1
-                                    ):
-                                        middle_row_pieces.append( color_data )
+                                elif (
+                                    parent_side == "bottom_side"
+                                    or "front_side" in color_data.keys() and color_data["front_side"]["row_index"] == 2
+                                    or "back_side" in color_data.keys() and color_data["back_side"]["row_index"] == 2
+                                    or "left_side" in color_data.keys() and color_data["left_side"]["row_index"] == 2
+                                    or "right_side" in color_data.keys() and color_data["right_side"]["row_index"] == 2
+                                ):
+                                    bottom_row_pieces.append( color_data )
+                                else:
+                                    raise Exception( "Unsorted piece" )
 
-                                    elif (
-                                        parent_side == "bottom_side"
-                                        or "front_side" in color_data.keys() and color_data["front_side"]["row_index"] == 2
-                                        or "back_side" in color_data.keys() and color_data["back_side"]["row_index"] == 2
-                                        or "left_side" in color_data.keys() and color_data["left_side"]["row_index"] == 2
-                                        or "right_side" in color_data.keys() and color_data["right_side"]["row_index"] == 2
-                                    ):
-                                        bottom_row_pieces.append( color_data )
-                                    else:
-                                        raise Exception( "Unsorted piece" )
-
-                                top_cross_pieces.append( color_data )
+                            top_cross_pieces.append( color_data )
 
                 return ( top_cross_pieces, top_row_pieces, middle_row_pieces, bottom_row_pieces, top_indexes_to_fix )
             
@@ -1052,6 +1048,7 @@ class RubiksCube:
             game_loop_max_count = 5
             game_loop_iteration = 0
             game_loop_complete = False
+
             while (
                 game_loop_max_count < 10 
                 or game_loop_complete == False and game_loop_iteration < game_loop_max_count
@@ -1060,8 +1057,11 @@ class RubiksCube:
                 print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
 
                 top_cross_pieces, top_row_pieces, middle_row_pieces, bottom_row_pieces, top_indexes_to_fix = refresh_data()
-                game_loop_complete = True if False not in [ is_perfect for _, is_perfect in top_indexes_to_fix ] else False
-                if game_loop_complete:
+                game_loop_complete_check = [ is_perfect for _, is_perfect in top_indexes_to_fix.items() ]
+                print( f"game_loop_complete_check: {game_loop_complete_check}" )
+                if False not in game_loop_complete_check:
+                    print("COMPLETE")
+                    game_loop_complete = True
                     break
 
                 # print( f"top_indexes_to_fix: {top_indexes_to_fix}" )
@@ -1114,6 +1114,7 @@ class RubiksCube:
                         move_from_to = ( piece_side, to_side_mappings[ piece_color ] )
                         section, orientation, direction, turns = from_to_move_config[move_from_to]
                         self.move_cube( section, orientation, direction, turns )
+                        steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
                         continue
 
                     else:
@@ -1133,9 +1134,6 @@ class RubiksCube:
                     parent_color = piece_parent_data.get("parent_value")
                     parent_side = piece_parent_data.get("parent_side")
                     parent_sticker_index = piece_parent_data.get("parent_sticker_index")
-
-                    # print( piece )
-                    # print( piece_side )
 
                     to_side_mappings = {
                         self.front_side[1][1]: "front_side",
@@ -1161,17 +1159,17 @@ class RubiksCube:
                     move_from_to = ( parent_side, destination_side, parent_sticker_index )
                     required_moves = from_to_move_config[ move_from_to ]
 
-                    # print( required_moves )
-
                     for move in required_moves:
                         print( move )
                         if move[0] == "rotate_cube":
                             _, direction, turns = move
                             self.rotate_cube( direction, turns )
+                            steps_to_solve.append( ["rotate_cube", direction, turns] )
 
                         elif move[0] == "move_cube": 
                             _, section, orientation, direction, turns = move
                             self.move_cube( section, orientation, direction, turns )
+                            steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
 
                     continue
 
@@ -1184,15 +1182,16 @@ class RubiksCube:
                     break
 
                 else:
-                    self.visualize_cube()
-                    raise Exception("No pieces to fix!")
+                    break
+                    # self.visualize_cube()
+                    # raise Exception("No pieces to fix!")
 
 
             if len( step_1_errors ):
                 print( f"Errors in step 1: {step_1_errors}" )
                 raise Exception( f"Errors in step 1: {step_1_errors}" )
             else:
-                step_1_status = "PASS" if False not in [ is_perfect for _, is_perfect in top_indexes_to_fix ] else "FAIL"
+                step_1_status = "PASS" if False not in [ is_perfect for _, is_perfect in top_indexes_to_fix.items() ] else "FAIL"
 
         print({
             "step_1_status": step_1_status
