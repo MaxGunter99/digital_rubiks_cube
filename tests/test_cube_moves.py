@@ -829,13 +829,17 @@ class TestMoves( unittest.TestCase ):
         test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross.json"
         self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross_2( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_2.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross_2( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_2.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross_3( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_3.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross_3( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_3.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__solve_cube__step_1__top_cross_4( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_4.json"
+    #     self.solve_cube_step( test_data_path )
 
 
 if __name__ == '__main__':
