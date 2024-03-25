@@ -85,7 +85,7 @@
 		// Activity Bar — The Activity Bar is displayed either on the far left or right of the workbench and allows fast switching between views of the Side Bar.
 		"activityBar.background": "#0f83e9",
 		"activityBar.foreground": "#000000",
-		"activityBar.border": "#000000",
+		"activityBar.border": "#0f83e9",
 		"activityBarBadge.background": "#000000",
 		"activityBarBadge.foreground": "#ffffff",
 
@@ -238,7 +238,7 @@
 		// Status Bar Colors — The Status Bar is shown in the bottom of the workbench.
 		"statusBar.background": "#31c12f",
 		"statusBar.foreground": "#000000",
-		"statusBar.border": "#86CEC0",
+		"statusBar.border": "#31c12f",
 		"statusBar.debuggingBackground": "#86CEC0",
 		"statusBar.debuggingForeground": "#000000",
 		"statusBar.debuggingBorder": "#86CEC0",
@@ -255,7 +255,7 @@
 		"titleBar.activeForeground": "#000000",
 		"titleBar.inactiveBackground": "#86CEC0",
 		"titleBar.inactiveForeground": "#000000",
-		"titleBar.border": "#86CEC0",
+		"titleBar.border": "#d82121",
 
 		// Notification Colors — Notification toasts slide up from the bottom-right of the workbench.
 		// "notificationCenter.border": "",
