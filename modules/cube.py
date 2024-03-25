@@ -9,8 +9,8 @@ import copy
 # random values for colors can not be given manually until later
 
 # OUTPUT ACTIONS
-print_moves = True
-# print_moves = False # this is much faster without logging
+# print_moves = True
+print_moves = False # this is much faster without logging
 
 # RubiksCube is a class
 # but the cube reference is a namedtuple, this enables us to use stuff like:
@@ -824,7 +824,6 @@ class RubiksCube:
         cube_in_place = False
         for related_side_name, related_row_index, related_sticker_index in check_brick_relationships:
             related_side_data = self[related_side_name]
-            print( related_sticker_index )
             related_value = related_side_data[related_row_index][related_sticker_index]
             related_side_center = related_side_data[1][1]
             matches_side_center = related_side_center == related_value
@@ -922,6 +921,9 @@ class RubiksCube:
 
         steps_to_solve = []
 
+        print( "initial cube" )
+        self.visualize_cube()
+
         step_1_status = "FAIL"
 
         if step_override == None or step_override == 1:
@@ -988,7 +990,6 @@ class RubiksCube:
                 }
                 top_color_value = self.top_side[1][1]
                 top_color_locations = self.check_sides( top_color_value )
-                top_cross_pieces = []
                 top_row_pieces = []
                 middle_row_pieces = []
                 bottom_row_pieces = []
@@ -1012,6 +1013,7 @@ class RubiksCube:
                             bricks_parent_data = color_data["parent_data"]
 
                             # if brick_is_perfect:
+                            bricks_parent_side = bricks_parent_data.get("parent_side")
                             bricks_parent_row = bricks_parent_data.get("parent_row_index")
                             bricks_parent_sticker = bricks_parent_data.get("parent_sticker_index")
                             top_indexes_to_fix[ ( bricks_parent_row, bricks_parent_sticker ) ] = brick_is_perfect
@@ -1019,7 +1021,10 @@ class RubiksCube:
                             if not brick_is_perfect:
                                 # sorting pieces if they are not perfect
                                 parent_side = bricks_parent_data.get("parent_side")
-                                if parent_side == "top_side":
+                                if (
+                                    parent_side == "top_side"
+                                    or bricks_parent_side in [ "front_side", "back_side", "left_side", "right_side" ] and bricks_parent_row == 0
+                                ):
                                     top_row_pieces.append( color_data )
 
                                 elif (
@@ -1039,11 +1044,9 @@ class RubiksCube:
                                 ):
                                     bottom_row_pieces.append( color_data )
                                 else:
-                                    raise Exception( "Unsorted piece" )
+                                    raise Exception( f"Unsorted piece while sorting into rows: {color_data}" )
 
-                            top_cross_pieces.append( color_data )
-
-                return ( top_cross_pieces, top_row_pieces, middle_row_pieces, bottom_row_pieces, top_indexes_to_fix )
+                return ( top_row_pieces, middle_row_pieces, bottom_row_pieces, top_indexes_to_fix )
             
             # change this to 
             game_loop_max_count = 5
@@ -1056,10 +1059,14 @@ class RubiksCube:
             ): 
                 game_loop_iteration += 1
                 print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
+                self.visualize_cube()
 
-                top_cross_pieces, top_row_pieces, middle_row_pieces, bottom_row_pieces, top_indexes_to_fix = refresh_data()
+                if game_loop_iteration >= game_loop_max_count:
+                    break
+
+                top_row_pieces, middle_row_pieces, bottom_row_pieces, top_indexes_to_fix = refresh_data()
+
                 game_loop_complete_check = [ is_perfect for _, is_perfect in top_indexes_to_fix.items() ]
-                print( f"game_loop_complete_check: {game_loop_complete_check}" )
                 if False not in game_loop_complete_check:
                     print("COMPLETE")
                     game_loop_complete = True
@@ -1080,9 +1087,11 @@ class RubiksCube:
                     print( "\nFixing top piece" )
 
                     piece = top_row_pieces[0]
+                    print( piece )
                     piece_side = [ key for key in piece.keys() if key != "parent_data" ][0]
                     piece_color = piece[ piece_side ][ "value" ]
                     piece_parent_data = piece.get("parent_data")
+                    parent_side = piece_parent_data.get("parent_side")
                     parent_color = piece_parent_data.get("parent_value")
 
                     to_side_mappings = {
@@ -1092,30 +1101,56 @@ class RubiksCube:
                         self.right_side[1][1]: "right_side"
                     } 
                     from_to_move_config = {
-                        ( "front_side", "left_side" ): ( "top", "horizontal", "left", 1 ),
-                        ( "front_side", "right_side" ): ( "top", "horizontal", "right", 1 ),
-                        ( "front_side", "back_side" ): ( "top", "horizontal", "right", 2 ),
+                        ( "front_side", "left_side", "top_side" ): [( "move_cube", "top", "horizontal", "left", 1 )],
+                        ( "front_side", "right_side", "top_side" ): [( "move_cube", "top", "horizontal", "right", 1 )],
+                        ( "front_side", "back_side", "top_side" ): [( "move_cube", "top", "horizontal", "right", 2 )],
 
-                        ( "left_side", "right_side" ): ( "top", "horizontal", "right", 2 ),
-                        ( "left_side", "back_side" ): ( "top", "horizontal", "left", 1 ),
-                        ( "left_side", "front_side" ): ( "top", "horizontal", "right", 1 ),
+                        ( "left_side", "right_side", "top_side" ): [( "move_cube", "top", "horizontal", "right", 2 )],
+                        ( "left_side", "back_side", "top_side" ): [( "move_cube", "top", "horizontal", "left", 1 )],
+                        ( "left_side", "front_side", "top_side" ): [( "move_cube", "top", "horizontal", "right", 1 )],
 
-                        ( "back_side", "right_side" ): ( "top", "horizontal", "left", 1 ),
-                        ( "back_side", "front_side" ): ( "top", "horizontal", "left", 2 ),
-                        ( "back_side", "left_side" ): ( "top", "horizontal", "right", 1 ),
+                        ( "back_side", "right_side", "top_side" ): [( "move_cube", "top", "horizontal", "left", 1 )],
+                        ( "back_side", "front_side", "top_side" ): [( "move_cube", "top", "horizontal", "left", 2 )],
+                        ( "back_side", "left_side", "top_side" ): [( "move_cube", "top", "horizontal", "right", 1 )],
 
-                        ( "right_side", "back_side" ): ( "top", "horizontal", "left", 1 ),
-                        ( "right_side", "front_side" ): ( "top", "horizontal", "right", 1 ),
-                        ( "right_side", "left_side" ): ( "top", "horizontal", "left", 2 ),
+                        ( "right_side", "back_side", "top_side" ): [( "move_cube", "top", "horizontal", "left", 1 )],
+                        ( "right_side", "front_side", "top_side" ): [( "move_cube", "top", "horizontal", "right", 1 )],
+                        ( "right_side", "left_side", "top_side" ): [( "move_cube", "top", "horizontal", "left", 2 )],
+
+                        ( "top_side", "back_side", "front_side" ): [
+                            ( "rotate_cube", "right", 1 ),
+                            ( "move_cube", "right", "vertical", "up", 1 ),
+                            ( "rotate_cube", "left", 1 ),
+                            ( "move_cube", "top", "horizontal", "left", 1 ),
+                            ( "move_cube", "right", "vertical", "up", 1 ),
+                            ( "move_cube", "top", "horizontal", "right", 1 ),
+                        ],
+
                     }
 
                     # if the correct color is already on top, just need to rotate top
                     if parent_color == self.top_side[1][1]:
+
                         # where do we need to end up
-                        move_from_to = ( piece_side, to_side_mappings[ piece_color ] )
-                        section, orientation, direction, turns = from_to_move_config[move_from_to]
-                        self.move_cube( section, orientation, direction, turns )
-                        steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
+                        move_from_to = ( piece_side, to_side_mappings[ piece_color ], parent_side )
+
+                        if move_from_to not in from_to_move_config:
+                            raise Exception( f"Sorting top cross piece is not supported! - {move_from_to}" )
+                        
+                        required_moves = from_to_move_config[ move_from_to ]
+
+                        for move in required_moves:
+                            print( move )
+                            if move[0] == "rotate_cube":
+                                _, direction, turns = move
+                                self.rotate_cube( direction, turns )
+                                steps_to_solve.append( ["rotate_cube", direction, turns] )
+
+                            elif move[0] == "move_cube": 
+                                _, section, orientation, direction, turns = move
+                                self.move_cube( section, orientation, direction, turns )
+                                steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
+
                         continue
 
                     else:
@@ -1186,7 +1221,8 @@ class RubiksCube:
                     break
                     # self.visualize_cube()
                     # raise Exception("No pieces to fix!")
-
+                
+            # ------- GAME LOOP END
 
             if len( step_1_errors ):
                 print( f"Errors in step 1: {step_1_errors}" )
