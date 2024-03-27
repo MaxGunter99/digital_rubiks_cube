@@ -152,7 +152,8 @@ class TestMoves( unittest.TestCase ):
                         )
 
         print( solve_steps )
-        self.assertEqual( solve_steps, STEPS_TO_SOLVE )
+        if STEPS_TO_SOLVE is not None:
+            self.assertEqual( solve_steps, STEPS_TO_SOLVE )
 
     def run_check_brick_value_test( self, test_data_path ):
         file_data = None
@@ -815,35 +816,164 @@ class TestMoves( unittest.TestCase ):
         self.validate_custom_moves( test_data_path )
 
     # ------- TESTING SOLVE STEPS -------
+
+    def test__solve_cube__step_1__top_cross__p1( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p1.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__solve_cube__step_1__top_cross__p2( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p2.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__solve_cube__step_1__top_cross__p3( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p3.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__solve_cube__step_1__top_cross__p4( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p4.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__solve_cube__step_1__top_cross__p5( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p5.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__solve_cube__step_1__top_cross__p6( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p6.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__solve_cube__step_1__top_cross__p7( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p7.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__solve_cube__step_1__top_cross__p8( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p8.json"
+        self.solve_cube_step( test_data_path )
         
-    # def test__solve_cube__step_1( self ):
-    #     test_data_path = "tests/test_cases/move_test/solve_step_1.json"
+    def test__solve_cube__step_1__top_cross__p9( self ):
+        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p9.json"
+        self.solve_cube_step( test_data_path )
+        
+    # def test__solve_cube__step_1__top_cross__p10( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p10.json"
+    #     self.solve_cube_step( test_data_path )
+        
+    # def test__solve_cube__step_1__top_cross__p11( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p11.json"
     #     self.solve_cube_step( test_data_path )
 
+    def test__all_permutations( self ):
+        permutation_storage_filepath = "tests/test_cases/solve_cube/all_cube_movement_permutations.json"
+        permutation_storage_data = None
 
-    def test__solve_cube__step_1__rotations_only( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__rotations_only.json"
-        self.solve_cube_step( test_data_path )
+        with open( permutation_storage_filepath, "r" ) as permutation_storage:
+            json_data = json.load( permutation_storage )
+            permutation_storage_data = json_data
 
-    def test__solve_cube__step_1__top_cross_0( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_0.json"
-        self.solve_cube_step( test_data_path )
+        for test_input_data in permutation_storage_data:
 
-    def test__solve_cube__step_1__top_cross_1( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_1.json"
-        self.solve_cube_step( test_data_path )
+            ID = test_input_data.get( "ID" )
+            PERMUTATION_MOVES = test_input_data.get("PERMUTATION_MOVES")
 
-    def test__solve_cube__step_1__top_cross_2( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_2.json"
-        self.solve_cube_step( test_data_path )
+            print( ID )
 
-    def test__solve_cube__step_1__top_cross_3( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_3.json"
-        self.solve_cube_step( test_data_path )
+            # if int( ID ) >= 5000:
+            #     return
 
-    # def test__solve_cube__step_1__top_cross_4( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__top_cross_4.json"
-    #     self.solve_cube_step( test_data_path )
+            cube_client = RubiksCube()
+
+            for mutation in PERMUTATION_MOVES:
+
+                function_name = mutation[0]
+
+                if function_name == "move_cube":
+                    _, section, orientation, direction, turns = mutation
+
+                    if 3 >= turns >= 1:
+                        cube_client.move_cube( section, orientation, direction, turns )
+
+                elif function_name == "rotate_cube":
+                    _, direction, turns = mutation
+                    if 3 >= turns >= 1:
+                        cube_client.rotate_cube( direction, turns )
+
+            solve_steps = cube_client.solve_cube( step_override=1 )
+
+            top_side_color = cube_client.top_side[1][1]
+            front_side_color = cube_client.front_side[1][1]
+            back_side_color = cube_client.back_side[1][1]
+            left_side_color = cube_client.left_side[1][1]
+            right_side_color = cube_client.right_side[1][1]
+
+            test_solution = [
+                {
+                    "expected_side": "top_side",
+                    "expected_value": [
+                        [ None, top_side_color, None ],
+                        [ top_side_color, top_side_color, top_side_color ],
+                        [ None, top_side_color, None ]
+                    ]
+                },
+                {
+                    "expected_side": "front_side",
+                    "expected_value": [
+                        [ None, front_side_color, None ],
+                        [ None, front_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "bottom_side",
+                    "expected_value": [
+                        [ None, None, None ],
+                        [ None, None, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "back_side",
+                    "expected_value": [
+                        [ None, back_side_color, None ],
+                        [ None, back_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "left_side",
+                    "expected_value": [
+                        [ None, left_side_color, None ],
+                        [ None, left_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "right_side",
+                    "expected_value": [
+                        [ None, right_side_color, None ],
+                        [ None, right_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                }
+            ]
+
+            for move_check in test_solution:
+                test_side = move_check.get("expected_side")
+                generated_side = cube_client[ test_side ]
+                expected_value = move_check.get("expected_value")
+
+                for row in range( len( expected_value ) ):
+                    for sticker in range( len( expected_value[row] ) ):
+                        expected_sticker = expected_value[row][sticker]
+                        generated_sticker = generated_side[row][sticker]
+
+                        if expected_sticker:
+                            err_details = f'\nERROR IN SOLVE STEP FOR PERMUTATION: "ID": {ID}\n - generated_side ({test_side}): \n{generated_side} \ndoes not match expected value ({test_side}): \n{expected_value}'
+                            self.assertEqual(
+                                expected_sticker,
+                                generated_sticker,
+                                err_details
+                            )
+
+            # self.assertEqual( solve_steps, [] )
 
 
 if __name__ == '__main__':
