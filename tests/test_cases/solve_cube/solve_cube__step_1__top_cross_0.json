@@ -1,0 +1,98 @@
+{
+    "TEST_CUBE_OVERRIDE_MOVES_INPUT": [
+        {"action": "move_cube", "section": "middle", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "rotate_cube", "direction": "up", "turns": 2},
+        {"action": "move_cube", "section": "left", "orientation": "vertical", "direction": "down", "turns": 1},
+        {"action": "move_cube", "section": "right", "orientation": "vertical", "direction": "up", "turns": 1},
+        {"action": "move_cube", "section": "middle", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "rotate_cube", "direction": "down", "turns": 1},
+        {"action": "move_cube", "section": "top", "orientation": "horizontal", "direction": "right", "turns": 1},
+        {"action": "move_cube", "section": "bottom", "orientation": "horizontal", "direction": "left", "turns": 1},
+        {"action": "rotate_cube", "direction": "down", "turns": 1}
+    ]
+    , "STEP_NAME": "1. Solve the top cross, do nothing"
+    , "STEP_NUMBER": 1
+    , "STEPS_TO_SOLVE": []
+    , "TEST_CUBE_OVERRIDE": [
+		[
+			[ "w", "w", "w" ],
+			[ "w", "w", "w" ],
+			[ "w", "w", "w" ]
+		],
+		[
+			[ "b", "b", "b" ],
+			[ "b", "b", "b" ],
+			[ "b", "b", "b" ]
+		],
+		[
+			[ "y", "y", "y" ],
+			[ "y", "y", "y" ],
+			[ "y", "y", "y" ]
+		],
+		[
+			[ "g", "g", "g" ],
+			[ "g", "g", "g" ],
+			[ "g", "g", "g" ]
+		],
+		[
+			[ "r", "r", "r" ],
+			[ "r", "r", "r" ],
+			[ "r", "r", "r" ]
+		],
+		[
+			[ "o", "o", "o" ],
+			[ "o", "o", "o" ],
+			[ "o", "o", "o" ]
+		]
+	]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ null, "w", null ],
+                [ "w", "w", "w" ],
+                [ null, "w", null ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ null, "b", null ],
+                [ null, "b", null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ null, null, null ],
+                [ null, null, null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ null, "g", null ],
+                [ null, "g", null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ null, "r", null ],
+                [ null, "r", null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ null, "o", null ],
+                [ null, "o", null ],
+                [ null, null, null ]
+            ]
+        }
+    ]
+}

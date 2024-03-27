@@ -1,14 +1,21 @@
 
 # STEP 1
+
 def solve_cube__step_1( self ):
     """
-    This function should output a list of moves to solve the cube. 
+    This function should output a list of moves to solve the top cross of the cube. 
     step format: [ class_function, args ]
     real example: [ 'rotate_cube', 'up', 1 ]
 
-    we need to:
-        1. determine what steps have already been completed on the cube, lets write some real tests, TDD
-        2. We need a solve loop that will perform each step of the solve process
+    DESCRIPTION:
+        Solve the top cross:
+            It needs to be rotated up from one of these sides, left, right, front, back.
+            May require turning the top side into the correct spot, will need to rotate back.
+
+    OVERVIEW:     
+        We need to:
+            1. determine what steps have already been completed on the cube, lets write some real tests, TDD
+            2. We need a solve loop that will perform each step of the solve process
     """
 
     steps_to_solve=[]
