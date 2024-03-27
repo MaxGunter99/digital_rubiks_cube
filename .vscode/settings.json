@@ -84,7 +84,7 @@
 
 		// Activity Bar — The Activity Bar is displayed either on the far left or right of the workbench and allows fast switching between views of the Side Bar.
 		"activityBar.background": "#0f83e9",
-		"activityBar.foreground": "#000000",
+		"activityBar.foreground": "#ffffff",
 		"activityBar.border": "#0f83e9",
 		"activityBarBadge.background": "#000000",
 		"activityBarBadge.foreground": "#ffffff",
@@ -253,7 +253,7 @@
 		// Title Bar Colors (macOS)
 		"titleBar.activeBackground": "#d82121",
 		"titleBar.activeForeground": "#000000",
-		"titleBar.inactiveBackground": "#86CEC0",
+		"titleBar.inactiveBackground": "#d82121",
 		"titleBar.inactiveForeground": "#000000",
 		"titleBar.border": "#d82121",
 
