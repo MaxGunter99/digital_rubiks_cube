@@ -862,12 +862,17 @@ class TestMoves( unittest.TestCase ):
     #     self.solve_cube_step( test_data_path )
 
     def test__all_permutations( self ):
-        permutation_storage_filepath = "tests/test_cases/solve_cube/all_cube_movement_permutations.json"
-        permutation_storage_data = None
+        permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/all_cube_movement_permutations.json"
+        permutation_storage_data = []
+        no_data_error = None
 
         with open( permutation_storage_filepath, "r" ) as permutation_storage:
-            json_data = json.load( permutation_storage )
-            permutation_storage_data = json_data
+            try:
+                json_data = json.load( permutation_storage )
+                permutation_storage_data = json_data
+            except Exception as e:
+                no_data_error = f"Error reading permutations file, regenerate using 'make generate-test-permutations' - error: {e}"
+                print( no_data_error )
 
         for test_input_data in permutation_storage_data:
 
@@ -974,6 +979,8 @@ class TestMoves( unittest.TestCase ):
                             )
 
             # self.assertEqual( solve_steps, [] )
+                            
+        self.assertEqual( no_data_error, None )
 
 
 if __name__ == '__main__':

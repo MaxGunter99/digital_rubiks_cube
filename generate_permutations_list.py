@@ -2,7 +2,7 @@
 import json
 from itertools import permutations, product
 
-permutation_storage_filepath = "tests/test_cases/solve_cube/all_cube_movement_permutations.json"
+permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/all_cube_movement_permutations.json"
 move_cube_horizontal_options = [
     ["move_cube"],
     ["top", "middle", "bottom"],
