@@ -7,6 +7,7 @@ define COMMAND_LIST
 	make test-cube
 	make test-cube-with-output
 	make update-requirements
+	make generate-test-permutations
 
 endef
 
@@ -24,3 +25,6 @@ test-cube-with-output:
 
 update-requirements:
 	poetry export -f requirements.txt --output requirements.txt
+
+generate-test-permutations:
+	python3 generate_permutations_list.py
