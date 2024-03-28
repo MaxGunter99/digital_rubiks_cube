@@ -5,6 +5,7 @@ import random
 import copy
 
 from .solve_steps.step_1 import solve_cube__step_1
+# from .solve_steps.step_2 import solve_cube__step_2
 
 # I would like to set this up as a 3D Matrix. 
 # Perfect to start with but will be scrambled by the algorithm
@@ -672,6 +673,7 @@ class RubiksCube:
 
         # config tells us what side data to grab given a side_name, row_index, and sticker_index
         # TODO: improve this in the future, this is hard coded
+        # print( f"reading brick - {side_name}, {row_index}, {sticker_index}" )
         side_relationship_mappings = {
             "top_side": [ 
 
@@ -881,6 +883,7 @@ class RubiksCube:
                         color_search is not None and sticker_value == color_search
                         or color_search is None and sticker_value == current_side_center
                     ):
+                        # print( f"Searching for: {color_search} - {sticker_value} on {side_name} - {current_side}" )
                         brick_data, cube_in_place = self.read_brick( side_name, row_index, sticker_index )
                         if cube_in_place:
                             cubes_in_place += 1
@@ -923,8 +926,9 @@ class RubiksCube:
 
         steps_to_solve = []
 
-        print( "initial cube" )
+        print( "Solving Cube! Initial cube:" )
         self.visualize_cube()
+
         if step_override == None or step_override == 1:
             step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self )
 
@@ -945,6 +949,19 @@ class RubiksCube:
             for move in all_moves_applied:
                 print( move )
         return True
+    
+    def print_json_cube( self ):
+        sides_data = [ 
+            self.top_side ,
+            self.front_side ,
+            self.bottom_side ,
+            self.back_side ,
+            self.left_side ,
+            self.right_side 
+        ]
+        for side in sides_data:
+            print( side )
+        return sides_data
         
     def visualize_cube(self):
 
