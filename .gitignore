@@ -3,3 +3,4 @@ __pycache__
 *.pyc
 test_cube_moves_output.txt
 .DS_store
+tests/test_cases/solve_cube/all_permutations/*
