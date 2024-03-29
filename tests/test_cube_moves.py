@@ -186,6 +186,307 @@ class TestMoves( unittest.TestCase ):
             self.assertEqual( generated_value_item_value, test_value )
             self.assertIn( test_key, generated_value )
 
+    def process_step_1_permutations( self, permutation_storage_filepath ):
+        permutation_storage_data = []
+        permutation_storage_length = len( permutation_storage_data )
+        no_data_error = None
+
+        with open( permutation_storage_filepath, "r" ) as permutation_storage:
+            try:
+                json_data = json.load( permutation_storage )
+                permutation_storage_data = json_data
+                permutation_storage_length = len( permutation_storage_data )
+            except Exception as e:
+                no_data_error = f"Error reading permutations file, regenerate using 'make generate-test-permutations' - error: {e}"
+                print( no_data_error )
+
+        for test_input_data in permutation_storage_data:
+
+            ID = test_input_data.get( "ID" )
+            PERMUTATION_MOVES = test_input_data.get("PERMUTATION_MOVES")
+
+            print( f"Test: {ID}/{permutation_storage_length}" )
+
+            cube_client = RubiksCube()
+
+            for mutation in PERMUTATION_MOVES:
+
+                function_name = mutation[0]
+
+                if function_name == "move_cube":
+                    _, section, orientation, direction, turns = mutation
+
+                    if 3 >= turns >= 1:
+                        cube_client.move_cube( section, orientation, direction, turns )
+
+                elif function_name == "rotate_cube":
+                    _, direction, turns = mutation
+                    if 3 >= turns >= 1:
+                        cube_client.rotate_cube( direction, turns )
+
+            solve_steps = cube_client.solve_cube( step_override=1, test_id=ID )
+
+            top_side_color = cube_client.top_side[1][1]
+            front_side_color = cube_client.front_side[1][1]
+            back_side_color = cube_client.back_side[1][1]
+            left_side_color = cube_client.left_side[1][1]
+            right_side_color = cube_client.right_side[1][1]
+
+            test_solution = [
+                {
+                    "expected_side": "top_side",
+                    "expected_value": [
+                        [ None, top_side_color, None ],
+                        [ top_side_color, top_side_color, top_side_color ],
+                        [ None, top_side_color, None ]
+                    ]
+                },
+                {
+                    "expected_side": "front_side",
+                    "expected_value": [
+                        [ None, front_side_color, None ],
+                        [ None, front_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "bottom_side",
+                    "expected_value": [
+                        [ None, None, None ],
+                        [ None, None, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "back_side",
+                    "expected_value": [
+                        [ None, back_side_color, None ],
+                        [ None, back_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "left_side",
+                    "expected_value": [
+                        [ None, left_side_color, None ],
+                        [ None, left_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                },
+                {
+                    "expected_side": "right_side",
+                    "expected_value": [
+                        [ None, right_side_color, None ],
+                        [ None, right_side_color, None ],
+                        [ None, None, None ]
+                    ]
+                }
+            ]
+
+            for move_check in test_solution:
+                test_side = move_check.get("expected_side")
+                generated_side = cube_client[ test_side ]
+                expected_value = move_check.get("expected_value")
+
+                for row in range( len( expected_value ) ):
+                    for sticker in range( len( expected_value[row] ) ):
+                        expected_sticker = expected_value[row][sticker]
+                        generated_sticker = generated_side[row][sticker]
+
+                        if expected_sticker:
+                            err_details = f'\nERROR IN SOLVE STEP FOR PERMUTATION: "ID": {ID}\n - generated_side ({test_side}): \n{generated_side} \ndoes not match expected value ({test_side}): \n{expected_value}'
+                            self.assertEqual(
+                                expected_sticker,
+                                generated_sticker,
+                                err_details
+                            )
+
+            # self.assertEqual( solve_steps, [] )
+                            
+        self.assertEqual( no_data_error, None )
+
+    def process_step_1__json_permutations( self, permutation_storage_filepath ):
+        permutation_storage_data = []
+        permutation_storage_length = len( permutation_storage_data )
+        no_data_error = None
+
+        permutation_storage_data = []
+        permutation_storage_length = len( permutation_storage_data )
+        no_data_error = None
+
+        with open( permutation_storage_filepath, "r" ) as permutation_storage:
+            try:
+                json_data = json.load( permutation_storage )
+                permutation_storage_data = json_data
+                permutation_storage_length = len( permutation_storage_data )
+            except Exception as e:
+                no_data_error = f"Error reading permutations file, regenerate using 'make generate-test-permutations' - error: {e}"
+                print( no_data_error )
+
+        ID = permutation_storage_data.get( "ID" )
+        TEST_CUBE_OVERRIDE = permutation_storage_data.get("TEST_CUBE_OVERRIDE")
+
+        cube_client = RubiksCube(raw_cube=TEST_CUBE_OVERRIDE)
+
+        solve_steps = cube_client.solve_cube( step_override=1, test_id=ID )
+
+        top_side_color = cube_client.top_side[1][1]
+        front_side_color = cube_client.front_side[1][1]
+        back_side_color = cube_client.back_side[1][1]
+        left_side_color = cube_client.left_side[1][1]
+        right_side_color = cube_client.right_side[1][1]
+
+        test_solution = [
+            {
+                "expected_side": "top_side",
+                "expected_value": [
+                    [ None, top_side_color, None ],
+                    [ top_side_color, top_side_color, top_side_color ],
+                    [ None, top_side_color, None ]
+                ]
+            },
+            {
+                "expected_side": "front_side",
+                "expected_value": [
+                    [ None, front_side_color, None ],
+                    [ None, front_side_color, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "bottom_side",
+                "expected_value": [
+                    [ None, None, None ],
+                    [ None, None, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "back_side",
+                "expected_value": [
+                    [ None, back_side_color, None ],
+                    [ None, back_side_color, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "left_side",
+                "expected_value": [
+                    [ None, left_side_color, None ],
+                    [ None, left_side_color, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "right_side",
+                "expected_value": [
+                    [ None, right_side_color, None ],
+                    [ None, right_side_color, None ],
+                    [ None, None, None ]
+                ]
+            }
+        ]
+
+        for move_check in test_solution:
+            test_side = move_check.get("expected_side")
+            generated_side = cube_client[ test_side ]
+            expected_value = move_check.get("expected_value")
+
+            for row in range( len( expected_value ) ):
+                for sticker in range( len( expected_value[row] ) ):
+                    expected_sticker = expected_value[row][sticker]
+                    generated_sticker = generated_side[row][sticker]
+
+                    if expected_sticker:
+                        err_details = f'\nERROR IN SOLVE STEP FOR PERMUTATION: "ID": {ID}\n - generated_side ({test_side}): \n{generated_side} \ndoes not match expected value ({test_side}): \n{expected_value}'
+                        self.assertEqual(
+                            expected_sticker,
+                            generated_sticker,
+                            err_details
+                        )
+        self.assertEqual( no_data_error, None )
+
+    def step_1_random_shuffle( self, shuffle_times=0 ):
+        cube_client = RubiksCube()
+        cube_client.shuffle_cube( shuffle_times )
+        cube_client.print_json_cube()
+        cube_client.solve_cube( step_override=1 )
+
+        top_side_color = cube_client.top_side[1][1]
+        front_side_color = cube_client.front_side[1][1]
+        back_side_color = cube_client.back_side[1][1]
+        left_side_color = cube_client.left_side[1][1]
+        right_side_color = cube_client.right_side[1][1]
+
+        test_solution = [
+            {
+                "expected_side": "top_side",
+                "expected_value": [
+                    [ None, top_side_color, None ],
+                    [ top_side_color, top_side_color, top_side_color ],
+                    [ None, top_side_color, None ]
+                ]
+            },
+            {
+                "expected_side": "front_side",
+                "expected_value": [
+                    [ None, front_side_color, None ],
+                    [ None, front_side_color, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "bottom_side",
+                "expected_value": [
+                    [ None, None, None ],
+                    [ None, None, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "back_side",
+                "expected_value": [
+                    [ None, back_side_color, None ],
+                    [ None, back_side_color, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "left_side",
+                "expected_value": [
+                    [ None, left_side_color, None ],
+                    [ None, left_side_color, None ],
+                    [ None, None, None ]
+                ]
+            },
+            {
+                "expected_side": "right_side",
+                "expected_value": [
+                    [ None, right_side_color, None ],
+                    [ None, right_side_color, None ],
+                    [ None, None, None ]
+                ]
+            }
+        ]
+
+        for move_check in test_solution:
+            test_side = move_check.get("expected_side")
+            generated_side = cube_client[ test_side ]
+            expected_value = move_check.get("expected_value")
+
+            for row in range( len( expected_value ) ):
+                for sticker in range( len( expected_value[row] ) ):
+                    expected_sticker = expected_value[row][sticker]
+                    generated_sticker = generated_side[row][sticker]
+
+                    if expected_sticker:
+                        err_details = f'\nERROR IN STEP 1 RANDOM SHUFFLE:\n - generated_side ({test_side}): \n{generated_side} \ndoes not match expected value ({test_side}): \n{expected_value}'
+                        self.assertEqual(
+                            expected_sticker,
+                            generated_sticker,
+                            err_details
+                        )
+
     # ------- TEST EVERY POSSIBLE 1 MOVE ( function: move_cube ) -------
     # Format: test__class_function__section_orientation_direction_turns
 
@@ -817,41 +1118,41 @@ class TestMoves( unittest.TestCase ):
 
     # ------- TESTING SOLVE STEPS -------
 
-    def test__solve_cube__step_1__top_cross__p1( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p1.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p1( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p1.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross__p2( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p2.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p2( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p2.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross__p3( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p3.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p3( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p3.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross__p4( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p4.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p4( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p4.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross__p5( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p5.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p5( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p5.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross__p6( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p6.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p6( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p6.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross__p7( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p7.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p7( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p7.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__solve_cube__step_1__top_cross__p8( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p8.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p8( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p8.json"
+    #     self.solve_cube_step( test_data_path )
         
-    def test__solve_cube__step_1__top_cross__p9( self ):
-        test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p9.json"
-        self.solve_cube_step( test_data_path )
+    # def test__solve_cube__step_1__top_cross__p9( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p9.json"
+    #     self.solve_cube_step( test_data_path )
         
     # def test__solve_cube__step_1__top_cross__p10( self ):
     #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p10.json"
@@ -861,127 +1162,96 @@ class TestMoves( unittest.TestCase ):
     #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p11.json"
     #     self.solve_cube_step( test_data_path )
 
-    def test__all_permutations( self ):
-        permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/all_cube_movement_permutations.json"
-        permutation_storage_data = []
-        no_data_error = None
+    # def test__step_1_permutations__batch_1( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_1.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-        with open( permutation_storage_filepath, "r" ) as permutation_storage:
-            try:
-                json_data = json.load( permutation_storage )
-                permutation_storage_data = json_data
-            except Exception as e:
-                no_data_error = f"Error reading permutations file, regenerate using 'make generate-test-permutations' - error: {e}"
-                print( no_data_error )
+    # def test__step_1_permutations__batch_2( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_2.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-        for test_input_data in permutation_storage_data:
+    # def test__step_1_permutations__batch_3( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_3.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-            ID = test_input_data.get( "ID" )
-            PERMUTATION_MOVES = test_input_data.get("PERMUTATION_MOVES")
+    # def test__step_1_permutations__batch_4( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_4.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-            print( ID )
+    # def test__step_1_permutations__batch_5( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_5.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-            # if int( ID ) >= 5000:
-            #     return
+    # def test__step_1_permutations__batch_6( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_6.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-            cube_client = RubiksCube()
+    # def test__step_1_permutations__batch_7( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_7.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-            for mutation in PERMUTATION_MOVES:
+    # def test__step_1_permutations__batch_8( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_8.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-                function_name = mutation[0]
+    # def test__step_1_permutations__batch_9( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_9.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-                if function_name == "move_cube":
-                    _, section, orientation, direction, turns = mutation
+    # def test__step_1_permutations__batch_10( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_10.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
 
-                    if 3 >= turns >= 1:
-                        cube_client.move_cube( section, orientation, direction, turns )
+    # def test__step_1_permutations__batch_11( self ):
+    #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_11.json"
+    #     self.process_step_1_permutations( permutation_storage_filepath )
+        
+    # TESTS GENERATED FROM RANDOM SHUFFLE EXCEPTIONS
+    # these tests are created from random shuffle exceptions, ex:
+    # Sorting top cross piece is not supported! - ('left_side', 2, 1, 'front_side', 'top_side')
+        
+    def test__solve_cube__random_generated_exceptions__1( self ):
+        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_1.json"
+        self.process_step_1__json_permutations( test_data_path )
 
-                elif function_name == "rotate_cube":
-                    _, direction, turns = mutation
-                    if 3 >= turns >= 1:
-                        cube_client.rotate_cube( direction, turns )
+    def test__solve_cube__random_generated_exceptions__2( self ):
+        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_2.json"
+        self.process_step_1__json_permutations( test_data_path )
 
-            solve_steps = cube_client.solve_cube( step_override=1 )
+    def test__solve_cube__random_generated_exceptions__3( self ):
+        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_3.json"
+        self.process_step_1__json_permutations( test_data_path )
 
-            top_side_color = cube_client.top_side[1][1]
-            front_side_color = cube_client.front_side[1][1]
-            back_side_color = cube_client.back_side[1][1]
-            left_side_color = cube_client.left_side[1][1]
-            right_side_color = cube_client.right_side[1][1]
+    def test__solve_cube__random_generated_exceptions__4( self ):
+        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_4.json"
+        self.process_step_1__json_permutations( test_data_path )
+        
+        
+    # === RANDOM TESTS ===
+        
+    def test__step_1__random_shuffle_1( self ):
+        self.step_1_random_shuffle( 1 )
 
-            test_solution = [
-                {
-                    "expected_side": "top_side",
-                    "expected_value": [
-                        [ None, top_side_color, None ],
-                        [ top_side_color, top_side_color, top_side_color ],
-                        [ None, top_side_color, None ]
-                    ]
-                },
-                {
-                    "expected_side": "front_side",
-                    "expected_value": [
-                        [ None, front_side_color, None ],
-                        [ None, front_side_color, None ],
-                        [ None, None, None ]
-                    ]
-                },
-                {
-                    "expected_side": "bottom_side",
-                    "expected_value": [
-                        [ None, None, None ],
-                        [ None, None, None ],
-                        [ None, None, None ]
-                    ]
-                },
-                {
-                    "expected_side": "back_side",
-                    "expected_value": [
-                        [ None, back_side_color, None ],
-                        [ None, back_side_color, None ],
-                        [ None, None, None ]
-                    ]
-                },
-                {
-                    "expected_side": "left_side",
-                    "expected_value": [
-                        [ None, left_side_color, None ],
-                        [ None, left_side_color, None ],
-                        [ None, None, None ]
-                    ]
-                },
-                {
-                    "expected_side": "right_side",
-                    "expected_value": [
-                        [ None, right_side_color, None ],
-                        [ None, right_side_color, None ],
-                        [ None, None, None ]
-                    ]
-                }
-            ]
+    def test__step_1__random_shuffle_2( self ):
+        self.step_1_random_shuffle( 2 )
 
-            for move_check in test_solution:
-                test_side = move_check.get("expected_side")
-                generated_side = cube_client[ test_side ]
-                expected_value = move_check.get("expected_value")
+    def test__step_1__random_shuffle_3( self ):
+        self.step_1_random_shuffle( 3 )
 
-                for row in range( len( expected_value ) ):
-                    for sticker in range( len( expected_value[row] ) ):
-                        expected_sticker = expected_value[row][sticker]
-                        generated_sticker = generated_side[row][sticker]
+    def test__step_1__random_shuffle_4( self ):
+        self.step_1_random_shuffle( 4 )
 
-                        if expected_sticker:
-                            err_details = f'\nERROR IN SOLVE STEP FOR PERMUTATION: "ID": {ID}\n - generated_side ({test_side}): \n{generated_side} \ndoes not match expected value ({test_side}): \n{expected_value}'
-                            self.assertEqual(
-                                expected_sticker,
-                                generated_sticker,
-                                err_details
-                            )
+    def test__step_1__random_shuffle_5( self ):
+        self.step_1_random_shuffle( 5 )
 
-            # self.assertEqual( solve_steps, [] )
-                            
-        self.assertEqual( no_data_error, None )
+    def test__step_1__random_shuffle_10( self ):
+        self.step_1_random_shuffle( 10 )
 
+    def test__step_1__random_shuffle_15( self ):
+        self.step_1_random_shuffle( 15 )
+
+    def test__step_1__random_shuffle_20( self ):
+        self.step_1_random_shuffle( 20 )
 
 if __name__ == '__main__':
     unittest.main()

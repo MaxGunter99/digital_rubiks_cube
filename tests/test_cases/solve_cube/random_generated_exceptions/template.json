@@ -1,0 +1,13 @@
+
+{
+    "STEP_NAME": "1. Solve the top cross from a randomly shuffled cube"
+    , "STEP_NUMBER": 1
+    , "TEST_CUBE_OVERRIDE": [
+		[["g", "g", "g"], ["g", "g", "g"], ["b", "r", "o"]],
+		[["w", "b", "g"], ["w", "w", "w"], ["r", "y", "y"]],
+		[["b", "o", "o"], ["w", "b", "y"], ["y", "b", "b"]],
+		[["w", "y", "y"], ["w", "y", "b"], ["w", "y", "o"]],
+		[["r", "r", "o"], ["o", "r", "o"], ["g", "g", "y"]],
+		[["w", "o", "r"], ["b", "o", "r"], ["b", "r", "r"]]
+	]
+}
