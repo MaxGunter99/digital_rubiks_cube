@@ -1116,51 +1116,88 @@ class TestMoves( unittest.TestCase ):
         test_data_path = "tests/test_cases/move_test/validate_test_solve_cube.json"
         self.validate_custom_moves( test_data_path )
 
-    # ------- TESTING SOLVE STEPS -------
+    # ------- TESTING SOLVE STEP 1 TOP CROSS -------
 
-    # def test__solve_cube__step_1__top_cross__p1( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p1.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__step_1__do_nothing( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__do_nothing.json"
+        self.solve_cube_step( test_data_path )
 
-    # def test__solve_cube__step_1__top_cross__p2( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p2.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__step_1__do_nothing__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__in_place__reversed.json"
+        self.solve_cube_step( test_data_path )
 
-    # def test__solve_cube__step_1__top_cross__p3( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p3.json"
-    #     self.solve_cube_step( test_data_path )
+    # ------- TOP LEFT PIECE --- TOP ROW
 
-    # def test__solve_cube__step_1__top_cross__p4( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p4.json"
-    #     self.solve_cube_step( test_data_path )
+    # ------- TOP LEFT PIECE --- MIDDLE ROW
 
-    # def test__solve_cube__step_1__top_cross__p5( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p5.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__top_cross__1_0__middle__back_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__back_left.json"
+        self.solve_cube_step( test_data_path )
 
-    # def test__solve_cube__step_1__top_cross__p6( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p6.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__top_cross__1_0__middle__back_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__back_right.json"
+        self.solve_cube_step( test_data_path )
 
-    # def test__solve_cube__step_1__top_cross__p7( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p7.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__top_cross__1_0__middle__front_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__front_left.json"
+        self.solve_cube_step( test_data_path )
 
-    # def test__solve_cube__step_1__top_cross__p8( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p8.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__top_cross__1_0__middle__front_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__front_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__middle__left_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__left_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__middle__left_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__left_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__middle__right_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__right_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__middle__right_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__middle__right_right.json"
+        self.solve_cube_step( test_data_path )
+
+    # ------- TOP LEFT PIECE --- BOTTOM ROW
         
-    # def test__solve_cube__step_1__top_cross__p9( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p9.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__top_cross__1_0__bottom__back__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__back__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__bottom__back( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__back.json"
+        self.solve_cube_step( test_data_path )
         
-    # def test__solve_cube__step_1__top_cross__p10( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p10.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__top_cross__1_0__bottom__front__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__front__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__bottom__front( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__front.json"
+        self.solve_cube_step( test_data_path )
         
-    # def test__solve_cube__step_1__top_cross__p11( self ):
-    #     test_data_path = "tests/test_cases/solve_cube/solve_cube__step_1__p11.json"
-    #     self.solve_cube_step( test_data_path )
+    def test__top_cross__1_0__bottom__left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__bottom__left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__left.json"
+        self.solve_cube_step( test_data_path )
+        
+    def test__top_cross__1_0__bottom__right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__1_0__bottom__right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_0__bottom__right.json"
+        self.solve_cube_step( test_data_path )
+    
+        
+    # ------- BATCH TESTS -------
 
     # def test__step_1_permutations__batch_1( self ):
     #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_1.json"
@@ -1205,53 +1242,34 @@ class TestMoves( unittest.TestCase ):
     # def test__step_1_permutations__batch_11( self ):
     #     permutation_storage_filepath = "tests/test_cases/solve_cube/all_permutations/batches/batch_11.json"
     #     self.process_step_1_permutations( permutation_storage_filepath )
-        
-    # TESTS GENERATED FROM RANDOM SHUFFLE EXCEPTIONS
-    # these tests are created from random shuffle exceptions, ex:
-    # Sorting top cross piece is not supported! - ('left_side', 2, 1, 'front_side', 'top_side')
-        
-    def test__solve_cube__random_generated_exceptions__1( self ):
-        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_1.json"
-        self.process_step_1__json_permutations( test_data_path )
 
-    def test__solve_cube__random_generated_exceptions__2( self ):
-        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_2.json"
-        self.process_step_1__json_permutations( test_data_path )
-
-    def test__solve_cube__random_generated_exceptions__3( self ):
-        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_3.json"
-        self.process_step_1__json_permutations( test_data_path )
-
-    def test__solve_cube__random_generated_exceptions__4( self ):
-        test_data_path = "tests/test_cases/solve_cube/random_generated_exceptions/test_4.json"
-        self.process_step_1__json_permutations( test_data_path )
-        
+  
         
     # === RANDOM TESTS ===
         
-    def test__step_1__random_shuffle_1( self ):
-        self.step_1_random_shuffle( 1 )
+    # def test__step_1__random_shuffle_1( self ):
+    #     self.step_1_random_shuffle( 1 )
 
-    def test__step_1__random_shuffle_2( self ):
-        self.step_1_random_shuffle( 2 )
+    # def test__step_1__random_shuffle_2( self ):
+    #     self.step_1_random_shuffle( 2 )
 
-    def test__step_1__random_shuffle_3( self ):
-        self.step_1_random_shuffle( 3 )
+    # def test__step_1__random_shuffle_3( self ):
+    #     self.step_1_random_shuffle( 3 )
 
-    def test__step_1__random_shuffle_4( self ):
-        self.step_1_random_shuffle( 4 )
+    # def test__step_1__random_shuffle_4( self ):
+    #     self.step_1_random_shuffle( 4 )
 
-    def test__step_1__random_shuffle_5( self ):
-        self.step_1_random_shuffle( 5 )
+    # def test__step_1__random_shuffle_5( self ):
+    #     self.step_1_random_shuffle( 5 )
 
-    def test__step_1__random_shuffle_10( self ):
-        self.step_1_random_shuffle( 10 )
+    # def test__step_1__random_shuffle_10( self ):
+    #     self.step_1_random_shuffle( 10 )
 
-    def test__step_1__random_shuffle_15( self ):
-        self.step_1_random_shuffle( 15 )
+    # def test__step_1__random_shuffle_15( self ):
+    #     self.step_1_random_shuffle( 15 )
 
-    def test__step_1__random_shuffle_20( self ):
-        self.step_1_random_shuffle( 20 )
+    # def test__step_1__random_shuffle_20( self ):
+    #     self.step_1_random_shuffle( 20 )
 
 if __name__ == '__main__':
     unittest.main()

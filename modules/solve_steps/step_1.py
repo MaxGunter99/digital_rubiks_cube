@@ -1,7 +1,7 @@
 
 # STEP 1
 
-def solve_cube__step_1( self, test_id=None ):
+def solve_cube__step_1( cube_client, test_id=None ):
     """
     This function should output a list of moves to solve the top cross of the cube. 
     step format: [ class_function, args ]
@@ -29,7 +29,7 @@ def solve_cube__step_1( self, test_id=None ):
 
     # if this is the top_side keep it there, if not rotate the cube to get the best side_name to the top
     # how does step 1 pass? the best_side_name needs to == top_side
-    cube_analysis = self.check_sides()
+    cube_analysis = cube_client.check_sides()
     best_side_data = cube_analysis.get( "best_side_data" )
     best_side_name = best_side_data.get( "side_name" )
 
@@ -46,16 +46,16 @@ def solve_cube__step_1( self, test_id=None ):
         steps_to_pass = rotation_mapping.get( best_side_name )
         print( f"Rotating cube to move best side to the top. {best_side_name} -> top_side" )
         for direction, turns in steps_to_pass:
-            self.rotate_cube( direction, turns )
+            cube_client.rotate_cube( direction, turns )
             step_data = ["rotate_cube", direction, turns]
             steps_to_solve.append( step_data )
 
             # re-run cube analysis function
-            updated_cube_analysis = self.check_sides()
+            updated_cube_analysis = cube_client.check_sides()
             best_side_data = updated_cube_analysis.get( "best_side_data" )
             best_side_name = best_side_data.get( "side_name" )
 
-        self.visualize_cube()
+        cube_client.visualize_cube()
 
     if best_side_name != "top_side":
         details = f"Step 1: best side needs to be top_side, it is returning: {best_side_name}"
@@ -68,7 +68,7 @@ def solve_cube__step_1( self, test_id=None ):
     # what value do we need to find?
         
     # test for matching 
-    # self.move_cube( "top", "horizontal", "left", 1 )
+    # cube_client.move_cube( "top", "horizontal", "left", 1 )
 
     # find all 4 cross pieces, where are they?
 
@@ -84,8 +84,8 @@ def solve_cube__step_1( self, test_id=None ):
             ( 1, 2 ): False,
             ( 2, 1 ): False
         }
-        top_color_value = self.top_side[1][1]
-        top_color_locations = self.check_sides( top_color_value )
+        top_color_value = cube_client.top_side[1][1]
+        top_color_locations = cube_client.check_sides( top_color_value )
         top_row_pieces = []
         middle_row_pieces = []
         bottom_row_pieces = []
@@ -151,8 +151,7 @@ def solve_cube__step_1( self, test_id=None ):
         game_loop_iteration += 1
         print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
 
-        # if test_id == 96041:
-        #     self.visualize_cube()
+        cube_client.visualize_cube()
 
         if game_loop_iteration >= game_loop_max_count:
             break
@@ -188,19 +187,42 @@ def solve_cube__step_1( self, test_id=None ):
             parent_sticker_index = piece_parent_data.get("parent_sticker_index")
 
             to_side_mappings = {
-                self.front_side[1][1]: "front_side",
-                self.back_side[1][1]: "back_side",
-                self.left_side[1][1]: "left_side",
-                self.right_side[1][1]: "right_side"
+                cube_client.front_side[1][1]: "front_side",
+                cube_client.back_side[1][1]: "back_side",
+                cube_client.left_side[1][1]: "left_side",
+                cube_client.right_side[1][1]: "right_side"
             } 
             # The parent is always the solve color, were just matching the sides
             # Format: ( piece_color, color_destination_side, parent_side )
             from_to_move_config = {
+                ('left_side', 1, 0, 'back_side', 'top_side'): [
+                    ( "rotate_cube", "right", 1 ),
+                    ( "move_cube", "left", "vertical", "up", 1 ),
+                    ( "rotate_cube", "left", 1 ),
+                ],
+                ('front_side', 0, 1, 'front_side', 'top_side'): [
+                    ( "rotate_cube", "right", 1 ),
+                    ( "move_cube", "right", "vertical", "up", 1 ),
+                    ( "move_cube", "top", "horizontal", "right", 1 ),
+                    ( "rotate_cube", "left", 1 ),
+                    ( "move_cube", "right", "vertical", "up", 1 ),
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
+                ],
+                ('top_side', 0, 1, 'left_side', 'top_side'): [
+                    ( "rotate_cube", "right", 1 ),
+                    ( "move_cube", "left", "vertical", "down", 1 ),
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
+                    ( "move_cube", "left", "vertical", "up", 1 ),
+                    ( "rotate_cube", "right", 1 ),
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
+                ],
+                # ('top_side', 1, 0, 'right_side', 'top_side'): [
 
+                # ]
             }
 
             # if the correct color is already on top, just need to rotate top
-            if parent_color == self.top_side[1][1]:
+            if parent_color == cube_client.top_side[1][1]:
 
                 # where do we need to end up
                 destination_side = "top_side"
@@ -209,7 +231,7 @@ def solve_cube__step_1( self, test_id=None ):
                 if move_from_to not in from_to_move_config:
                     details = f"Sorting top cross piece is not supported! - {move_from_to}"
                     print( details )
-                    self.visualize_cube()
+                    cube_client.visualize_cube()
                     raise Exception( details )
                 
                 required_moves = from_to_move_config[ move_from_to ]
@@ -218,12 +240,12 @@ def solve_cube__step_1( self, test_id=None ):
                     print( move )
                     if move[0] == "rotate_cube":
                         _, direction, turns = move
-                        self.rotate_cube( direction, turns )
+                        cube_client.rotate_cube( direction, turns )
                         steps_to_solve.append( ["rotate_cube", direction, turns] )
 
                     elif move[0] == "move_cube": 
                         _, section, orientation, direction, turns = move
-                        self.move_cube( section, orientation, direction, turns )
+                        cube_client.move_cube( section, orientation, direction, turns )
                         steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
 
                 continue
@@ -247,10 +269,10 @@ def solve_cube__step_1( self, test_id=None ):
             parent_sticker_index = piece_parent_data.get("parent_sticker_index")
 
             to_side_mappings = {
-                self.front_side[1][1]: "front_side",
-                self.back_side[1][1]: "back_side",
-                self.left_side[1][1]: "left_side",
-                self.right_side[1][1]: "right_side"
+                cube_client.front_side[1][1]: "front_side",
+                cube_client.back_side[1][1]: "back_side",
+                cube_client.left_side[1][1]: "left_side",
+                cube_client.right_side[1][1]: "right_side"
             } 
             from_to_move_config = {
                 ('back_side', 1, 0, 'right_side', 'top_side'): [
@@ -262,16 +284,21 @@ def solve_cube__step_1( self, test_id=None ):
                     ( "rotate_cube", "left", 1 ),
                 ],
                 ('front_side', 1, 0, 'left_side', 'top_side'): [( "move_cube", "left", "vertical", "up", 1 )],
-                ('front_side', 1, 2, 'right_side', 'top_side'): [( "move_cube", "right", "vertical", "up", 1 )]
+                ('front_side', 1, 2, 'right_side', 'top_side'): [( "move_cube", "right", "vertical", "up", 1 )],
+                ('right_side', 1, 2, 'left_side', 'top_side'): [
+                    ( "move_cube", "middle", "horizontal", "right", 1 ),
+                    ( "move_cube", "left", "vertical", "down", 1 )
+                ]
             }
             destination_side = "top_side"
             # move_from_to = ( parent_side, destination_side, parent_sticker_index )
             move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
+            print( move_from_to )
             
             if move_from_to not in from_to_move_config:
                 details = f"Sorting top cross piece is not supported! - {move_from_to}"
                 print( details )
-                self.visualize_cube()
+                cube_client.visualize_cube()
                 raise Exception( details )
             
             required_moves = from_to_move_config[ move_from_to ]
@@ -280,12 +307,12 @@ def solve_cube__step_1( self, test_id=None ):
                 print( move )
                 if move[0] == "rotate_cube":
                     _, direction, turns = move
-                    self.rotate_cube( direction, turns )
+                    cube_client.rotate_cube( direction, turns )
                     steps_to_solve.append( ["rotate_cube", direction, turns] )
 
                 elif move[0] == "move_cube": 
                     _, section, orientation, direction, turns = move
-                    self.move_cube( section, orientation, direction, turns )
+                    cube_client.move_cube( section, orientation, direction, turns )
                     steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
 
             continue
@@ -307,10 +334,10 @@ def solve_cube__step_1( self, test_id=None ):
             parent_sticker_index = piece_parent_data.get("parent_sticker_index")
 
             to_side_mappings = {
-                self.front_side[1][1]: "front_side",
-                self.back_side[1][1]: "back_side",
-                self.left_side[1][1]: "left_side",
-                self.right_side[1][1]: "right_side"
+                cube_client.front_side[1][1]: "front_side",
+                cube_client.back_side[1][1]: "back_side",
+                cube_client.left_side[1][1]: "left_side",
+                cube_client.right_side[1][1]: "right_side"
             } 
             from_to_move_config = {
                 ('bottom_side', 1, 0, 'left_side', 'top_side'): [
@@ -410,6 +437,41 @@ def solve_cube__step_1( self, test_id=None ):
                     ( "rotate_cube", "right", 1 ), 
                     ( "move_cube", "right", "vertical", "down", 1 ),
                     ( "rotate_cube", "left", 1 ), 
+                ],
+                ('back_side', 2, 1, 'left_side', 'top_side'): [
+                    ( "rotate_cube", "right", 1 ), 
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
+                    ( "move_cube", "left", "vertical", "down", 1 ),
+                    ( "rotate_cube", "right", 1 ), 
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
+                    ( "move_cube", "left", "vertical", "up", 1 ),
+                    ( "rotate_cube", "left", 2 ), 
+                    ( "move_cube", "top", "horizontal", "left", 2 ),
+                ],
+                ('front_side', 2, 1, 'left_side', 'top_side'): [
+                    ( "rotate_cube", "right", 1 ), 
+                    ( "move_cube", "top", "horizontal", "right", 1 ),
+                    ( "move_cube", "right", "vertical", "up", 1 ),
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
+                    ( "rotate_cube", "left", 1 ), 
+                    ( "move_cube", "left", "vertical", "up", 1 ),
+                ],
+                ('left_side', 2, 1, 'left_side', 'top_side'): [
+                    ( "move_cube", "left", "vertical", "up", 1 ),
+                    ( "move_cube", "top", "horizontal", "right", 1 ),
+                    ( "rotate_cube", "right", 1 ), 
+                    ( "move_cube", "right", "vertical", "up", 1 ),
+                    ( "rotate_cube", "left", 1 ), 
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
+                ],
+                ('right_side', 2, 1, 'left_side', 'top_side'): [
+                    ( "move_cube", "bottom", "horizontal", "right", 2 ),
+                    ( "move_cube", "left", "vertical", "up", 1 ),
+                    ( "move_cube", "top", "horizontal", "right", 1 ),
+                    ( "rotate_cube", "right", 1 ), 
+                    ( "move_cube", "right", "vertical", "up", 1 ),
+                    ( "rotate_cube", "left", 1 ), 
+                    ( "move_cube", "top", "horizontal", "left", 1 ),
                 ]
             }
             destination_side = "top_side"
@@ -419,7 +481,7 @@ def solve_cube__step_1( self, test_id=None ):
             if move_from_to not in from_to_move_config:
                 details = f"Sorting top cross piece is not supported! - {move_from_to}"
                 print( details )
-                self.visualize_cube()
+                cube_client.visualize_cube()
                 raise Exception( details )
             
             required_moves = from_to_move_config[ move_from_to ]
@@ -428,18 +490,18 @@ def solve_cube__step_1( self, test_id=None ):
                 print( move )
                 if move[0] == "rotate_cube":
                     _, direction, turns = move
-                    self.rotate_cube( direction, turns )
+                    cube_client.rotate_cube( direction, turns )
                     steps_to_solve.append( ["rotate_cube", direction, turns] )
 
                 elif move[0] == "move_cube": 
                     _, section, orientation, direction, turns = move
-                    self.move_cube( section, orientation, direction, turns )
+                    cube_client.move_cube( section, orientation, direction, turns )
                     steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
             continue
 
         else:
             break
-            # self.visualize_cube()
+            # cube_client.visualize_cube()
             # raise Exception("No pieces to fix!")
         
     # ------- GAME LOOP END
@@ -454,5 +516,5 @@ def solve_cube__step_1( self, test_id=None ):
         "step_1_status": step_1_status
     })
     print(f"steps_to_solve: {steps_to_solve}")
-    self.visualize_cube()
+    cube_client.visualize_cube()
     return step_1_status, steps_to_solve

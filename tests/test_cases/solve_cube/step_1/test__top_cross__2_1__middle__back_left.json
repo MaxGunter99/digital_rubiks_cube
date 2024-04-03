@@ -1,49 +1,38 @@
-
 {
-    "TEST_CUBE_OVERRIDE_MOVES_INPUT": [
-
-        "move_cube( top, horizontal, right, 1 )",
-        "move_cube( right, vertical, down, 2 )",
-        "move_cube( bottom, horizontal, right, 2 )"
-    ]
-    , "STEP_NAME": "1. Solve the top cross -- white is at bottom and top is one to the right"
+	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
+    , "STEP_NAME": "1. Solve the top cross -- do nothing"
+	, "DESCRIPTION": "top cross - middle piece replacements"
     , "STEP_NUMBER": 1
-    , "STEPS_TO_SOLVE": [
-		["move_cube", "top", "horizontal", "left", 1], 
-		["move_cube", "bottom", "horizontal", "right", 1], 
-		["rotate_cube", "right", 1], 
-		["move_cube", "right", "vertical", "up", 2], 
-		["rotate_cube", "left", 1]
-	]
+    , "STEPS_TO_SOLVE": []
     , "TEST_CUBE_OVERRIDE": [
         [
             [ ".", "w", "." ],
-            [ "w", "w", "." ],
-            [ ".", "w", "." ]
+            [ "w", "w", "w" ],
+            [ ".", ".", "." ]
         ],
         [
-            [ ".", "r", "." ],
+            [ ".", ".", "." ],
             [ ".", "b", "." ],
             [ ".", ".", "." ]
         ],
         [
             [ ".", ".", "." ],
-            [ "w", "y", "." ],
+            [ ".", "y", "." ],
             [ ".", ".", "." ]
         ],      
         [
-            [ ".", "o", "." ],
             [ ".", "g", "." ],
+            [ "b", "g", "." ],
             [ ".", ".", "." ]
         ],
         [
-            [ ".", "g", "." ],
             [ ".", "r", "." ],
-            [ ".", "b", "." ]
+            [ ".", "r", "." ],
+            [ ".", ".", "." ]
         ],
         [
-            [ ".", ".", "." ],
             [ ".", "o", "." ],
+            [ ".", "o", "w" ],
             [ ".", ".", "." ]
         ]
 	]
