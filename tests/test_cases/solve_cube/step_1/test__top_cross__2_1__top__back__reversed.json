@@ -3,7 +3,6 @@
     , "STEP_NAME": "1. Solve the top cross -- do nothing"
     , "DESCRIPTION": "top cross pieces shifted to two"
     , "STEP_NUMBER": 1
-    , "STEPS_TO_SOLVE": []
     , "TEST_CUBE_OVERRIDE": [
         [
             [ ".", "b", "." ],
