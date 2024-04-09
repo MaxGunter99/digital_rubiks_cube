@@ -1,14 +1,7 @@
 
 {
-    "TEST_CUBE_OVERRIDE_MOVES_INPUT": [
-        "move_cube( left, vertical, down, 1 )",
-        "move_cube( right, vertical, up, 1 )",
-        "move_cube( top, horizontal, left, 1 )",
-        "rotate_cube( left, 1 )"
-    ]
-    , "STEP_NAME": "1. Solve the top cross"
+    "STEP_NAME": "1. Solve the top cross"
     , "STEP_NUMBER": 1
-    , "STEPS_TO_SOLVE": []
     , "TEST_CUBE_OVERRIDE": [
         [
             [ ".", ".", "." ],

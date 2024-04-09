@@ -278,6 +278,34 @@ def solve_cube__step_1( cube_client, test_id=None ):
                 ('right_side', 1, 2, 'front_side', 'top_side'): [('move_cube', 'middle', 'horizontal', 'right', 1), ('move_cube', 'top', 'horizontal', 'left', 1), ('move_cube', 'left', 'vertical', 'down', 1), ('move_cube', 'top', 'horizontal', 'right', 1), ('move_cube', 'middle', 'horizontal', 'left', 1)],
                 ('right_side', 1, 2, 'left_side', 'top_side'): [('move_cube', 'middle', 'horizontal', 'right', 1), ('move_cube', 'left', 'vertical', 'down', 1), ('move_cube', 'middle', 'horizontal', 'left', 1)],
                 ('right_side', 1, 2, 'right_side', 'top_side'): [('move_cube', 'middle', 'horizontal', 'left', 1), ('move_cube', 'right', 'vertical', 'up', 1), ('move_cube', 'middle', 'horizontal', 'right', 1)],
+                ('right_side', 1, 2, 'back_side', 'top_side'): [
+                    ('rotate_cube', 'left', 1),
+                    ('move_cube', 'right', 'vertical', 'up', 1),
+                    ('rotate_cube', 'right', 1),
+                ],
+                ('left_side', 1, 0, 'back_side', 'top_side'): [
+                    ('rotate_cube', 'right', 1),
+                    ('move_cube', 'left', 'vertical', 'up', 1),
+                    ('rotate_cube', 'left', 1),
+                ],
+                ('left_side', 1, 2, 'back_side', 'top_side'): [
+                    ('move_cube', 'top', 'horizontal', 'right', 1),
+                    ('move_cube', 'left', 'vertical', 'down', 2),
+                    ('move_cube', 'top', 'horizontal', 'left', 1),
+                ],
+                ('right_side', 1, 0, 'back_side', 'top_side'): [
+                    ('move_cube', 'top', 'horizontal', 'left', 1),
+                    ('move_cube', 'right', 'vertical', 'up', 2),
+                    ('move_cube', 'top', 'horizontal', 'right', 1),
+                    ('rotate_cube', 'left', 1),
+                    ('move_cube', 'left', 'vertical', 'up', 1),
+                    ('rotate_cube', 'right', 1),
+                ],
+                ('back_side', 1, 2, 'back_side', 'top_side'): [
+                    ('move_cube', 'top', 'horizontal', 'right', 1),
+                    ('move_cube', 'left', 'vertical', 'down', 1),
+                    ('move_cube', 'top', 'horizontal', 'left', 1),
+                ],
             }
             destination_side = "top_side"
             move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
@@ -356,6 +384,39 @@ def solve_cube__step_1( cube_client, test_id=None ):
                 ('left_side', 2, 1, 'right_side', 'top_side'): [('move_cube', 'bottom', 'horizontal', 'left', 2), ('move_cube', 'right', 'vertical', 'up', 1), ('move_cube', 'top', 'horizontal', 'left', 1), ('rotate_cube', 'left', 1), ('move_cube', 'right', 'vertical', 'down', 1), ('move_cube', 'top', 'horizontal', 'right', 1), ('rotate_cube', 'right', 1)],
                 ('right_side', 2, 1, 'front_side', 'top_side'): [('move_cube', 'top', 'horizontal', 'right', 1), ('move_cube', 'right', 'vertical', 'up', 1), ('move_cube', 'top', 'horizontal', 'left', 1), ('rotate_cube', 'right', 1), ('move_cube', 'right', 'vertical', 'down', 1), ('rotate_cube', 'left', 1)],
                 ('right_side', 2, 1, 'left_side', 'top_side'): [('move_cube', 'bottom', 'horizontal', 'right', 2), ('move_cube', 'left', 'vertical', 'up', 1), ('move_cube', 'top', 'horizontal', 'right', 1), ('rotate_cube', 'right', 1), ('move_cube', 'right', 'vertical', 'up', 1), ('rotate_cube', 'left', 1), ('move_cube', 'top', 'horizontal', 'left', 1)],
+                ('back_side', 2, 1, 'back_side', 'top_side'): [
+                    ('rotate_cube', 'left', 1),
+                    ('move_cube', 'right', 'vertical', 'up', 1),
+                    ('rotate_cube', 'right', 1),
+                    ('move_cube', 'top', 'horizontal', 'left', 1),
+                    ('move_cube', 'right', 'vertical', 'down', 1),
+                    ('move_cube', 'top', 'horizontal', 'right', 1)
+                ],
+                ('front_side', 2, 1, 'back_side', 'top_side'): [
+                    ('move_cube', 'top', 'horizontal', 'left', 1),
+                    ('move_cube', 'bottom', 'horizontal', 'right', 1),
+                    ('move_cube', 'right', 'vertical', 'down', 1),
+                    ('move_cube', 'top', 'horizontal', 'right', 1),
+                    ('rotate_cube', 'left', 1),
+                    ('move_cube', 'right', 'vertical', 'up', 1),
+                    ('rotate_cube', 'right', 1),
+                ],
+                ('left_side', 2, 1, 'back_side', 'top_side'): [
+                    ('move_cube', 'top', 'horizontal', 'right', 1),
+                    ('move_cube', 'left', 'vertical', 'down', 1),
+                    ('move_cube', 'top', 'horizontal', 'left', 1),
+                    ('rotate_cube', 'right', 1),
+                    ('move_cube', 'left', 'vertical', 'up', 1),
+                    ('rotate_cube', 'left', 1),
+                ],
+                ('right_side', 2, 1, 'back_side', 'top_side'): [
+                    ('move_cube', 'top', 'horizontal', 'left', 1),
+                    ('move_cube', 'right', 'vertical', 'down', 1),
+                    ('move_cube', 'top', 'horizontal', 'right', 1),
+                    ('rotate_cube', 'left', 1),
+                    ('move_cube', 'right', 'vertical', 'up', 1),
+                    ('rotate_cube', 'right', 1),
+                ]
             }
             destination_side = "top_side"
             move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
