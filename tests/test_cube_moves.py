@@ -1265,6 +1265,76 @@ class TestMoves( unittest.TestCase ):
     def test__top_cross__2_1__bottom__right( self ):
         test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__2_1__bottom__right.json"
         self.solve_cube_step( test_data_path )
+
+    # ------- TOP SIDE TOP MIDDLE --- TOP ROW
+
+    # ------- TOP SIDE TOP MIDDLE --- MIDDLE ROW
+
+    def test__top_cross__0_1__middle__back_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__back_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__middle__back_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__back_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__middle__front_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__front_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__middle__front_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__front_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__middle__left_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__left_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__middle__left_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__left_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__middle__right_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__right_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__middle__right_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__middle__right_right.json"
+        self.solve_cube_step( test_data_path )
+
+    # ------- TOP SIDE TOP MIDDLE PIECE --- BOTTOM ROW
+        
+    def test__top_cross__0_1__bottom__back__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__back__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__bottom__back( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__back.json"
+        self.solve_cube_step( test_data_path )
+        
+    def test__top_cross__0_1__bottom__front__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__front__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__bottom__front( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__front.json"
+        self.solve_cube_step( test_data_path )
+        
+    def test__top_cross__0_1__bottom__left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__bottom__left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__left.json"
+        self.solve_cube_step( test_data_path )
+        
+    def test__top_cross__0_1__bottom__right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__top_cross__0_1__bottom__right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__0_1__bottom__right.json"
+        self.solve_cube_step( test_data_path )
     
         
     # ------- BATCH TESTS -------
