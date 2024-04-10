@@ -18,7 +18,7 @@ run-cube:
 	python3 run_me.py
 
 test-cube:
-	python -m unittest discover -v -s tests -p 'test_*.py' -b
+	python -m unittest discover -v -s tests -p 'test_*.py' -b -f
 
 test-cube-with-output:
 	python -m unittest discover -v -s tests -p 'test_*.py' -b > tests/test_cube_moves_output.txt 2>&1

@@ -369,14 +369,26 @@ cube_client = RubiksCube()
 #     direction="left",
 #     turns=1
 # )
-cube_client.move_cube(
-    section="top",
-    orientation="horizontal",
-    direction="left",
-    turns=1
-)
+# cube_client.move_cube(
+#     section="top",
+#     orientation="horizontal",
+#     direction="left",
+#     turns=1
+# )
+
+cube_client.shuffle_cube( random_turns_count=100 )
 cube_client.visualize_cube()
-cube_client.check_sides()
-cube_client.solve_cube()
+cube_client.solve_cube( step_override=1 )
+cube_client.visualize_cube()
+# cube_client.check_sides()
 
 
+
+# FOR SORTING DICTIONARY KEYS
+# from_to_move_config = {
+# 
+# }
+
+# # print( sorted( from_to_move_config ) )
+# for key in sorted( from_to_move_config ):
+#     print( f"{key}: {from_to_move_config[key]}," )

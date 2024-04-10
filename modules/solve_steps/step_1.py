@@ -140,7 +140,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
         return ( top_row_pieces, middle_row_pieces, bottom_row_pieces, top_indexes_to_fix )
         
     # change this to 
-    game_loop_max_count = 10
+    game_loop_max_count = 20
     game_loop_iteration = 0
     game_loop_complete = False
 
@@ -149,9 +149,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
         or game_loop_complete == False and game_loop_iteration < game_loop_max_count
     ): 
         game_loop_iteration += 1
-        print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
-
-        cube_client.visualize_cube()
+        # print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
+        # cube_client.visualize_cube()
 
         if game_loop_iteration >= game_loop_max_count:
             break
@@ -160,14 +159,14 @@ def solve_cube__step_1( cube_client, test_id=None ):
 
         game_loop_complete_check = [ is_perfect for _, is_perfect in top_indexes_to_fix.items() ]
         if False not in game_loop_complete_check:
-            print("COMPLETE")
+            print("TOP CROSS COMPLETE")
             game_loop_complete = True
             break
 
         # print( f"top_indexes_to_fix: {top_indexes_to_fix}" )
-        print( f"top_row_pieces: {top_row_pieces}" )
-        print( f"middle_row_pieces: {middle_row_pieces}" )
-        print( f"bottom_row_pieces: {bottom_row_pieces}" )
+        # print( f"top_row_pieces: {top_row_pieces}" )
+        # print( f"middle_row_pieces: {middle_row_pieces}" )
+        # print( f"bottom_row_pieces: {bottom_row_pieces}" )
         # next, if you can match any of the top sides to their matching side
         # do that before moving any side or bottom pieces  
                 
@@ -232,7 +231,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
                 # where do we need to end up
                 destination_side = "top_side"
                 move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
-                # print( move_from_to )
+                print( move_from_to )
 
                 if move_from_to not in from_to_move_config:
                     details = f"Sorting top cross piece is not supported! - {move_from_to}"
@@ -243,7 +242,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
                 required_moves = from_to_move_config[ move_from_to ]
 
                 for move in required_moves:
-                    print( move )
+                    # print( move )
                     if move[0] == "rotate_cube":
                         _, direction, turns = move
                         cube_client.rotate_cube( direction, turns )
@@ -284,7 +283,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
                 ('back_side', 1, 0, 'back_side', 'top_side'): [('move_cube', 'top', 'horizontal', 'left', 1), ('move_cube', 'right', 'vertical', 'down', 1), ('move_cube', 'top', 'horizontal', 'right', 1)],
                 ('back_side', 1, 0, 'front_side', 'top_side'): [('move_cube', 'top', 'horizontal', 'right', 1), ('move_cube', 'right', 'vertical', 'down', 1), ('move_cube', 'top', 'horizontal', 'left', 1)],
                 ('back_side', 1, 0, 'left_side', 'top_side'): [('move_cube', 'middle', 'horizontal', 'right', 2), ('move_cube', 'left', 'vertical', 'up', 1), ('move_cube', 'middle', 'horizontal', 'left', 2)],
-                ('back_side', 1, 0, 'right_side', 'top_side'): [('rotate_cube', 'right', 1), ('move_cube', 'left', 'vertical', 'up', 1), ('move_cube', 'top', 'horizontal', 'right', 1), ('move_cube', 'left', 'vertical', 'down', 1), ('move_cube', 'top', 'horizontal', 'left', 1), ('rotate_cube', 'left', 1)],
+                ('back_side', 1, 0, 'right_side', 'top_side'): [('move_cube', 'right', 'vertical', 'down', 1)],
                 ('back_side', 1, 2, 'back_side', 'top_side'): [('move_cube', 'top', 'horizontal', 'right', 1), ('move_cube', 'left', 'vertical', 'down', 1), ('move_cube', 'top', 'horizontal', 'left', 1)],
                 ('back_side', 1, 2, 'front_side', 'top_side'): [('move_cube', 'top', 'horizontal', 'right', 2), ('rotate_cube', 'left', 1), ('move_cube', 'right', 'vertical', 'up', 1), ('rotate_cube', 'right', 1), ('move_cube', 'top', 'horizontal', 'right', 2)],
                 ('back_side', 1, 2, 'left_side', 'top_side'): [('move_cube', 'left', 'vertical', 'down', 1)],
@@ -316,10 +315,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
             }
             destination_side = "top_side"
             move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
-
-            # print( sorted( from_to_move_config ) )
-            # for key in sorted( from_to_move_config ):
-            #     print( f"{key}: {from_to_move_config[key]}" )
+            print( move_from_to )
             
             if move_from_to not in from_to_move_config:
                 details = f"Sorting top cross piece is not supported! - {move_from_to}"
@@ -330,7 +326,6 @@ def solve_cube__step_1( cube_client, test_id=None ):
             required_moves = from_to_move_config[ move_from_to ]
 
             for move in required_moves:
-                print( move )
                 if move[0] == "rotate_cube":
                     _, direction, turns = move
                     cube_client.rotate_cube( direction, turns )
@@ -412,7 +407,6 @@ def solve_cube__step_1( cube_client, test_id=None ):
             required_moves = from_to_move_config[ move_from_to ]
 
             for move in required_moves:
-                print( move )
                 if move[0] == "rotate_cube":
                     _, direction, turns = move
                     cube_client.rotate_cube( direction, turns )
@@ -441,5 +435,5 @@ def solve_cube__step_1( cube_client, test_id=None ):
         "step_1_status": step_1_status
     })
     print(f"steps_to_solve: {steps_to_solve}")
-    cube_client.visualize_cube()
+    # cube_client.visualize_cube()
     return step_1_status, steps_to_solve
