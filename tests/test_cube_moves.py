@@ -1609,5 +1609,17 @@ class TestMoves( unittest.TestCase ):
     # def test__step_1__random_shuffle_20( self ):
     #     self.step_1_random_shuffle( 20 )
 
+    # def test__step_1__random_shuffle_30( self ):
+    #     self.step_1_random_shuffle( 30 )
+
+    # def test__step_1__random_shuffle_40( self ):
+    #     self.step_1_random_shuffle( 40 )
+
+    # def test__step_1__random_shuffle_50( self ):
+    #     self.step_1_random_shuffle( 50 )
+
+    # def test__step_1__random_shuffle_100( self ):
+    #     self.step_1_random_shuffle( 100 )
+
 if __name__ == '__main__':
     unittest.main()
