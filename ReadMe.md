@@ -295,6 +295,18 @@ cube_client.visualize_cube()
 - **Status:** In Progress
 - **Description:** Once testing is completed, the project will focus on developing an efficient algorithm to solve a Rubik's Cube. The goal is to create a solution that outputs a list of optimal moves to return the cube to its solved state.
 
+*Milestone 6 Breakdown:*
+
+**Solve Reference Documentation**: [Link to Solve Steps](SolveCubeSteps.md)
+- Step 1: Top Cross - ✅
+- Step 2: Corners Around Top Cross - IN PROGRESS
+- Step 3: Flip Cube - ❌
+- Step 4: Middle Section - ❌
+- Step 5: Opposite Sides Top Cross - ❌
+- Step 6: Opposite Sides Corner Placement - ❌
+- Step 7: Ordering Opposite Sides Corners - ❌
+
+
 ### Milestone 7: Convert to a Python Module
 - **Status:** Planned
 - **Description:** In this milestone, the project will be transformed into a Python module, allowing users to install and use it as part of their Python projects. This step involves packaging, distribution, and making it available through standard Python package management tools.
