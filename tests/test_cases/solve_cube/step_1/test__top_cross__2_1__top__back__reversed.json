@@ -6,11 +6,11 @@
     , "TEST_CUBE_OVERRIDE": [
         [
             [ ".", "b", "." ],
-            [ "w", "w", "w" ],
-            [ ".", "w", "." ]
+            [ ".", "w", "." ],
+            [ ".", ".", "." ]
         ],
         [
-            [ ".", "g", "." ],
+            [ ".", ".", "." ],
             [ ".", "b", "." ],
             [ ".", ".", "." ]
         ],
@@ -25,12 +25,12 @@
             [ ".", ".", "." ]
         ],
         [
-            [ ".", "o", "." ],
+            [ ".", ".", "." ],
             [ ".", "r", "." ],
             [ ".", ".", "." ]
         ],
         [
-            [ ".", "r", "." ],
+            [ ".", ".", "." ],
             [ ".", "o", "." ],
             [ ".", ".", "." ]
         ]
@@ -39,8 +39,8 @@
         {
             "expected_side": "top_side",
             "expected_value": [
+                [ null, null, null ],
                 [ null, "w", null ],
-                [ "w", "w", "w" ],
                 [ null, "w", null ]
             ]
         },
@@ -63,7 +63,7 @@
         {
             "expected_side": "back_side",
             "expected_value": [
-                [ null, "g", null ],
+                [ null, null, null ],
                 [ null, "g", null ],
                 [ null, null, null ]
             ]
@@ -71,7 +71,7 @@
         {
             "expected_side": "left_side",
             "expected_value": [
-                [ null, "r", null ],
+                [ null, null, null ],
                 [ null, "r", null ],
                 [ null, null, null ]
             ]
@@ -79,7 +79,7 @@
         {
             "expected_side": "right_side",
             "expected_value": [
-                [ null, "o", null ],
+                [ null, null, null ],
                 [ null, "o", null ],
                 [ null, null, null ]
             ]
