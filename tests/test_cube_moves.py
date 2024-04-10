@@ -409,7 +409,6 @@ class TestMoves( unittest.TestCase ):
     def step_1_random_shuffle( self, shuffle_times=0 ):
         cube_client = RubiksCube()
         cube_client.shuffle_cube( shuffle_times )
-        cube_client.print_json_cube()
         cube_client.solve_cube( step_override=1 )
 
         top_side_color = cube_client.top_side[1][1]
@@ -1585,41 +1584,41 @@ class TestMoves( unittest.TestCase ):
         
     # === RANDOM TESTS ===
         
-    # def test__step_1__random_shuffle_1( self ):
-    #     self.step_1_random_shuffle( 1 )
+    def test__step_1__random_shuffle_1( self ):
+        self.step_1_random_shuffle( 1 )
 
-    # def test__step_1__random_shuffle_2( self ):
-    #     self.step_1_random_shuffle( 2 )
+    def test__step_1__random_shuffle_2( self ):
+        self.step_1_random_shuffle( 2 )
 
-    # def test__step_1__random_shuffle_3( self ):
-    #     self.step_1_random_shuffle( 3 )
+    def test__step_1__random_shuffle_3( self ):
+        self.step_1_random_shuffle( 3 )
 
-    # def test__step_1__random_shuffle_4( self ):
-    #     self.step_1_random_shuffle( 4 )
+    def test__step_1__random_shuffle_4( self ):
+        self.step_1_random_shuffle( 4 )
 
-    # def test__step_1__random_shuffle_5( self ):
-    #     self.step_1_random_shuffle( 5 )
+    def test__step_1__random_shuffle_5( self ):
+        self.step_1_random_shuffle( 5 )
 
-    # def test__step_1__random_shuffle_10( self ):
-    #     self.step_1_random_shuffle( 10 )
+    def test__step_1__random_shuffle_10( self ):
+        self.step_1_random_shuffle( 10 )
 
-    # def test__step_1__random_shuffle_15( self ):
-    #     self.step_1_random_shuffle( 15 )
+    def test__step_1__random_shuffle_15( self ):
+        self.step_1_random_shuffle( 15 )
 
-    # def test__step_1__random_shuffle_20( self ):
-    #     self.step_1_random_shuffle( 20 )
+    def test__step_1__random_shuffle_20( self ):
+        self.step_1_random_shuffle( 20 )
 
-    # def test__step_1__random_shuffle_30( self ):
-    #     self.step_1_random_shuffle( 30 )
+    def test__step_1__random_shuffle_30( self ):
+        self.step_1_random_shuffle( 30 )
 
-    # def test__step_1__random_shuffle_40( self ):
-    #     self.step_1_random_shuffle( 40 )
+    def test__step_1__random_shuffle_40( self ):
+        self.step_1_random_shuffle( 40 )
 
-    # def test__step_1__random_shuffle_50( self ):
-    #     self.step_1_random_shuffle( 50 )
+    def test__step_1__random_shuffle_50( self ):
+        self.step_1_random_shuffle( 50 )
 
-    # def test__step_1__random_shuffle_100( self ):
-    #     self.step_1_random_shuffle( 100 )
+    def test__step_1__random_shuffle_100( self ):
+        self.step_1_random_shuffle( 100 )
 
 if __name__ == '__main__':
     unittest.main()
