@@ -1,6 +1,8 @@
 
 # STEP 1
 
+LOG_STEP_INFO = False
+
 def solve_cube__step_1( cube_client, test_id=None ):
     """
     This function should output a list of moves to solve the top cross of the cube. 
@@ -21,7 +23,9 @@ def solve_cube__step_1( cube_client, test_id=None ):
     steps_to_solve=[]
     step_1_status = "FAIL"
 
-    print( "Starting Step 1!" )
+    if LOG_STEP_INFO == True:
+        print( "Starting Step 1!" )
+        
     step_1_errors = []
     # what do we want to assert? What were testing, the top cross needs to be solved
     # run check cube function to find the side with the most matching pieces, we can find this in best_side_data
@@ -44,7 +48,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
             "bottom_side": [ ("up", 2) ]
         }
         steps_to_pass = rotation_mapping.get( best_side_name )
-        print( f"Rotating cube to move best side to the top. {best_side_name} -> top_side" )
+        if LOG_STEP_INFO == True:
+            print( f"Rotating cube to move best side to the top. {best_side_name} -> top_side" )
         for direction, turns in steps_to_pass:
             cube_client.rotate_cube( direction, turns )
             step_data = ["rotate_cube", direction, turns]
@@ -76,7 +81,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
     # after every move we will need to update data locations
     def refresh_data():
 
-        print( "REFRESHING DATA" )
+        if LOG_STEP_INFO == True:
+            print( "REFRESHING DATA" )
         top_indexes_to_fix = {
             # row, index: is_perfect
             ( 0, 1 ): False,
@@ -149,8 +155,9 @@ def solve_cube__step_1( cube_client, test_id=None ):
         or game_loop_complete == False and game_loop_iteration < game_loop_max_count
     ): 
         game_loop_iteration += 1
-        # print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
-        # cube_client.visualize_cube()
+        if LOG_STEP_INFO == True:
+            print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
+            cube_client.visualize_cube()
 
         if game_loop_iteration >= game_loop_max_count:
             break
@@ -159,7 +166,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
 
         game_loop_complete_check = [ is_perfect for _, is_perfect in top_indexes_to_fix.items() ]
         if False not in game_loop_complete_check:
-            print("TOP CROSS COMPLETE")
+            if LOG_STEP_INFO == True:
+                print("TOP CROSS COMPLETE")
             game_loop_complete = True
             break
 
@@ -174,7 +182,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
 
         # lets fix one at a time
         if len( top_row_pieces ) >= 1:
-            print( "\nFixing top piece" )
+            if LOG_STEP_INFO == True:
+                print( "\nFixing top piece" )
 
             piece = top_row_pieces[0]
             piece_side = [ key for key in piece.keys() if key != "parent_data" ][0]
@@ -231,7 +240,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
                 # where do we need to end up
                 destination_side = "top_side"
                 move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
-                print( move_from_to )
+                if LOG_STEP_INFO == True:
+                    print( move_from_to )
 
                 if move_from_to not in from_to_move_config:
                     details = f"Sorting top cross piece is not supported! - {move_from_to}"
@@ -242,7 +252,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
                 required_moves = from_to_move_config[ move_from_to ]
 
                 for move in required_moves:
-                    # print( move )
+                    if LOG_STEP_INFO == True:
+                        print( move )
                     if move[0] == "rotate_cube":
                         _, direction, turns = move
                         cube_client.rotate_cube( direction, turns )
@@ -262,7 +273,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
             len( top_row_pieces ) == 0
             and len( middle_row_pieces ) >= 1
         ):
-            print( "\nFixing middle piece" )
+            if LOG_STEP_INFO == True:
+                print( "\nFixing middle piece" )
 
             piece = middle_row_pieces[0]
             piece_side = [ key for key in piece.keys() if key != "parent_data" ][0]
@@ -315,7 +327,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
             }
             destination_side = "top_side"
             move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
-            print( move_from_to )
+            if LOG_STEP_INFO == True:
+                print( move_from_to )
             
             if move_from_to not in from_to_move_config:
                 details = f"Sorting top cross piece is not supported! - {move_from_to}"
@@ -326,6 +339,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
             required_moves = from_to_move_config[ move_from_to ]
 
             for move in required_moves:
+                if LOG_STEP_INFO == True:
+                    print( move )
                 if move[0] == "rotate_cube":
                     _, direction, turns = move
                     cube_client.rotate_cube( direction, turns )
@@ -343,7 +358,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
             and len( middle_row_pieces ) == 0
             and len( bottom_row_pieces ) >= 1
         ):
-            print( "\nFixing bottom piece" )
+            if LOG_STEP_INFO == True:
+                print( "\nFixing bottom piece" )
 
             piece = bottom_row_pieces[0]
             piece_side = [ key for key in piece.keys() if key != "parent_data" ][0]
@@ -396,7 +412,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
             }
             destination_side = "top_side"
             move_from_to = ( parent_side, parent_row_index, parent_sticker_index, to_side_mappings[ piece_color ], destination_side )
-            print( move_from_to )
+            if LOG_STEP_INFO == True:
+                print( move_from_to )
 
             if move_from_to not in from_to_move_config:
                 details = f"Sorting top cross piece is not supported! - {move_from_to}"
@@ -407,6 +424,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
             required_moves = from_to_move_config[ move_from_to ]
 
             for move in required_moves:
+                if LOG_STEP_INFO == True:
+                    print( move )
                 if move[0] == "rotate_cube":
                     _, direction, turns = move
                     cube_client.rotate_cube( direction, turns )
@@ -431,9 +450,11 @@ def solve_cube__step_1( cube_client, test_id=None ):
     else:
         step_1_status = "PASS" if False not in [ is_perfect for _, is_perfect in top_indexes_to_fix.items() ] else "FAIL"
 
-    print({
-        "step_1_status": step_1_status
-    })
-    print(f"steps_to_solve: {steps_to_solve}")
-    # cube_client.visualize_cube()
+    if LOG_STEP_INFO == True:
+        print({
+            "step_1_status": step_1_status
+        })
+        print(f"steps_to_solve: {steps_to_solve}")
+        cube_client.visualize_cube()
+
     return step_1_status, steps_to_solve
