@@ -913,7 +913,7 @@ class RubiksCube:
 
 
 
-    def solve_cube( self , step_override=None ):
+    def solve_cube( self , step_override=None, test_id=None ):
         """
         This function should output a list of moves to solve the cube. 
         step format: [ class_function, args ]
@@ -930,7 +930,7 @@ class RubiksCube:
         self.visualize_cube()
 
         if step_override == None or step_override == 1:
-            step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self )
+            step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self, test_id )
 
             if len( steps_to_solve_step_1 ) >= 1:
                 steps_to_solve = steps_to_solve + steps_to_solve_step_1
@@ -959,6 +959,7 @@ class RubiksCube:
             self.left_side ,
             self.right_side 
         ]
+        print( "JSON Cube Data:" )
         for side in sides_data:
             print( side )
         return sides_data
