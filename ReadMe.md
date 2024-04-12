@@ -280,10 +280,10 @@ We'll use a random shuffle of 100 moves, print those moves if you would like to 
 
 **Code Example:**
 ```
-cube_client.shuffle_cube( random_turns_count=100 )
+cube_client.shuffle_cube( random_turns_count = 100 )
 print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
 cube_client.visualize_cube()
-steps_to_solve = cube_client.solve_cube( step_override=2 )
+steps_to_solve = cube_client.solve_cube( step_override = 1 )
 cube_client.visualize_cube()
 print(  f"Steps to solve cube: {steps_to_solve}" )
 ```
