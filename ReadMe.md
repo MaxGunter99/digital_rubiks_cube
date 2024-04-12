@@ -327,6 +327,10 @@ print(  f"Steps to solve cube: {cube_client.steps_to_solve}" )
 - Step 7: Ordering Opposite Sides Corners - ❌
 
 
-### Milestone 7: Convert to a Python Module
+### Milestone 7: Refactoring
+- **Status:** Planned
+- **Description:** This milestone entails refactoring the solve steps, focusing on significant enhancements. All changes will be meticulously tested to guarantee continued solvability of cubes before refactoring.
+
+### Milestone 8: Convert to a Python Module
 - **Status:** Planned
 - **Description:** In this milestone, the project will be transformed into a Python module, allowing users to install and use it as part of their Python projects. This step involves packaging, distribution, and making it available through standard Python package management tools.
