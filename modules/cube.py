@@ -947,7 +947,7 @@ class RubiksCube:
             solve_status_report["step_2_status"] = step_2_status
 
         print( solve_status_report )
-        return solve_status_report
+        return self.steps_to_solve
     
 
 

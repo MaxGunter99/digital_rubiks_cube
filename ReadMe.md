@@ -31,6 +31,7 @@ This is an interactive Python project that brings the classic Rubik's Cube into 
 - [Cube Rotation](#example-rotate-cube)
 - [Shuffle Cube Randomly](#example-shuffle-cube-randomly)
 - [Printing Moves Applied](#example-print-moves-applied)
+- [Running the Solve Cube Algorithm](#example-solve-cube)
 
 ---
 
@@ -271,9 +272,9 @@ cube_client.visualize_cube()
 
 <a name="example-solve-cube"></a>
 
-## Solving the Cube
+## Running the Solve Cube Algorithm
 
-This example showcases how to run the solve algorithm which utilizes the `solve_cube` function. This will return each steps status `PASS` or `FAIL` but will append all the needed steps to solve to the classes `steps_to_solve` value
+This example showcases how to run the solve algorithm which utilizes the `solve_cube` function. This will return a list of steps needed to solve a given (or randomly shuffled) cube
 
 We'll use a random shuffle of 100 moves, print those moves if you would like to recreate it with your own cube. To asolve the first step - the top cross pass an `int` as `step_override` will stop the algorithm at the specified step number. Passing 7 or leaving this blank should return a fully solved cube. At the end we'll print the solve steps
 
@@ -282,9 +283,9 @@ We'll use a random shuffle of 100 moves, print those moves if you would like to 
 cube_client.shuffle_cube( random_turns_count=100 )
 print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
 cube_client.visualize_cube()
-cube_client.solve_cube( step_override=1 )
+steps_to_solve = cube_client.solve_cube( step_override=2 )
 cube_client.visualize_cube()
-print(  f"Steps to solve cube: {cube_client.steps_to_solve}" )
+print(  f"Steps to solve cube: {steps_to_solve}" )
 ```
 
 ---
