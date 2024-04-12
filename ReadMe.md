@@ -269,6 +269,26 @@ cube_client.visualize_cube()
 
 ---
 
+<a name="example-solve-cube"></a>
+
+## Solving the Cube
+
+This example showcases how to run the solve algorithm which utilizes the `solve_cube` function. This will return each steps status `PASS` or `FAIL` but will append all the needed steps to solve to the classes `steps_to_solve` value
+
+We'll use a random shuffle of 100 moves, print those moves if you would like to recreate it with your own cube. To asolve the first step - the top cross pass an `int` as `step_override` will stop the algorithm at the specified step number. Passing 7 or leaving this blank should return a fully solved cube. At the end we'll print the solve steps
+
+**Code Example:**
+```
+cube_client.shuffle_cube( random_turns_count=100 )
+print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
+cube_client.visualize_cube()
+cube_client.solve_cube( step_override=1 )
+cube_client.visualize_cube()
+print(  f"Steps to solve cube: {cube_client.steps_to_solve}" )
+```
+
+---
+
 ## Project Milestones
 
 ### Milestone 1: Project Initialization

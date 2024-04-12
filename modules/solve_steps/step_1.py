@@ -25,7 +25,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
 
     if LOG_STEP_INFO == True:
         print( "Starting Step 1!" )
-        
+
     step_1_errors = []
     # what do we want to assert? What were testing, the top cross needs to be solved
     # run check cube function to find the side with the most matching pieces, we can find this in best_side_data
@@ -454,7 +454,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
         print({
             "step_1_status": step_1_status
         })
-        print(f"steps_to_solve: {steps_to_solve}")
         cube_client.visualize_cube()
+    print(f"Steps to Solve Top Cross: {steps_to_solve}")
 
     return step_1_status, steps_to_solve

@@ -5,7 +5,7 @@ import random
 import copy
 
 from .solve_steps.step_1 import solve_cube__step_1
-# from .solve_steps.step_2 import solve_cube__step_2
+from .solve_steps.step_2 import solve_cube__step_2
 
 # I would like to set this up as a 3D Matrix. 
 # Perfect to start with but will be scrambled by the algorithm
@@ -85,6 +85,7 @@ class RubiksCube:
         self.back_side = None
         self.bottom_side = None
         self.tracked_moves = []
+        self.steps_to_solve = []
         
         # If initialized without cube, will start with perfect cube
         cube_supplied = True if cube else False # Extra Cube Attributes
@@ -923,21 +924,30 @@ class RubiksCube:
             1. determine what steps have already been completed on the cube, lets write some real tests, TDD
             2. We need a solve loop that will perform each step of the solve process
         """
-
-        steps_to_solve = []
+        solve_status_report = {
+            "step_1_status": None,
+            "step_2_status": None
+        }
 
         print( "Solving Cube! Initial cube:" )
         self.visualize_cube()
 
-        if step_override == None or step_override == 1:
+        if step_override == None or step_override >= 1:
             step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self, test_id )
 
             if len( steps_to_solve_step_1 ) >= 1:
-                steps_to_solve = steps_to_solve + steps_to_solve_step_1
+                self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_1
+            solve_status_report["step_1_status"] = step_1_status
 
-            print( f"Step 1 Status: {step_1_status}" )
+        if step_override == None or step_override >= 2:
+            step_2_status, steps_to_solve_step_2 = solve_cube__step_2( self, test_id )
 
-        return steps_to_solve
+            if len( steps_to_solve_step_2 ) >= 1:
+                self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_2
+            solve_status_report["step_2_status"] = step_2_status
+
+        print( solve_status_report )
+        return solve_status_report
     
 
 
