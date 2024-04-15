@@ -131,7 +131,7 @@ class TestMoves( unittest.TestCase ):
         STEPS_TO_SOLVE = file_data.get( "STEPS_TO_SOLVE", None )
 
         cube_client = RubiksCube( cube=TEST_CUBE_OVERRIDE )
-        solve_steps = cube_client.solve_cube()
+        solve_steps = cube_client.solve_cube( STEP_NUMBER )
 
         for move_check in TEST_SOLUTION:
             test_side = move_check.get("expected_side")
@@ -1532,7 +1532,106 @@ class TestMoves( unittest.TestCase ):
     def test__top_cross__1_2__bottom__right( self ):
         test_data_path = "tests/test_cases/solve_cube/step_1/test__top_cross__1_2__bottom__right.json"
         self.solve_cube_step( test_data_path )
+
+
+    # ------- STEP 2 TOP ROW TESTS -------
     
+    # ------- STEP 2 - FRONT LEFT PIECE -------
+    def test__step_2__front_left__top__0__0__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__0__0__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__0__0__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__0__0__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__0__0__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__0__0__240.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__0__2__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__0__2__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__0__2__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__0__2__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__0__2__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__0__2__240.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__2__0__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__2__0__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__2__0__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__2__0__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__2__0__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__2__0__240.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__2__2__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__2__2__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__2__2__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__2__2__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__top__2__2__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/top__2__2__240.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__0__0__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__0__0__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__0__0__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__0__0__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__0__0__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__0__0__240.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__0__2__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__0__2__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__0__2__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__0__2__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__0__2__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__0__2__240.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__2__0__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__2__0__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__2__0__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__2__0__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__2__0__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__2__0__240.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__2__2__0( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__2__2__0.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__2__2__120( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__2__2__120.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_2__front_left__bottom__2__2__240( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/front_left/bottom__2__2__240.json"
+        self.solve_cube_step( test_data_path )
         
     # ------- BATCH TESTS -------
 

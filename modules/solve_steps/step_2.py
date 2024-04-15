@@ -82,13 +82,28 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			break
 
 		top_row_pieces, bottom_row_pieces = refresh_data()
-		if 3 >= len( top_row_pieces + bottom_row_pieces ) > 4:
+		if len( top_row_pieces + bottom_row_pieces ) > 4:
 			raise Exception( f"Error in step 2: refresh_data function did not not find corner pieces, returned {len( top_row_pieces + bottom_row_pieces )} but should be 4" )
 		
-		print( f"top_row_pieces: {top_row_pieces}" )
-		print( f"bottom_row_pieces: {bottom_row_pieces}" )
+		# print( f"top_row_pieces: {top_row_pieces}" )
+		# print( f"bottom_row_pieces: {bottom_row_pieces}" )
 
-		print( f"top_row_pieces: {len( top_row_pieces + bottom_row_pieces )}" )
+		# print( f"top_row_pieces: {len( top_row_pieces + bottom_row_pieces )}" )
+  
+		to_side_mappings = {
+		cube_client.front_side[1][1]: "front_side",
+		cube_client.back_side[1][1]: "back_side",
+		cube_client.left_side[1][1]: "left_side",
+		cube_client.right_side[1][1]: "right_side"
+	} 
+  
+		for brick_to_fix in top_row_pieces + bottom_row_pieces:
+			print( brick_to_fix )
+			# where does each brick need to go?
+			from_to_move_config = {
+                ('back_side', 0, 1, 'back_side', 'top_side'): [],
+			}
+
 		raise Exception( "STEP NOT IMPLEMENTED" )
 
 	if len( step_errors ):
