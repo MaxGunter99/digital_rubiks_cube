@@ -20,12 +20,12 @@
             [ ".", ".", "." ]
         ],      
         [
-            [ ".", "g", "g" ],
+            [ ".", "g", "r" ],
             [ ".", "g", "." ],
             [ ".", ".", "." ]
         ],
         [
-            [ "r", "r", "." ],
+            [ "b", "r", "." ],
             [ ".", "r", "." ],
             [ ".", ".", "." ]
         ],
@@ -39,15 +39,15 @@
         {
             "expected_side": "top_side",
             "expected_value": [
-                [ "w", "w", null ],
+                [ null, "w", null ],
                 [ "w", "w", "w" ],
-                [ null, "w", null ]
+                [ "w", "w", null ]
             ]
         },
         {
             "expected_side": "front_side",
             "expected_value": [
-                [ null, "b", null ],
+                [ "b", "b", null ],
                 [ null, "b", null ],
                 [ null, null, null ]
             ]
@@ -63,7 +63,7 @@
         {
             "expected_side": "back_side",
             "expected_value": [
-                [ null, "g", "g" ],
+                [ null, "g", null ],
                 [ null, "g", null ],
                 [ null, null, null ]
             ]
