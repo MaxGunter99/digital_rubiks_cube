@@ -12,10 +12,10 @@
         [
             [ ".", "b", "." ],
             [ ".", "b", "." ],
-            [ "r", ".", "." ]
+            [ ".", ".", "w" ]
         ],
         [
-            [ "w", ".", "." ],
+            [ ".", ".", "b" ],
             [ ".", "y", "." ],
             [ ".", ".", "." ]
         ],      
@@ -27,12 +27,12 @@
         [
             [ ".", "r", "." ],
             [ ".", "r", "." ],
-            [ ".", ".", "b" ]
+            [ ".", ".", "." ]
         ],
         [
             [ ".", "o", "." ],
             [ ".", "o", "." ],
-            [ ".", ".", "." ]
+            [ "o", ".", "." ]
         ]
 	]
     , "TEST_SOLUTION": [
@@ -41,13 +41,13 @@
             "expected_value": [
                 [ null, "w", null ],
                 [ "w", "w", "w" ],
-                [ "w", "w", null ]
+                [ null, "w", "w" ]
             ]
         },
         {
             "expected_side": "front_side",
             "expected_value": [
-                [ "b", "b", null ],
+                [ null, "b", "b" ],
                 [ null, "b", null ],
                 [ null, null, null ]
             ]
@@ -71,7 +71,7 @@
         {
             "expected_side": "left_side",
             "expected_value": [
-                [ "r", "r", null ],
+                [ null, "r", null ],
                 [ null, "r", null ],
                 [ null, null, null ]
             ]
@@ -79,7 +79,7 @@
         {
             "expected_side": "right_side",
             "expected_value": [
-                [ null, "o", null ],
+                [ "o", "o", null ],
                 [ null, "o", null ],
                 [ null, null, null ]
             ]

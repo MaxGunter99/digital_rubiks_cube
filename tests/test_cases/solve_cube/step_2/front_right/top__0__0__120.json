@@ -1,33 +1,33 @@
 {
 	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
-    , "STEP_NAME": "2. Solve the bottom corners -- file format is /piece/top_or_bottom_side__new_x__new_y__degrees_rotated"
+    , "STEP_NAME": "2. Solve the top corners -- file format is /piece/top_or_bottom_side__new_x__new_y__degrees_rotated"
     , "STEP_NUMBER": 2
     , "STEPS_TO_SOLVE": []
     , "TEST_CUBE_OVERRIDE": [
         [
-            [ ".", "w", "." ],
+            [ "b", "w", "." ],
             [ "w", "w", "w" ],
             [ ".", "w", "." ]
         ],
         [
             [ ".", "b", "." ],
             [ ".", "b", "." ],
-            [ "r", ".", "." ]
+            [ ".", ".", "." ]
         ],
         [
-            [ "w", ".", "." ],
+            [ ".", ".", "." ],
             [ ".", "y", "." ],
             [ ".", ".", "." ]
         ],      
         [
-            [ ".", "g", "." ],
+            [ ".", "g", "o" ],
             [ ".", "g", "." ],
             [ ".", ".", "." ]
         ],
         [
+            [ "w", "r", "." ],
             [ ".", "r", "." ],
-            [ ".", "r", "." ],
-            [ ".", ".", "b" ]
+            [ ".", ".", "." ]
         ],
         [
             [ ".", "o", "." ],
@@ -41,13 +41,13 @@
             "expected_value": [
                 [ null, "w", null ],
                 [ "w", "w", "w" ],
-                [ "w", "w", null ]
+                [ null, "w", "w" ]
             ]
         },
         {
             "expected_side": "front_side",
             "expected_value": [
-                [ "b", "b", null ],
+                [ null, "b", "b" ],
                 [ null, "b", null ],
                 [ null, null, null ]
             ]
@@ -71,7 +71,7 @@
         {
             "expected_side": "left_side",
             "expected_value": [
-                [ "r", "r", null ],
+                [ null, "r", null ],
                 [ null, "r", null ],
                 [ null, null, null ]
             ]
@@ -79,7 +79,7 @@
         {
             "expected_side": "right_side",
             "expected_value": [
-                [ null, "o", null ],
+                [ "o", "o", null ],
                 [ null, "o", null ],
                 [ null, null, null ]
             ]
