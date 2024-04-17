@@ -12,17 +12,17 @@
         [
             [ ".", "b", "." ],
             [ ".", "b", "." ],
-            [ ".", ".", "." ]
+            [ ".", ".", "g" ]
         ],
         [
-            [ ".", ".", "." ],
+            [ ".", ".", "w" ],
             [ ".", "y", "." ],
-            [ ".", ".", "b" ]
+            [ ".", ".", "." ]
         ],      
         [
             [ ".", "g", "." ],
             [ ".", "g", "." ],
-            [ "w", ".", "." ]
+            [ ".", ".", "." ]
         ],
         [
             [ ".", "r", "." ],
@@ -32,22 +32,22 @@
         [
             [ ".", "o", "." ],
             [ ".", "o", "." ],
-            [ ".", ".", "r" ]
+            [ "o", ".", "." ]
         ]
 	]
     , "TEST_SOLUTION": [
         {
             "expected_side": "top_side",
             "expected_value": [
-                [ null, "w", null ],
+                [ null, "w", "w" ],
                 [ "w", "w", "w" ],
-                [ "w", "w", null ]
+                [ null, "w", null ]
             ]
         },
         {
             "expected_side": "front_side",
             "expected_value": [
-                [ "b", "b", null ],
+                [ null, "b", null ],
                 [ null, "b", null ],
                 [ null, null, null ]
             ]
@@ -63,7 +63,7 @@
         {
             "expected_side": "back_side",
             "expected_value": [
-                [ null, "g", null ],
+                [ "g", "g", null ],
                 [ null, "g", null ],
                 [ null, null, null ]
             ]
@@ -71,7 +71,7 @@
         {
             "expected_side": "left_side",
             "expected_value": [
-                [ "r", "r", null ],
+                [ null, "r", null ],
                 [ null, "r", null ],
                 [ null, null, null ]
             ]
@@ -79,7 +79,7 @@
         {
             "expected_side": "right_side",
             "expected_value": [
-                [ null, "o", null ],
+                [ null, "o", "o" ],
                 [ null, "o", null ],
                 [ null, null, null ]
             ]
