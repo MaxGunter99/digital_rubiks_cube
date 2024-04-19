@@ -117,7 +117,8 @@ def solve_cube__step_1( cube_client, test_id=None ):
                     bricks_parent_row = bricks_parent_data.get("parent_row_index")
                     bricks_parent_sticker = bricks_parent_data.get("parent_sticker_index")
                     color_data_side = color_data.get("side")
-                    top_indexes_to_fix[ ( bricks_parent_row, bricks_parent_sticker ) ] = brick_is_perfect
+                    if ( bricks_parent_row, bricks_parent_sticker ) in top_indexes_to_fix:
+                        top_indexes_to_fix[ ( bricks_parent_row, bricks_parent_sticker ) ] = brick_is_perfect
 
                     if not brick_is_perfect:
                         # sorting pieces if they are not perfect
@@ -455,6 +456,5 @@ def solve_cube__step_1( cube_client, test_id=None ):
             "step_1_status": step_1_status
         })
         cube_client.visualize_cube()
-    print(f"Steps to Solve Top Cross: {steps_to_solve}")
 
     return step_1_status, steps_to_solve
