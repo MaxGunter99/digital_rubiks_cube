@@ -73,7 +73,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		fixable_piece_status = {}
 
 		for fixable_block in top_row_pieces + bottom_row_pieces:
-			print( f"fixable_block: {fixable_block}" )
+			# print( f"fixable_block: {fixable_block}" )
 
 			# which of these indexes does the fixable block need to be
 			grab_colors = {
@@ -116,7 +116,6 @@ def solve_cube__step_2( cube_client, test_id=None ):
 				brick_is_perfect = True
 			fixable_piece_status[ grab_colors_key ] = brick_is_perfect
 
-		print( f"fixable_piece_status: {fixable_piece_status}")
 		return ( top_row_pieces, bottom_row_pieces, fixable_piece_status )
 
 	while (

@@ -934,6 +934,7 @@ class RubiksCube:
 
         if step_override == None or step_override >= 1:
             step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self, test_id )
+            print(f"Steps to Solve Top Cross: {steps_to_solve_step_1}")
 
             if len( steps_to_solve_step_1 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_1
@@ -941,12 +942,16 @@ class RubiksCube:
 
         if step_override == None or step_override >= 2:
             step_2_status, steps_to_solve_step_2 = solve_cube__step_2( self, test_id )
+            print(f"Steps to Solve Top Corners: {steps_to_solve_step_2}")
 
             if len( steps_to_solve_step_2 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_2
             solve_status_report["step_2_status"] = step_2_status
 
-        print( solve_status_report )
+        all_steps_status = [ status for _, status in solve_status_report.items() ]
+        if "FAIL" in all_steps_status:
+            raise Exception( f"Solve Cube Error - step has failed: {solve_status_report}" )
+
         return self.steps_to_solve
     
 
