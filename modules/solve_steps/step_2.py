@@ -1,7 +1,8 @@
 
 # STEP 2
 
-LOG_STEP_INFO = False
+LOG_STEP_INFO = True
+# LOG_STEP_INFO = False
 
 def solve_cube__step_2( cube_client, test_id=None ):
 	"""
@@ -30,7 +31,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 	step_errors = []
 
-	game_loop_max_count = 2
+	game_loop_max_count = 7
 	game_loop_iteration = 0
 	game_loop_complete = False
 
@@ -108,6 +109,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 			brick_is_perfect = False
 
+			print( ( bricks_parent_row, bricks_parent_sticker), parent_side )
+
 			if (
 				parent_side == "top_side" 
 				and grab_colors_key is not None 
@@ -115,6 +118,14 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			):
 				brick_is_perfect = True
 			fixable_piece_status[ grab_colors_key ] = brick_is_perfect
+
+			# assign pieces perfect location
+			try:
+				which_list = top_row_pieces if fixable_block in top_row_pieces else bottom_row_pieces
+				which_index = which_list.index( fixable_block )
+				which_list[which_index]["fixed_coords"] = grab_colors_key
+			except ValueError:
+				raise Exception( f"Error finding new location for fixable_block: {fixable_block}" )
 
 		return ( top_row_pieces, bottom_row_pieces, fixable_piece_status )
 
@@ -127,7 +138,9 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
 			cube_client.visualize_cube()
 
-		if game_loop_iteration >= game_loop_max_count:
+		if game_loop_iteration > game_loop_max_count:
+			if LOG_STEP_INFO == True:
+				print(f"Breaking game loop, max iterations: {game_loop_max_count}")
 			break
 
 		top_row_pieces, bottom_row_pieces, fixable_piece_status = refresh_data()
@@ -144,8 +157,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		
 		# print( f"top_row_pieces: {top_row_pieces}" )
 		# print( f"bottom_row_pieces: {bottom_row_pieces}" )
-
 		# print( f"top_row_pieces: {len( top_row_pieces + bottom_row_pieces )}" )
+		print( f"fixable_piece_status: {fixable_piece_status}" )
   
 		to_side_mappings = {
 			cube_client.front_side[1][1]: "front_side",
@@ -154,10 +167,166 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			cube_client.right_side[1][1]: "right_side"
 		}
 
+		for piece_to_fix in bottom_row_pieces:
+			parent_data = piece_to_fix.get("parent_data")
+			parent_side = parent_data.get("parent_side")
+			parent_row_index = parent_data.get("parent_row_index")
+			parent_sticker_index = parent_data.get("parent_sticker_index")
+			fixed_coords = piece_to_fix.get("fixed_coords")
+			move_from_to = ( parent_side, parent_row_index, parent_sticker_index, fixed_coords )
+
+			if (
+				parent_side in ["front_side", "right_side", "back_side", "left_side"]
+				and parent_row_index == 0
+				or parent_side == "top_side"
+			):
+				print( "Fixing Top Piece" )
+
+				# top color is not on the bottom
+				moves_config = {}
+
+				if move_from_to not in moves_config.keys():
+					details = f"Fix not implemented for move - {move_from_to}"
+					print( details )
+					raise Exception( details )
+				
+				required_moves = moves_config[move_from_to]
+				
+				for move in required_moves:
+					if LOG_STEP_INFO == True:
+						print( move )
+					if move[0] == "rotate_cube":
+						_, direction, turns = move
+						cube_client.rotate_cube( direction, turns )
+						steps_to_solve.append( ["rotate_cube", direction, turns] )
+
+					elif move[0] == "move_cube": 
+						_, section, orientation, direction, turns = move
+						cube_client.move_cube( section, orientation, direction, turns )
+						steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
+
+				continue
+
+			elif (
+				parent_side in ["front_side", "right_side", "back_side", "left_side"]
+				and parent_row_index == 2
+				or parent_side == "bottom_side"
+			):
+				print( "Fixing Bottom Piece" )
+
+				# top color is not on the bottom
+	
+				# lets do this using fewer hard coded moves:
+				# 	well need 3 moves for each of the 4 corners on the front
+				# 	then if its not defined, turn the cube until one is already defined, 
+				# 	then revert turn
+				moves_config = {
+					# BOTTOM LEFT MOVES (parent coords)
+
+					# front_side, bottom, left
+					# left_side, bottom, right
+	 				# bottom_side, top, left
+					# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+	  
+					('front_side', 2, 0, (0, 0)): [
+						('rotate_cube', 'right', 1),
+						('move_cube', 'left', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'left', 'vertical', 'up', 1), 
+						('rotate_cube', 'left', 1)
+					],
+					('front_side', 2, 0, (0, 2)): [
+						('rotate_cube', 'left', 2),
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'left', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'left', 'vertical', 'up', 1), 
+						('rotate_cube', 'left', 2),
+					],
+					('front_side', 2, 0, (2, 0)): [
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'left', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'left', 'vertical', 'up', 1), 
+					],
+					('front_side', 2, 0, (2, 2)): [
+						('rotate_cube', 'left', 1),
+						('move_cube', 'bottom', 'horizontal', 'right', 2), 
+						('move_cube', 'left', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'left', 'vertical', 'up', 1), 
+						('rotate_cube', 'right', 1),
+					],
+	 
+					('left_side', 2, 2, (0, 0)): [
+						('rotate_cube', 'right', 2),
+						('move_cube', 'bottom', 'horizontal', 'left', 2), 
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+						('rotate_cube', 'right', 2),
+					],
+					# ('left_side', 2, 2, (0, 2)): [
+
+					# ],
+					# ('left_side', 2, 2, (2, 0)): [],
+					# ('left_side', 2, 2, (2, 2)): [],
+	 
+					# ('bottom_side', 0, 0, (0, 0)): []
+					# ('bottom_side', 0, 0, (0, 2)): []
+					('bottom_side', 0, 0, (2, 0)): [
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'left', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 2), 
+						('move_cube', 'left', 'vertical', 'up', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'left', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'left', 'vertical', 'up', 1), 
+					]
+					# ('bottom_side', 0, 0, (2, 2)): []
+	 
+					# BOTTOM RIGHT MOVES (parent coords)
+					# front_side, bottom, right
+					# right_side, bottom, left
+					# bottom_side, top, right
+	 				# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+
+				}
+
+				if move_from_to not in moves_config.keys():
+					# TODO: needs pre / post turning for specific moves
+					details = f"Fix not implemented for move - {move_from_to}"
+					print( details )
+					raise Exception( details )
+				
+				required_moves = moves_config[move_from_to]
+				
+				for move in required_moves:
+					if LOG_STEP_INFO == True:
+						print( move )
+					if move[0] == "rotate_cube":
+						_, direction, turns = move
+						cube_client.rotate_cube( direction, turns )
+						steps_to_solve.append( ["rotate_cube", direction, turns] )
+
+					elif move[0] == "move_cube": 
+						_, section, orientation, direction, turns = move
+						cube_client.move_cube( section, orientation, direction, turns )
+						steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
+
+				continue
+
+			else:
+				details = f"Piece is not supported: {move_from_to}"
+				print( details )
+				raise Exception( details )
+
 	if len( step_errors ):
 		print( f"Errors in step 2: {step_errors}" )
 		raise Exception( f"Errors in step 2: {step_errors}" )
 	else:
+		print( [ is_perfect for _, is_perfect in fixable_piece_status.items() ] )
 		step_status = "PASS" if False not in [ is_perfect for _, is_perfect in fixable_piece_status.items() ] else "FAIL"
 
 	return step_status, steps_to_solve

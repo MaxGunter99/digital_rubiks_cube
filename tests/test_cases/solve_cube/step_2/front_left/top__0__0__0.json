@@ -71,7 +71,7 @@
         {
             "expected_side": "left_side",
             "expected_value": [
-                [ "r", "r", null ],
+                [ null, "r", "r" ],
                 [ null, "r", null ],
                 [ null, null, null ]
             ]
