@@ -669,7 +669,7 @@ class RubiksCube:
     # given a sticker on a side, I need to know if the attached colors match that side
     def read_brick( self, side_name, row_index, sticker_index ):
         """
-        this generates prick data in json format, it will return details about each brick along with the parent information
+        this generates brick data in json format, it will return details about each brick along with the parent information
         """
         if print_moves == True:
             print( f"reading: {side_name, row_index, sticker_index}" )
