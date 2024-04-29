@@ -671,6 +671,8 @@ class RubiksCube:
         """
         this generates prick data in json format, it will return details about each brick along with the parent information
         """
+        if print_moves == True:
+            print( f"reading: {side_name, row_index, sticker_index}" )
 
         # config tells us what side data to grab given a side_name, row_index, and sticker_index
         # TODO: improve this in the future, this is hard coded
@@ -718,7 +720,7 @@ class RubiksCube:
                 [
                     [ ( "left_side", 2, 2 ), ( "bottom_side", 0, 0 ) ],
                     [ ( "bottom_side", 0, 1 ) ],
-                    [ ( "right_side", 0, 0 ), ( "bottom_side", 0, 2 ) ]
+                    [ ( "right_side", 2, 0 ), ( "bottom_side", 0, 2 ) ]
                 ]
             ],
             "bottom_side": [ 

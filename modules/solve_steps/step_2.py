@@ -74,7 +74,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		fixable_piece_status = {}
 
 		for fixable_block in top_row_pieces + bottom_row_pieces:
-			# print( f"fixable_block: {fixable_block}" )
+			print( f"fixable_block: {fixable_block}" )
 
 			# which of these indexes does the fixable block need to be
 			grab_colors = {
@@ -98,9 +98,13 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			if "parent_data" in related_values:
 				related_values.remove("parent_data")
 
+			print( f"grab_colors: {grab_colors}" )
+			print( f"related_values: {related_values}" )
 			
 			required_values = sorted( [ fixable_block[key].get("value") for key in related_values] )
 			grab_colors_key = None
+
+			print( f"required_values: {required_values}" )
 
 			if required_values in list( grab_colors.values() ):
 				for key, value_list in grab_colors.items():
@@ -110,6 +114,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			brick_is_perfect = False
 
 			print( ( bricks_parent_row, bricks_parent_sticker), parent_side )
+			print( f"grab_colors_key: {grab_colors_key}" )
 
 			if (
 				parent_side == "top_side" 
@@ -128,6 +133,11 @@ def solve_cube__step_2( cube_client, test_id=None ):
 				raise Exception( f"Error finding new location for fixable_block: {fixable_block}" )
 
 		return ( top_row_pieces, bottom_row_pieces, fixable_piece_status )
+	
+	# VARIABLES USED IF WE REUSE MOVES
+	move_extended = False
+	extended_moves = []
+	reverse_extended_moves = []
 
 	while (
         game_loop_max_count < 10 
@@ -167,7 +177,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			cube_client.right_side[1][1]: "right_side"
 		}
 
-		for piece_to_fix in bottom_row_pieces:
+		for piece_to_fix in top_row_pieces + bottom_row_pieces:
 			parent_data = piece_to_fix.get("parent_data")
 			parent_side = parent_data.get("parent_side")
 			parent_row_index = parent_data.get("parent_row_index")
@@ -183,7 +193,13 @@ def solve_cube__step_2( cube_client, test_id=None ):
 				print( "Fixing Top Piece" )
 
 				# top color is not on the bottom
-				moves_config = {}
+				moves_config = {
+					# TOP LEFT MOVES (parent coords)
+					# front_side, bottom, left
+					# left_side, bottom, right
+	 				# bottom_side, top, left
+	  				# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+				}
 
 				if move_from_to not in moves_config.keys():
 					details = f"Fix not implemented for move - {move_from_to}"
@@ -221,8 +237,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 				# 	then if its not defined, turn the cube until one is already defined, 
 				# 	then revert turn
 				moves_config = {
-					# BOTTOM LEFT MOVES (parent coords)
 
+					# BOTTOM LEFT MOVES (parent coords) 
 					# front_side, bottom, left
 					# left_side, bottom, right
 	 				# bottom_side, top, left
@@ -266,14 +282,30 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'right', 'vertical', 'up', 1), 
 						('rotate_cube', 'right', 2),
 					],
-					# ('left_side', 2, 2, (0, 2)): [
-
-					# ],
-					# ('left_side', 2, 2, (2, 0)): [],
+					# ('left_side', 2, 2, (0, 2)): [],
+					('left_side', 2, 2, (2, 0)): [
+						('rotate_cube', 'right', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+						('rotate_cube', 'left', 1),
+					],
 					# ('left_side', 2, 2, (2, 2)): [],
 	 
 					# ('bottom_side', 0, 0, (0, 0)): []
-					# ('bottom_side', 0, 0, (0, 2)): []
+					('bottom_side', 0, 0, (0, 2)): [
+						('move_cube', 'bottom', 'horizontal', 'right', 2), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('rotate_cube', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+						('rotate_cube', 'right', 1),
+					],
 					('bottom_side', 0, 0, (2, 0)): [
 						('move_cube', 'bottom', 'horizontal', 'right', 1), 
 						('move_cube', 'left', 'vertical', 'down', 1), 
@@ -283,24 +315,120 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'left', 'vertical', 'down', 1), 
 						('move_cube', 'bottom', 'horizontal', 'left', 1), 
 						('move_cube', 'left', 'vertical', 'up', 1), 
-					]
-					# ('bottom_side', 0, 0, (2, 2)): []
+					],
+					# ('bottom_side', 0, 0, (2, 2)): [],
 	 
 					# BOTTOM RIGHT MOVES (parent coords)
 					# front_side, bottom, right
 					# right_side, bottom, left
 					# bottom_side, top, right
 	 				# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+	  				('front_side', 2, 2, (0, 0)): [
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'left', 'vertical', 'up', 1),  
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'left', 'vertical', 'down', 1),  
+						  
+					],
+	  				('front_side', 2, 2, (0, 2)): [
+						('rotate_cube', 'left', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),  
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),  
+						('rotate_cube', 'right', 1),
+					],
+	  				('front_side', 2, 2, (2, 0)): [
+						('rotate_cube', 'right', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),  
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),  
+						('rotate_cube', 'left', 1),
+					],
+	  				# ('front_side', 2, 2, (2, 2)): [],
+					  
+	  				# ('right_side', 2, 0, (0, 0)): [],
+	  				# ('right_side', 2, 0, (0, 2)): [],
+	  				('right_side', 2, 0, (2, 0)): [
+						('move_cube', 'left', 'vertical', 'down', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'left', 'vertical', 'up', 1),
+					],
+	  				# ('right_side', 2, 0, (2, 2)): [],
+					  
+	  				# ('bottom_side', 0, 2, (0, 0)): [],
+	  				('bottom_side', 0, 2, (0, 2)): [
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('rotate_cube', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('rotate_cube', 'right', 1),
+					],
+	  				('bottom_side', 0, 2, (2, 0)): [
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('rotate_cube', 'right', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('rotate_cube', 'left', 1),
+						('move_cube', 'left', 'vertical', 'down', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'left', 'vertical', 'up', 1),
+					],
+	  				# ('bottom_side', 0, 2, (2, 2)): [],
 
 				}
 
 				if move_from_to not in moves_config.keys():
+					use_extended_move = False
+
+					if parent_side == "back_side":
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'right', 2)]
+						reverse_extended_moves = [('rotate_cube', 'right', 2)]
+					elif parent_side == "left_side" and parent_sticker_index == 0:
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'right', 1)]
+						reverse_extended_moves = [('rotate_cube', 'left', 1)]
+					elif parent_side == "right_side" and parent_sticker_index == 2:
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'left', 1)]
+						reverse_extended_moves = [('rotate_cube', 'right', 1)]
+
+					elif parent_side == "bottom_side" and parent_row_index == 2:
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'right', 2)]
+						reverse_extended_moves = [('rotate_cube', 'right', 2)]
+
+					if use_extended_move:
+						print("APPLYING EXTENDED MOVE")
+						move_extended = True
+						for move in extended_moves:
+							_, direction, turns = move
+							cube_client.rotate_cube( direction, turns )
+							steps_to_solve.append( ["rotate_cube", direction, turns] )
+						continue
+
 					# TODO: needs pre / post turning for specific moves
 					details = f"Fix not implemented for move - {move_from_to}"
 					print( details )
 					raise Exception( details )
 				
 				required_moves = moves_config[move_from_to]
+
+				# REVERSE EXTENDED MOVES DATA
+				if move_extended == True:
+					print("REVERSING EXTENDED MOVE")
+					required_moves = required_moves + reverse_extended_moves
+					move_extended = False
+					extended_moves = []
+					reverse_extended_moves = []
 				
 				for move in required_moves:
 					if LOG_STEP_INFO == True:
