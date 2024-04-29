@@ -194,19 +194,86 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 				# top color is not on the bottom
 				moves_config = {
-					# TOP LEFT MOVES (parent coords)
-					# front_side, bottom, left
-					# left_side, bottom, right
-	 				# bottom_side, top, left
-	  				# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+
+					# each of these moves below will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+	 
+					# TOP FRONT LEFT MOVES
+					# ('top_side', 2, 0, (0, 0)): [],
+					# ('top_side', 2, 0, (0, 2)): [],
+					# ('top_side', 2, 0, (2, 0)): [], this may not be needed
+					# ('top_side', 2, 0, (2, 2)): [],
+	 
+					# ('left_side', 0, 2, (0, 0)): [],
+					# ('left_side', 0, 2, (0, 2)): [], this may not be needed
+					# ('left_side', 0, 2, (2, 0)): [],
+					# ('left_side', 0, 2, (2, 2)): [],
+	 
+					# ('front_side', 0, 0, (0, 0)): [], this may not be needed
+					# ('front_side', 0, 0, (0, 2)): [],
+					# ('front_side', 0, 0, (2, 0)): [],
+					# ('front_side', 0, 0, (2, 2)): [],
+	 
+	 				# TOP FRONT RIGHT MOVES
+					# ('top_side', 2, 2, (0, 0)): [],
+					# ('top_side', 2, 2, (0, 2)): [],
+					# ('top_side', 2, 2, (2, 0)): [],
+					# ('top_side', 2, 2, (2, 2)): [], this may not be needed
+	 
+					# ('right_side', 0, 0, (0, 0)): [], this may not be needed
+					# ('right_side', 0, 0, (0, 2)): [],
+					# ('right_side', 0, 0, (2, 0)): [],
+					# ('right_side', 0, 0, (2, 2)): [],
+	 
+					# ('front_side', 2, 0, (0, 0)): [],
+					# ('front_side', 2, 0, (0, 2)): [],
+					# ('front_side', 2, 0, (2, 0)): [], this may not be needed
+					# ('front_side', 2, 0, (2, 2)): [],
 				}
 
 				if move_from_to not in moves_config.keys():
+					use_extended_move = False
+
+					if parent_side == "back_side":
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'right', 2)]
+						reverse_extended_moves = [('rotate_cube', 'right', 2)]
+					elif parent_side == "left_side" and parent_sticker_index == 0:
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'right', 1)]
+						reverse_extended_moves = [('rotate_cube', 'left', 1)]
+					elif parent_side == "right_side" and parent_sticker_index == 2:
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'left', 1)]
+						reverse_extended_moves = [('rotate_cube', 'right', 1)]
+
+					elif parent_side == "bottom_side" and parent_row_index == 2:
+						use_extended_move = True
+						extended_moves = [('rotate_cube', 'right', 2)]
+						reverse_extended_moves = [('rotate_cube', 'right', 2)]
+
+					if use_extended_move:
+						print("APPLYING EXTENDED MOVE")
+						move_extended = True
+						for move in extended_moves:
+							_, direction, turns = move
+							cube_client.rotate_cube( direction, turns )
+							steps_to_solve.append( ["rotate_cube", direction, turns] )
+						continue
+
+					# TODO: needs pre / post turning for specific moves
 					details = f"Fix not implemented for move - {move_from_to}"
 					print( details )
 					raise Exception( details )
 				
 				required_moves = moves_config[move_from_to]
+
+				# REVERSE EXTENDED MOVES DATA
+				if move_extended == True:
+					print("REVERSING EXTENDED MOVE")
+					required_moves = required_moves + reverse_extended_moves
+					move_extended = False
+					extended_moves = []
+					reverse_extended_moves = []
 				
 				for move in required_moves:
 					if LOG_STEP_INFO == True:
