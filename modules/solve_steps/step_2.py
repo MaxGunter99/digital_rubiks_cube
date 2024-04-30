@@ -213,12 +213,26 @@ def solve_cube__step_2( cube_client, test_id=None ):
 					('top_side', 2, 0, (2, 2)): None,
 	 
 					('left_side', 0, 2, (0, 0)): None,
-					('left_side', 0, 2, (0, 2)): None, # this may not be needed
+					('left_side', 0, 2, (0, 2)): None,
 					('left_side', 0, 2, (2, 0)): None,
 					('left_side', 0, 2, (2, 2)): None,
 	 
-					('front_side', 0, 0, (0, 0)): None, # this may not be needed
-					('front_side', 0, 0, (0, 2)): None,
+					('front_side', 0, 0, (0, 0)): None,
+					('front_side', 0, 0, (0, 2)): [
+						('rotate_cube', 'right', 1),
+						('move_cube', 'left', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 2), 
+						('move_cube', 'left', 'vertical', 'up', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('rotate_cube', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+						('rotate_cube', 'right', 1),
+					],
 					('front_side', 0, 0, (2, 0)): None,
 					('front_side', 0, 0, (2, 2)): [
 						('move_cube', 'left', 'vertical', 'down', 1), 
@@ -252,7 +266,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 					('top_side', 2, 2, (2, 0)): None,
 					('top_side', 2, 2, (2, 2)): None, # this may not be needed
 	 
-					('right_side', 0, 0, (0, 0)): None, # this may not be needed
+					('right_side', 0, 0, (0, 0)): None,
 					('right_side', 0, 0, (0, 2)): None,
 					('right_side', 0, 0, (2, 0)): None,
 					('right_side', 0, 0, (2, 2)): None,
@@ -268,7 +282,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'right', 'vertical', 'up', 1), 
 						('rotate_cube', 'right', 1),
 					],
-					('front_side', 0, 2, (2, 0)): None, # this may not be needed
+					('front_side', 0, 2, (2, 0)): None,
 					('front_side', 0, 2, (2, 2)): None,
 				}
 
