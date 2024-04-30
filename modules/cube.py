@@ -684,7 +684,7 @@ class RubiksCube:
                 [
                     [ ( "left_side", 0, 0 ), ( "back_side", 0, 2 )],
                     [ ( "back_side", 0, 1 ) ],
-                    [ ( "left_side", 0, 2 ), ( "back_side", 0, 0 ) ],
+                    [ ( "right_side", 0, 2 ), ( "back_side", 0, 0 ) ],
                 ],
 
                 # MIDDLE ROW
