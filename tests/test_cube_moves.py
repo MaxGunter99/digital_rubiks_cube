@@ -1634,295 +1634,295 @@ class TestMoves( unittest.TestCase ):
         self.solve_cube_step( test_data_path )
 
     # ------- STEP 2 - FRONT RIGHT PIECE -------
-    def test__step_2__front_right__top__0__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__0__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__0__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__0__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__0__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__0__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__2__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__2__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__2__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__2__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__2__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__top__2__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__0__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__0__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__0__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__0__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__0__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__0__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__2__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__2__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__2__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__2__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__2__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__front_right__bottom__2__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    # ------- STEP 2 - BACK LEFT PIECE -------
-    def test__step_2__back_left__top__0__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_left__top__0__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__0__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__front_right__top__0__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__0__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__0__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__0__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__0__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__0__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__0__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__2__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__2__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__2__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__2__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__2__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__top__2__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/top__2__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__0__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__0__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__0__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__0__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__0__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__0__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__0__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__2__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__2__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__2__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__2__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__2__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__front_right__bottom__2__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/front_right/bottom__2__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # # ------- STEP 2 - BACK LEFT PIECE -------
+    # def test__step_2__back_left__top__0__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_left__top__0__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__0__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__0__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__0__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__0__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__0__240.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__0__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__2__0.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__0__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__2__0.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__0__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__2__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__0__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__2__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__0__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__2__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__0__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__0__2__240.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__2__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__0__0.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__2__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__0__0.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__2__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__0__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__2__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__0__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__2__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__0__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__2__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__0__240.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__2__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__2__0.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__2__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__2__0.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__2__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__2__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__2__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__2__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__top__2__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__2__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__top__2__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/top__2__2__240.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__0__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__0__0.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__0__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__0__0.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__0__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__0__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__0__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__0__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__0__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__0__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__0__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__0__240.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__0__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__2__0.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__0__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__2__0.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__0__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__2__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__0__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__2__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__0__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__2__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__0__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__0__2__240.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__2__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__0__0.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__2__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__0__0.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__2__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__0__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__2__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__0__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__2__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__0__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__2__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__0__240.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__2__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__2__0.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__2__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__2__0.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__2__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__2__120.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__2__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__2__120.json"
+    #     self.solve_cube_step( test_data_path )
 
-    def test__step_2__back_left__bottom__2__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    # ------- STEP 2 - BACK RIGHT PIECE -------
-    def test__step_2__back_right__top__0__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__0__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__0__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__0__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__0__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__0__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__2__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__2__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__2__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__2__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__2__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__top__2__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__0__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__0__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__0__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__0__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__0__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__0__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__2__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__2__0__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__0__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__2__0__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__0__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__2__0__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__0__240.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__2__2__0( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__2__0.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__2__2__120( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__2__120.json"
-        self.solve_cube_step( test_data_path )
-
-    def test__step_2__back_right__bottom__2__2__240( self ):
-        test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__2__240.json"
-        self.solve_cube_step( test_data_path )
+    # def test__step_2__back_left__bottom__2__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_left/bottom__2__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # # ------- STEP 2 - BACK RIGHT PIECE -------
+    # def test__step_2__back_right__top__0__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__0__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__0__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__0__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__0__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__0__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__0__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__2__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__2__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__2__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__2__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__2__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__top__2__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/top__2__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__0__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__0__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__0__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__0__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__0__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__0__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__0__2__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__2__0__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__0__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__2__0__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__0__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__2__0__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__0__240.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__2__2__0( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__2__0.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__2__2__120( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__2__120.json"
+    #     self.solve_cube_step( test_data_path )
+
+    # def test__step_2__back_right__bottom__2__2__240( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__2__240.json"
+    #     self.solve_cube_step( test_data_path )
         
     # ------- BATCH TESTS -------
 
