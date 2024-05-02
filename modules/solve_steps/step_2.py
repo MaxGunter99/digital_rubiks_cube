@@ -463,7 +463,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'right', 'vertical', 'up', 1), 
 						('rotate_cube', 'right', 2),
 					],
-					# ('left_side', 2, 2, (0, 2)): [],
+					('left_side', 2, 2, (0, 2)): None,
 					('left_side', 2, 2, (2, 0)): [
 						('rotate_cube', 'right', 1),
 						('move_cube', 'bottom', 'horizontal', 'left', 1), 
@@ -472,9 +472,13 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'right', 'vertical', 'up', 1), 
 						('rotate_cube', 'left', 1),
 					],
-					# ('left_side', 2, 2, (2, 2)): [],
+					('left_side', 2, 2, (2, 2)): [
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+					],
 	 
-					# ('bottom_side', 0, 0, (0, 0)): []
+					('bottom_side', 0, 0, (0, 0)): None,
 					('bottom_side', 0, 0, (0, 2)): [
 						('move_cube', 'bottom', 'horizontal', 'right', 2), 
 						('move_cube', 'right', 'vertical', 'up', 1), 
@@ -497,7 +501,16 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'bottom', 'horizontal', 'left', 1), 
 						('move_cube', 'left', 'vertical', 'up', 1), 
 					],
-					# ('bottom_side', 0, 0, (2, 2)): [],
+					('bottom_side', 0, 0, (2, 2)): [
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+						('move_cube', 'bottom', 'horizontal', 'left', 1), 
+						('move_cube', 'right', 'vertical', 'down', 1), 
+						('move_cube', 'bottom', 'horizontal', 'right', 1), 
+						('move_cube', 'right', 'vertical', 'up', 1), 
+					],
 	 
 					# BOTTOM RIGHT MOVES (parent coords)
 					# front_side, bottom, right
@@ -527,18 +540,38 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'right', 'vertical', 'up', 1),  
 						('rotate_cube', 'left', 1),
 					],
-	  				# ('front_side', 2, 2, (2, 2)): [],
+	  				('front_side', 2, 2, (2, 2)): [
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),  
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),  
+					],
 					  
-	  				# ('right_side', 2, 0, (0, 0)): [],
-	  				# ('right_side', 2, 0, (0, 2)): [],
+	  				('right_side', 2, 0, (0, 0)): None,
+	  				('right_side', 2, 0, (0, 2)): None,
 	  				('right_side', 2, 0, (2, 0)): [
 						('move_cube', 'left', 'vertical', 'down', 1),
 						('move_cube', 'bottom', 'horizontal', 'left', 1),
 						('move_cube', 'left', 'vertical', 'up', 1),
 					],
-	  				# ('right_side', 2, 0, (2, 2)): [],
+	  				('right_side', 2, 0, (2, 2)): [
+						('move_cube', 'right', 'vertical', 'down', 1),  
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),  
+					],
 					  
-	  				# ('bottom_side', 0, 2, (0, 0)): [],
+	  				('bottom_side', 0, 2, (0, 0)): [
+						('move_cube', 'bottom', 'horizontal', 'left', 2),
+						('move_cube', 'left', 'vertical', 'down', 1),  
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'left', 'vertical', 'up', 1), 
+						('rotate_cube', 'right', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'left', 'vertical', 'down', 1),  
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'left', 'vertical', 'up', 1), 
+						('rotate_cube', 'left', 1),
+					],
 	  				('bottom_side', 0, 2, (0, 2)): [
 						('move_cube', 'bottom', 'horizontal', 'right', 1),
 						('move_cube', 'right', 'vertical', 'up', 1),
@@ -562,7 +595,15 @@ def solve_cube__step_2( cube_client, test_id=None ):
 						('move_cube', 'bottom', 'horizontal', 'left', 1),
 						('move_cube', 'left', 'vertical', 'up', 1),
 					],
-	  				# ('bottom_side', 0, 2, (2, 2)): [],
+	  				('bottom_side', 0, 2, (2, 2)): [
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 2),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'bottom', 'horizontal', 'right', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'bottom', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+					],
 
 				}
 
@@ -602,6 +643,11 @@ def solve_cube__step_2( cube_client, test_id=None ):
 					raise Exception( details )
 				
 				required_moves = moves_config[move_from_to]
+
+				if required_moves == None:
+					details = f"required_moves is not configured yet: {move_from_to} - is None"
+					print( details )
+					raise Exception( details )
 
 				# REVERSE EXTENDED MOVES DATA
 				if move_extended == True:
