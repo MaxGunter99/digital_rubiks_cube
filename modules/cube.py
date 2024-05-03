@@ -6,14 +6,15 @@ import copy
 
 from .solve_steps.step_1 import solve_cube__step_1
 from .solve_steps.step_2 import solve_cube__step_2
+from .solve_steps.step_3 import solve_cube__step_3
 
 # I would like to set this up as a 3D Matrix. 
 # Perfect to start with but will be scrambled by the algorithm
 # random values for colors can not be given manually until later
 
 # OUTPUT ACTIONS
-# print_moves = True
-print_moves = False # this is much faster without logging
+print_moves = True
+# print_moves = False # this is much faster without logging
 
 # RubiksCube is a class
 # but the cube reference is a namedtuple, this enables us to use stuff like:
@@ -928,7 +929,8 @@ class RubiksCube:
         """
         solve_status_report = {
             "step_1_status": None,
-            "step_2_status": None
+            "step_2_status": None,
+            "step_3_status": None
         }
 
         print( "Solving Cube! Initial cube:" )
@@ -950,11 +952,23 @@ class RubiksCube:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_2
             solve_status_report["step_2_status"] = step_2_status
 
+        if step_override == None or step_override >= 3:
+            step_3_status, steps_to_solve_step_3 = solve_cube__step_3( self, test_id )
+            print(f"Steps to Flip Cube: {steps_to_solve_step_3}")
+
+            if len( steps_to_solve_step_3 ) >= 1:
+                self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_3
+            solve_status_report["step_3_status"] = step_3_status
+
         # some tests only cover individual pieces, lits just use this outside of testing
         if test_id != None:
             all_steps_status = [ status for _, status in solve_status_report.items() ]
             if "FAIL" in all_steps_status:
                 raise Exception( f"Solve Cube Error - step has failed: {solve_status_report}" )
+
+        if print_moves == True:
+            print( "All Step Details:" )
+            pprint( solve_status_report )
 
         return self.steps_to_solve
     
