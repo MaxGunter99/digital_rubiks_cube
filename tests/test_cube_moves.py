@@ -1923,6 +1923,11 @@ class TestMoves( unittest.TestCase ):
     def test__step_2__back_right__bottom__2__2__240( self ):
         test_data_path = "tests/test_cases/solve_cube/step_2/back_right/bottom__2__2__240.json"
         self.solve_cube_step( test_data_path )
+
+    # RANDOM STEP 2 FULL TESTS
+    def test__step_2__full_test_1( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/test_cases/test_1.json"
+        self.solve_cube_step( test_data_path )
         
     # ------- BATCH TESTS -------
 
@@ -1996,6 +2001,18 @@ class TestMoves( unittest.TestCase ):
         self.step_1_random_shuffle( 15 )
 
     def test__step_1__random_shuffle_20( self ):
+        self.step_1_random_shuffle( 20 )
+
+    def test__step_1__random_shuffle_20x2( self ):
+        self.step_1_random_shuffle( 20 )
+
+    def test__step_1__random_shuffle_20x3( self ):
+        self.step_1_random_shuffle( 20 )
+
+    def test__step_1__random_shuffle_20x4( self ):
+        self.step_1_random_shuffle( 20 )
+
+    def test__step_1__random_shuffle_20x5( self ):
         self.step_1_random_shuffle( 20 )
 
     def test__step_1__random_shuffle_30( self ):

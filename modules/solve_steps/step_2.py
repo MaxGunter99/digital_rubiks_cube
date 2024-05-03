@@ -28,10 +28,11 @@ def solve_cube__step_2( cube_client, test_id=None ):
 	
 	if LOG_STEP_INFO == True:
 		print( "Starting Step 2!" )
+		cube_client.print_json_cube()
 
 	step_errors = []
 
-	game_loop_max_count = 7
+	game_loop_max_count = 10
 	game_loop_iteration = 0
 	game_loop_complete = False
 
@@ -74,7 +75,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		fixable_piece_status = {}
 
 		for fixable_block in top_row_pieces + bottom_row_pieces:
-			print( f"fixable_block: {fixable_block}" )
+			# print( f"fixable_block: {fixable_block}" )
 
 			# which of these indexes does the fixable block need to be
 			grab_colors = {
@@ -98,13 +99,13 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			if "parent_data" in related_values:
 				related_values.remove("parent_data")
 
-			print( f"grab_colors: {grab_colors}" )
-			print( f"related_values: {related_values}" )
+			# print( f"grab_colors: {grab_colors}" )
+			# print( f"related_values: {related_values}" )
 			
 			required_values = sorted( [ fixable_block[key].get("value") for key in related_values] )
 			grab_colors_key = None
 
-			print( f"required_values: {required_values}" )
+			# print( f"required_values: {required_values}" )
 
 			if required_values in list( grab_colors.values() ):
 				for key, value_list in grab_colors.items():
@@ -113,8 +114,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 			brick_is_perfect = False
 
-			print( ( bricks_parent_row, bricks_parent_sticker), parent_side )
-			print( f"grab_colors_key: {grab_colors_key}" )
+			# print( ( bricks_parent_row, bricks_parent_sticker), parent_side )
+			# print( f"grab_colors_key: {grab_colors_key}" )
 
 			if (
 				parent_side == "top_side" 
@@ -129,6 +130,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 				which_list = top_row_pieces if fixable_block in top_row_pieces else bottom_row_pieces
 				which_index = which_list.index( fixable_block )
 				which_list[which_index]["fixed_coords"] = grab_colors_key
+				which_list[which_index]["brick_is_perfect"] = brick_is_perfect
 			except ValueError:
 				raise Exception( f"Error finding new location for fixable_block: {fixable_block}" )
 
@@ -168,7 +170,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		# print( f"top_row_pieces: {top_row_pieces}" )
 		# print( f"bottom_row_pieces: {bottom_row_pieces}" )
 		# print( f"top_row_pieces: {len( top_row_pieces + bottom_row_pieces )}" )
-		print( f"fixable_piece_status: {fixable_piece_status}" )
+		# print( f"fixable_piece_status: {fixable_piece_status}" )
   
 		to_side_mappings = {
 			cube_client.front_side[1][1]: "front_side",
@@ -177,640 +179,661 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			cube_client.right_side[1][1]: "right_side"
 		}
 
-		for piece_to_fix in top_row_pieces + bottom_row_pieces:
-			parent_data = piece_to_fix.get("parent_data")
-			parent_side = parent_data.get("parent_side")
-			parent_row_index = parent_data.get("parent_row_index")
-			parent_sticker_index = parent_data.get("parent_sticker_index")
-			fixed_coords = piece_to_fix.get("fixed_coords")
-			move_from_to = ( parent_side, parent_row_index, parent_sticker_index, fixed_coords )
+		all_pieces_to_fix = [ i for i in top_row_pieces if i.get("brick_is_perfect") == False ] +  [ i for i in bottom_row_pieces if i.get("brick_is_perfect") == False ]
+		piece_to_fix = all_pieces_to_fix[0]
 
-			if (
-				parent_side in ["front_side", "right_side", "back_side", "left_side"]
-				and parent_row_index == 0
-				or parent_side == "top_side"
-			):
-				print( "Fixing Top Piece" )
+		if move_extended == True:
+			pass
 
-				# top color is not on the bottom
-				moves_config = {
+		parent_data = piece_to_fix.get("parent_data")
+		parent_side = parent_data.get("parent_side")
+		parent_row_index = parent_data.get("parent_row_index")
+		parent_sticker_index = parent_data.get("parent_sticker_index")
+		fixed_coords = piece_to_fix.get("fixed_coords")
+		is_perfect = piece_to_fix.get("brick_is_perfect")
+		move_from_to = ( parent_side, parent_row_index, parent_sticker_index, fixed_coords )
 
-					# each of these moves below will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
-	 
-					# TOP FRONT LEFT MOVES
-					('top_side', 2, 0, (0, 0)): [
-	  					('rotate_cube', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-	  					('rotate_cube', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('rotate_cube', 'left', 2),
-					],
-					('top_side', 2, 0, (0, 2)): [
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 3), 
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('rotate_cube', 'left', 2), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('rotate_cube', 'left', 2), 
-					],
-					('top_side', 2, 0, (2, 0)): None, # this may not be needed
-					('top_side', 2, 0, (2, 2)): [
-						('rotate_cube', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('rotate_cube', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1),
-					],
-	 
-					('left_side', 0, 2, (0, 0)): [
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1),
-					],
-					('left_side', 0, 2, (0, 2)): [
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('move_cube', 'top', 'horizontal', 'left', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('move_cube', 'top', 'horizontal', 'right', 1), 
-					],
-					('left_side', 0, 2, (2, 0)): [
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('rotate_cube', 'left', 1),
-					],
-					('left_side', 0, 2, (2, 2)): [
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1),
-					],
-	 
-					('front_side', 0, 0, (0, 0)): [
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1), 
-					],
-					('front_side', 0, 0, (0, 2)): [
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('rotate_cube', 'left', 2),
-					],
-					('front_side', 0, 0, (2, 0)): [
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 2), 
-						('rotate_cube', 'left', 1),
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-					],
-					('front_side', 0, 0, (2, 2)): [
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 2), 
-						('rotate_cube', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-						
-					],
-	 
-	 				# TOP FRONT RIGHT MOVES
-					('top_side', 2, 2, (0, 0)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-					],
-					('top_side', 2, 2, (0, 2)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('rotate_cube', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-					],
-					('top_side', 2, 2, (2, 0)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1),
-					],
-					('top_side', 2, 2, (2, 2)): None, # this may not be needed
-	 
-					('right_side', 0, 0, (0, 0)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1),
-					],
-					('right_side', 0, 0, (0, 2)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'top', 'horizontal', 'left', 2), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('move_cube', 'top', 'horizontal', 'right', 2), 
-					],
-					('right_side', 0, 0, (2, 0)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-					],
-					('right_side', 0, 0, (2, 2)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 2), 
-						('rotate_cube', 'left', 1),
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-					],
-	 
-					('front_side', 0, 2, (0, 0)): [
-						('rotate_cube', 'left', 1),
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 2),
-					],
-					('front_side', 0, 2, (0, 2)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-					],
-					('front_side', 0, 2, (2, 0)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1),
-					],
-					('front_side', 0, 2, (2, 2)): [
-						('rotate_cube', 'left', 1),
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-					],
-				}
+		if is_perfect == True:
+			print( f"Brick is perfect, moving to next" )
+			continue
 
-				if move_from_to not in moves_config.keys():
-					use_extended_move = False
+		# print(f"DATA: {piece_to_fix}")
+		# cube_client.visualize_cube()
 
-					if parent_side == "top_side" and parent_row_index == 0:
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'right', 2)]
-						reverse_extended_moves = [('rotate_cube', 'right', 2)]
-					elif parent_side == "left_side" and parent_sticker_index == 0:
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'right', 1)]
-						reverse_extended_moves = [('rotate_cube', 'left', 1)]
-					elif parent_side == "right_side" and parent_sticker_index == 2:
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'left', 1)]
-						reverse_extended_moves = [('rotate_cube', 'right', 1)]
-					elif parent_side == "back_side":
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'right', 2)]
-						reverse_extended_moves = [('rotate_cube', 'right', 2)]
+		if (
+			parent_side in ["front_side", "right_side", "back_side", "left_side"]
+			and parent_row_index == 0
+			or parent_side == "top_side"
+		):
+			print( "Fixing Top Piece" )
 
-					if use_extended_move:
-						print("APPLYING EXTENDED MOVE")
-						move_extended = True
-						for move in extended_moves:
-							_, direction, turns = move
-							cube_client.rotate_cube( direction, turns )
-							steps_to_solve.append( ["rotate_cube", direction, turns] )
-						continue
+			# top color is not on the bottom
+			moves_config = {
 
-					# TODO: needs pre / post turning for specific moves
-					details = f"Fix not implemented for move - {move_from_to}"
-					print( details )
-					raise Exception( details )
-				
-				required_moves = moves_config[move_from_to]
-
-				if required_moves == None:
-					details = f"required_moves is not configured yet: {move_from_to} - is None"
-					print( details )
-					raise Exception( details )
-
-				# REVERSE EXTENDED MOVES DATA
-				if move_extended == True:
-					print("REVERSING EXTENDED MOVE")
-					required_moves = required_moves + reverse_extended_moves
-					move_extended = False
-					extended_moves = []
-					reverse_extended_moves = []
-				
-				for move in required_moves:
-					if LOG_STEP_INFO == True:
-						print( move )
-					if move[0] == "rotate_cube":
-						_, direction, turns = move
-						cube_client.rotate_cube( direction, turns )
-						steps_to_solve.append( ["rotate_cube", direction, turns] )
-
-					elif move[0] == "move_cube": 
-						_, section, orientation, direction, turns = move
-						cube_client.move_cube( section, orientation, direction, turns )
-						steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
-
-				continue
-
-			elif (
-				parent_side in ["front_side", "right_side", "back_side", "left_side"]
-				and parent_row_index == 2
-				or parent_side == "bottom_side"
-			):
-				print( "Fixing Bottom Piece" )
-
-				# top color is not on the bottom
+				# each of these moves below will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
 	
-				# lets do this using fewer hard coded moves:
-				# 	well need 3 moves for each of the 4 corners on the front
-				# 	then if its not defined, turn the cube until one is already defined, 
-				# 	then revert turn
-				moves_config = {
+				# TOP FRONT LEFT MOVES
+				('top_side', 2, 0, (0, 0)): [
+					('rotate_cube', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('rotate_cube', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('rotate_cube', 'left', 2),
+				],
+				('top_side', 2, 0, (0, 2)): [
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 3), 
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('rotate_cube', 'left', 2), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('rotate_cube', 'left', 2), 
+				],
+				# ('top_side', 2, 0, (2, 0)): None, # this may not be needed
+				('top_side', 2, 0, (2, 2)): [
+					('rotate_cube', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('rotate_cube', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1),
+				],
+	
+				('left_side', 0, 2, (0, 0)): [
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1),
+				],
+				('left_side', 0, 2, (0, 2)): [
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('move_cube', 'top', 'horizontal', 'left', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('move_cube', 'top', 'horizontal', 'right', 1), 
+				],
+				('left_side', 0, 2, (2, 0)): [
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('rotate_cube', 'left', 1),
+				],
+				('left_side', 0, 2, (2, 2)): [
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1),
+				],
+	
+				('front_side', 0, 0, (0, 0)): [
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1), 
+				],
+				('front_side', 0, 0, (0, 2)): [
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('rotate_cube', 'left', 2),
+				],
+				('front_side', 0, 0, (2, 0)): [
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 2), 
+					('rotate_cube', 'left', 1),
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+				],
+				('front_side', 0, 0, (2, 2)): [
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 2), 
+					('rotate_cube', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+					
+				],
+	
+				# TOP FRONT RIGHT MOVES
+				('top_side', 2, 2, (0, 0)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+				],
+				('top_side', 2, 2, (0, 2)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('rotate_cube', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+				],
+				('top_side', 2, 2, (2, 0)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1),
+				],
+				# ('top_side', 2, 2, (2, 2)): None, # this may not be needed
+	
+				('right_side', 0, 0, (0, 0)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1),
+				],
+				('right_side', 0, 0, (0, 2)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'top', 'horizontal', 'left', 2), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('move_cube', 'top', 'horizontal', 'right', 2), 
+				],
+				('right_side', 0, 0, (2, 0)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+				],
+				('right_side', 0, 0, (2, 2)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 2), 
+					('rotate_cube', 'left', 1),
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+				],
+	
+				('front_side', 0, 2, (0, 0)): [
+					('rotate_cube', 'left', 1),
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 2),
+				],
+				('front_side', 0, 2, (0, 2)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+				],
+				('front_side', 0, 2, (2, 0)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1),
+				],
+				('front_side', 0, 2, (2, 2)): [
+					('rotate_cube', 'left', 1),
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+				],
+			}
 
-					# BOTTOM LEFT MOVES (parent coords) 
-					# front_side, bottom, left
-					# left_side, bottom, right
-	 				# bottom_side, top, left
-					# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
-	  
-					('front_side', 2, 0, (0, 0)): [
-						('rotate_cube', 'right', 1),
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1)
-					],
-					('front_side', 2, 0, (0, 2)): [
-						('rotate_cube', 'left', 2),
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 2),
-					],
-					('front_side', 2, 0, (2, 0)): [
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-					],
-					('front_side', 2, 0, (2, 2)): [
-						('rotate_cube', 'left', 1),
-						('move_cube', 'bottom', 'horizontal', 'right', 2), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-					],
-	 
-					('left_side', 2, 2, (0, 0)): [
-						('rotate_cube', 'right', 2),
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 2),
-					],
-					('left_side', 2, 2, (0, 2)): [
-						('rotate_cube', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 2), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-					],
-					('left_side', 2, 2, (2, 0)): [
-						('rotate_cube', 'right', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1),
-					],
-					('left_side', 2, 2, (2, 2)): [
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-					],
-	 
-					('bottom_side', 0, 0, (0, 0)): [
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 2),
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'right', 'vertical', 'up', 1), 
-					],
-					('bottom_side', 0, 0, (0, 2)): [
-						('move_cube', 'bottom', 'horizontal', 'right', 2), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('rotate_cube', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-					],
-					('bottom_side', 0, 0, (2, 0)): [
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 2), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'left', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'left', 'vertical', 'up', 1), 
-					],
-					('bottom_side', 0, 0, (2, 2)): [
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-						('move_cube', 'bottom', 'horizontal', 'left', 1), 
-						('move_cube', 'right', 'vertical', 'down', 1), 
-						('move_cube', 'bottom', 'horizontal', 'right', 1), 
-						('move_cube', 'right', 'vertical', 'up', 1), 
-					],
-	 
-					# BOTTOM RIGHT MOVES (parent coords)
-					# front_side, bottom, right
-					# right_side, bottom, left
-					# bottom_side, top, right
-	 				# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
-	  				('front_side', 2, 2, (0, 0)): [
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'left', 'vertical', 'up', 1),  
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'left', 'vertical', 'down', 1),  
-						  
-					],
-	  				('front_side', 2, 2, (0, 2)): [
-						('rotate_cube', 'left', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 2),
-						('move_cube', 'right', 'vertical', 'down', 1),  
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),  
-						('rotate_cube', 'right', 1),
-					],
-	  				('front_side', 2, 2, (2, 0)): [
-						('rotate_cube', 'right', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 2),
-						('move_cube', 'right', 'vertical', 'down', 1),  
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),  
-						('rotate_cube', 'left', 1),
-					],
-	  				('front_side', 2, 2, (2, 2)): [
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1),  
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),  
-					],
-					  
-	  				('right_side', 2, 0, (0, 0)): [
-						('rotate_cube', 'right', 1),
-						('move_cube', 'left', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 2),
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('rotate_cube', 'left', 1),
-					],
-	  				('right_side', 2, 0, (0, 2)): [
-						('move_cube', 'top', 'horizontal', 'left', 2),
-						('move_cube', 'left', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'left', 'vertical', 'up', 1),
-						('move_cube', 'top', 'horizontal', 'right', 2),
-					],
-	  				('right_side', 2, 0, (2, 0)): [
-						('move_cube', 'left', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'left', 'vertical', 'up', 1),
-					],
-	  				('right_side', 2, 0, (2, 2)): [
-						('move_cube', 'right', 'vertical', 'down', 1),  
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),  
-					],
-					  
-	  				('bottom_side', 0, 2, (0, 0)): [
-						('move_cube', 'bottom', 'horizontal', 'left', 2),
-						('move_cube', 'left', 'vertical', 'down', 1),  
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'right', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'left', 'vertical', 'down', 1),  
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'left', 'vertical', 'up', 1), 
-						('rotate_cube', 'left', 1),
-					],
-	  				('bottom_side', 0, 2, (0, 2)): [
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('rotate_cube', 'left', 1),
-						('move_cube', 'right', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('rotate_cube', 'right', 1),
-					],
-	  				('bottom_side', 0, 2, (2, 0)): [
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('rotate_cube', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('rotate_cube', 'left', 1),
-						('move_cube', 'left', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'left', 'vertical', 'up', 1),
-					],
-	  				('bottom_side', 0, 2, (2, 2)): [
-						('move_cube', 'right', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 2),
-						('move_cube', 'right', 'vertical', 'up', 1),
-						('move_cube', 'bottom', 'horizontal', 'right', 1),
-						('move_cube', 'right', 'vertical', 'down', 1),
-						('move_cube', 'bottom', 'horizontal', 'left', 1),
-						('move_cube', 'right', 'vertical', 'up', 1),
-					],
+			if move_from_to not in moves_config.keys():
+				use_extended_move = False
 
-				}
+				if parent_side == "top_side" and parent_row_index == 0:
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'right', 2)]
+					reverse_extended_moves = [('rotate_cube', 'right', 2)]
+				elif parent_side == "left_side" and parent_sticker_index == 0:
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'right', 1)]
+					reverse_extended_moves = [('rotate_cube', 'left', 1)]
+				elif parent_side == "right_side" and parent_sticker_index == 2:
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'left', 1)]
+					reverse_extended_moves = [('rotate_cube', 'right', 1)]
+				elif parent_side == "back_side":
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'right', 2)]
+					reverse_extended_moves = [('rotate_cube', 'right', 2)]
 
-				if move_from_to not in moves_config.keys():
-					use_extended_move = False
-
-					if parent_side == "back_side":
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'right', 2)]
-						reverse_extended_moves = [('rotate_cube', 'right', 2)]
-					elif parent_side == "left_side" and parent_sticker_index == 0:
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'right', 1)]
-						reverse_extended_moves = [('rotate_cube', 'left', 1)]
-					elif parent_side == "right_side" and parent_sticker_index == 2:
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'left', 1)]
-						reverse_extended_moves = [('rotate_cube', 'right', 1)]
-
-					elif parent_side == "bottom_side" and parent_row_index == 2:
-						use_extended_move = True
-						extended_moves = [('rotate_cube', 'right', 2)]
-						reverse_extended_moves = [('rotate_cube', 'right', 2)]
-
-					if use_extended_move:
-						print("APPLYING EXTENDED MOVE")
-						move_extended = True
-						for move in extended_moves:
-							_, direction, turns = move
-							cube_client.rotate_cube( direction, turns )
-							steps_to_solve.append( ["rotate_cube", direction, turns] )
-						continue
-
-					# TODO: needs pre / post turning for specific moves
-					details = f"Fix not implemented for move - {move_from_to}"
-					print( details )
-					raise Exception( details )
-				
-				required_moves = moves_config[move_from_to]
-
-				if required_moves == None:
-					details = f"required_moves is not configured yet: {move_from_to} - is None"
-					print( details )
-					raise Exception( details )
-
-				# REVERSE EXTENDED MOVES DATA
-				if move_extended == True:
-					print("REVERSING EXTENDED MOVE")
-					required_moves = required_moves + reverse_extended_moves
-					move_extended = False
-					extended_moves = []
-					reverse_extended_moves = []
-				
-				for move in required_moves:
-					if LOG_STEP_INFO == True:
+				if use_extended_move:
+					print("APPLYING EXTENDED MOVE")
+					move_extended = True
+					for move in extended_moves:
 						print( move )
-					if move[0] == "rotate_cube":
 						_, direction, turns = move
 						cube_client.rotate_cube( direction, turns )
 						steps_to_solve.append( ["rotate_cube", direction, turns] )
+					continue
 
-					elif move[0] == "move_cube": 
-						_, section, orientation, direction, turns = move
-						cube_client.move_cube( section, orientation, direction, turns )
-						steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
-
-				continue
-
-			else:
-				details = f"Piece is not supported: {move_from_to}"
+				# TODO: needs pre / post turning for specific moves
+				details = f"Fix not implemented for move - {move_from_to}"
 				print( details )
 				raise Exception( details )
+			
+			required_moves = moves_config[move_from_to]
+
+			if LOG_STEP_INFO == True:
+				print( f"move_from_to used: {move_from_to}" )
+
+			if required_moves == None:
+				details = f"required_moves is not configured yet: {move_from_to} - is None"
+				print( details )
+				raise Exception( details )
+
+			# REVERSE EXTENDED MOVES DATA
+			if move_extended == True:
+				print("REVERSING EXTENDED MOVE")
+				required_moves = required_moves + reverse_extended_moves
+				move_extended = False
+				extended_moves = []
+				reverse_extended_moves = []
+			
+			for move in required_moves:
+				if LOG_STEP_INFO == True:
+					print( move )
+				if move[0] == "rotate_cube":
+					_, direction, turns = move
+					cube_client.rotate_cube( direction, turns )
+					steps_to_solve.append( ["rotate_cube", direction, turns] )
+
+				elif move[0] == "move_cube": 
+					_, section, orientation, direction, turns = move
+					cube_client.move_cube( section, orientation, direction, turns )
+					steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
+
+			continue
+
+		elif (
+			parent_side in ["front_side", "right_side", "back_side", "left_side"]
+			and parent_row_index == 2
+			or parent_side == "bottom_side"
+		):
+			print( "Fixing Bottom Piece" )
+
+			# top color is not on the bottom
+
+			# lets do this using fewer hard coded moves:
+			# 	well need 3 moves for each of the 4 corners on the front
+			# 	then if its not defined, turn the cube until one is already defined, 
+			# 	then revert turn
+			moves_config = {
+
+				# BOTTOM LEFT MOVES (parent coords) 
+				# front_side, bottom, left
+				# left_side, bottom, right
+				# bottom_side, top, left
+				# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+	
+				('front_side', 2, 0, (0, 0)): [
+					('rotate_cube', 'right', 1),
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1)
+				],
+				('front_side', 2, 0, (0, 2)): [
+					('rotate_cube', 'left', 2),
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 2),
+				],
+				('front_side', 2, 0, (2, 0)): [
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+				],
+				('front_side', 2, 0, (2, 2)): [
+					('rotate_cube', 'left', 1),
+					('move_cube', 'bottom', 'horizontal', 'right', 2), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+				],
+	
+				('left_side', 2, 2, (0, 0)): [
+					('rotate_cube', 'right', 2),
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 2),
+				],
+				('left_side', 2, 2, (0, 2)): [
+					('rotate_cube', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 2), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+				],
+				('left_side', 2, 2, (2, 0)): [
+					('rotate_cube', 'right', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1),
+				],
+				('left_side', 2, 2, (2, 2)): [
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+				],
+	
+				('bottom_side', 0, 0, (0, 0)): [
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 2),
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'up', 1), 
+				],
+				('bottom_side', 0, 0, (0, 2)): [
+					('move_cube', 'bottom', 'horizontal', 'right', 2), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('rotate_cube', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+				],
+				('bottom_side', 0, 0, (2, 0)): [
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 2), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'left', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'left', 'vertical', 'up', 1), 
+				],
+				('bottom_side', 0, 0, (2, 2)): [
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+					('move_cube', 'bottom', 'horizontal', 'left', 1), 
+					('move_cube', 'right', 'vertical', 'down', 1), 
+					('move_cube', 'bottom', 'horizontal', 'right', 1), 
+					('move_cube', 'right', 'vertical', 'up', 1), 
+				],
+	
+				# BOTTOM RIGHT MOVES (parent coords)
+				# front_side, bottom, right
+				# right_side, bottom, left
+				# bottom_side, top, right
+				# each of these moves ^ will be needed for destinations: (0, 0), (0, 2), (2, 0), (2, 2)
+				('front_side', 2, 2, (0, 0)): [
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'left', 'vertical', 'up', 1),  
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'left', 'vertical', 'down', 1),  
+						
+				],
+				('front_side', 2, 2, (0, 2)): [
+					('rotate_cube', 'left', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 2),
+					('move_cube', 'right', 'vertical', 'down', 1),  
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),  
+					('rotate_cube', 'right', 1),
+				],
+				('front_side', 2, 2, (2, 0)): [
+					('rotate_cube', 'right', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 2),
+					('move_cube', 'right', 'vertical', 'down', 1),  
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),  
+					('rotate_cube', 'left', 1),
+				],
+				('front_side', 2, 2, (2, 2)): [
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1),  
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),  
+				],
+					
+				('right_side', 2, 0, (0, 0)): [
+					('rotate_cube', 'right', 1),
+					('move_cube', 'left', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 2),
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('rotate_cube', 'left', 1),
+				],
+				('right_side', 2, 0, (0, 2)): [
+					('move_cube', 'top', 'horizontal', 'left', 2),
+					('move_cube', 'left', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'left', 'vertical', 'up', 1),
+					('move_cube', 'top', 'horizontal', 'right', 2),
+				],
+				('right_side', 2, 0, (2, 0)): [
+					('move_cube', 'left', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'left', 'vertical', 'up', 1),
+				],
+				('right_side', 2, 0, (2, 2)): [
+					('move_cube', 'right', 'vertical', 'down', 1),  
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),  
+				],
+					
+				('bottom_side', 0, 2, (0, 0)): [
+					('move_cube', 'bottom', 'horizontal', 'left', 2),
+					('move_cube', 'left', 'vertical', 'down', 1),  
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'right', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'left', 'vertical', 'down', 1),  
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'left', 'vertical', 'up', 1), 
+					('rotate_cube', 'left', 1),
+				],
+				('bottom_side', 0, 2, (0, 2)): [
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('rotate_cube', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('rotate_cube', 'right', 1),
+				],
+				('bottom_side', 0, 2, (2, 0)): [
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('rotate_cube', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('rotate_cube', 'left', 1),
+					('move_cube', 'left', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'left', 'vertical', 'up', 1),
+				],
+				('bottom_side', 0, 2, (2, 2)): [
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 2),
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('move_cube', 'bottom', 'horizontal', 'right', 1),
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'bottom', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),
+				],
+
+			}
+
+			if move_from_to not in moves_config.keys():
+				use_extended_move = False
+
+				if parent_side == "back_side":
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'right', 2)]
+					reverse_extended_moves = [('rotate_cube', 'right', 2)]
+				elif parent_side == "left_side" and parent_sticker_index == 0:
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'right', 1)]
+					reverse_extended_moves = [('rotate_cube', 'left', 1)]
+				elif parent_side == "right_side" and parent_sticker_index == 2:
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'left', 1)]
+					reverse_extended_moves = [('rotate_cube', 'right', 1)]
+
+				elif parent_side == "bottom_side" and parent_row_index == 2:
+					use_extended_move = True
+					extended_moves = [('rotate_cube', 'right', 2)]
+					reverse_extended_moves = [('rotate_cube', 'right', 2)]
+
+				if use_extended_move:
+					print("APPLYING EXTENDED MOVE")
+					move_extended = True
+					for move in extended_moves:
+						print( move )
+						_, direction, turns = move
+						cube_client.rotate_cube( direction, turns )
+						steps_to_solve.append( ["rotate_cube", direction, turns] )
+					continue
+
+				# TODO: needs pre / post turning for specific moves
+				details = f"Fix not implemented for move - {move_from_to}"
+				print( details )
+				raise Exception( details )
+			
+			required_moves = moves_config[move_from_to]
+
+			if LOG_STEP_INFO == True:
+				print( f"move_from_to used: {move_from_to}" )
+
+			if required_moves == None:
+				details = f"required_moves is not configured yet: {move_from_to} - is None"
+				print( details )
+				raise Exception( details )
+
+			# REVERSE EXTENDED MOVES DATA
+			if move_extended == True:
+				print("REVERSING EXTENDED MOVE")
+				required_moves = required_moves + reverse_extended_moves
+				move_extended = False
+				extended_moves = []
+				reverse_extended_moves = []
+			
+			for move in required_moves:
+				if LOG_STEP_INFO == True:
+					print( move )
+				if move[0] == "rotate_cube":
+					_, direction, turns = move
+					cube_client.rotate_cube( direction, turns )
+					steps_to_solve.append( ["rotate_cube", direction, turns] )
+
+				elif move[0] == "move_cube": 
+					_, section, orientation, direction, turns = move
+					cube_client.move_cube( section, orientation, direction, turns )
+					steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
+
+			continue
+
+		else:
+			details = f"Piece is not supported: {move_from_to}"
+			print( details )
+			raise Exception( details )
 
 	if len( step_errors ):
 		print( f"Errors in step 2: {step_errors}" )
 		raise Exception( f"Errors in step 2: {step_errors}" )
 	else:
-		print( [ is_perfect for _, is_perfect in fixable_piece_status.items() ] )
+		# print( [ is_perfect for _, is_perfect in fixable_piece_status.items() ] )
 		step_status = "PASS" if False not in [ is_perfect for _, is_perfect in fixable_piece_status.items() ] else "FAIL"
 
 	return step_status, steps_to_solve

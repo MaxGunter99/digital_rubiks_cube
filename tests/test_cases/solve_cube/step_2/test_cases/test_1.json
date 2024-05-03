@@ -1,0 +1,63 @@
+{
+	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
+    , "STEP_NAME": "2. Solve the bottom corners"
+    , "STEP_NUMBER": 2
+    , "TEST_CUBE_OVERRIDE": [
+		[["r", "w", "y"], ["w", "w", "w"], ["b", "w", "o"]],
+		[["w", "r", "y"], ["b", "r", "b"], ["w", "g", "b"]],
+		[["b", "r", "y"], ["y", "y", "g"], ["r", "y", "o"]],
+		[["r", "o", "w"], ["o", "o", "b"], ["g", "o", "y"]],
+		[["g", "g", "o"], ["o", "g", "y"], ["g", "r", "r"]],
+		[["g", "b", "b"], ["r", "b", "g"], ["o", "y", "w"]]
+	]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ "r", "r", "r" ],
+                [ null, "r", null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ null, null, null ],
+                [ null, null, null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ "o", "o", "o" ],
+                [ null, "o", null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ "g", "g", "g" ],
+                [ null, "g", null ],
+                [ null, null, null ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ "b", "b", "b" ],
+                [ null, "b", null ],
+                [ null, null, null ]
+            ]
+        }
+    ]
+}
