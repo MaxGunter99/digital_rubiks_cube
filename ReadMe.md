@@ -320,8 +320,8 @@ print(  f"Steps to solve cube: {steps_to_solve}" )
 
 **Solve Reference Documentation**: [Link to Solve Steps](SolveCubeSteps.md)
 - Step 1: Top Cross - ✅
-- Step 2: Corners Around Top Cross - IN PROGRESS
-- Step 3: Flip Cube - ❌
+- Step 2: Corners Around Top Cross - ✅
+- Step 3: Flip Cube - IN PROGRESS
 - Step 4: Middle Section - ❌
 - Step 5: Opposite Sides Top Cross - ❌
 - Step 6: Opposite Sides Corner Placement - ❌
