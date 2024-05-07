@@ -32,7 +32,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 	step_errors = []
 
-	game_loop_max_count = 10
+	game_loop_max_count = 20
 	game_loop_iteration = 0
 	game_loop_complete = False
 
@@ -158,6 +158,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		top_row_pieces, bottom_row_pieces, fixable_piece_status = refresh_data()
 
 		game_loop_complete_check = [ is_perfect for _, is_perfect in fixable_piece_status.items() ]
+		# print( f"game_loop_complete_check: {game_loop_complete_check}" )
 		if False not in game_loop_complete_check:
 			if LOG_STEP_INFO == True:
 				print("TOP CORNERS COMPLETE")
@@ -180,10 +181,58 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		}
 
 		all_pieces_to_fix = [ i for i in top_row_pieces if i.get("brick_is_perfect") == False ] +  [ i for i in bottom_row_pieces if i.get("brick_is_perfect") == False ]
-		piece_to_fix = all_pieces_to_fix[0]
+		sorted_pieces_to_fix = []
 
-		if move_extended == True:
-			pass
+		if len( all_pieces_to_fix ) >= 1:
+			extended_moves_not_needed_pieces = []
+			needs_extended_moves_pieces = []
+
+			for piece in all_pieces_to_fix:
+				needs_extended_move = False
+				pieces_parent_data = piece.get("parent_data")
+				pieces_parent_side = pieces_parent_data.get("parent_side")
+				pieces_parent_row_index = pieces_parent_data.get("parent_row_index")
+				pieces_parent_sticker_index = pieces_parent_data.get("parent_sticker_index")
+
+				print( f"SORTING: {piece}" )
+
+
+				# TOP ROW EXTENDED MOVE CONDITIONS
+				if pieces_parent_side == "top_side" and pieces_parent_row_index == 0:
+					needs_extended_move = True
+				elif pieces_parent_side == "left_side" and pieces_parent_sticker_index == 0:
+					needs_extended_move = True
+				elif pieces_parent_side == "right_side" and pieces_parent_sticker_index == 2:
+					needs_extended_move = True
+				elif pieces_parent_side == "back_side":
+					needs_extended_move = True
+
+
+				# BOTTOM ROW EXTENDED MOVE CONDITIONS
+				elif pieces_parent_side == "back_side":
+					needs_extended_move = True
+				elif pieces_parent_side == "left_side" and pieces_parent_sticker_index == 0:
+					needs_extended_move = True
+				elif pieces_parent_side == "right_side" and pieces_parent_sticker_index == 2:
+					needs_extended_move = True
+				elif pieces_parent_side == "bottom_side" and pieces_parent_row_index == 2:
+					needs_extended_move = True
+
+
+				if needs_extended_move == True:
+					needs_extended_moves_pieces.append( piece )
+				else:
+					extended_moves_not_needed_pieces.append( piece )
+
+			sorted_pieces_to_fix = extended_moves_not_needed_pieces + needs_extended_moves_pieces
+				
+			# print( all_pieces_to_fix )
+			# raise Exception(f"LENGTH IS MORE THAN 2, sort this so no extended moves are needed until front side pieces are fixed")
+		
+		piece_to_fix = sorted_pieces_to_fix[0]
+
+		# if move_extended == True:
+		# 	pass
 
 		parent_data = piece_to_fix.get("parent_data")
 		parent_side = parent_data.get("parent_side")
@@ -197,7 +246,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			print( f"Brick is perfect, moving to next" )
 			continue
 
-		# print(f"DATA: {piece_to_fix}")
+		print(f"DATA: {piece_to_fix}")
 		# cube_client.visualize_cube()
 
 		if (

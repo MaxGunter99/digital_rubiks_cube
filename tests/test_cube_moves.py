@@ -1928,6 +1928,10 @@ class TestMoves( unittest.TestCase ):
     def test__step_2__full_test_1( self ):
         test_data_path = "tests/test_cases/solve_cube/step_2/test_cases/test_1.json"
         self.solve_cube_step( test_data_path )
+
+    def test__step_2__full_test_2( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_2/test_cases/test_2.json"
+        self.solve_cube_step( test_data_path )
         
     # ------- BATCH TESTS -------
 

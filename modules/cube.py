@@ -13,8 +13,8 @@ from .solve_steps.step_3 import solve_cube__step_3
 # random values for colors can not be given manually until later
 
 # OUTPUT ACTIONS
-print_moves = True
-# print_moves = False # this is much faster without logging
+# print_moves = True
+print_moves = False # this is much faster without logging
 
 # RubiksCube is a class
 # but the cube reference is a namedtuple, this enables us to use stuff like:
@@ -935,6 +935,7 @@ class RubiksCube:
 
         print( "Solving Cube! Initial cube:" )
         self.visualize_cube()
+        initial_json_cube = self.print_json_cube()
 
         if step_override == None or step_override >= 1:
             step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self, test_id )
@@ -960,15 +961,16 @@ class RubiksCube:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_3
             solve_status_report["step_3_status"] = step_3_status
 
-        # some tests only cover individual pieces, lits just use this outside of testing
-        if test_id != None:
-            all_steps_status = [ status for _, status in solve_status_report.items() ]
-            if "FAIL" in all_steps_status:
-                raise Exception( f"Solve Cube Error - step has failed: {solve_status_report}" )
+        # some tests only cover individual pieces, even if were testing 1 piece and its fixed, if the others are "." this will raise an exception
+        # all_steps_status = [ status for _, status in solve_status_report.items() ]
+        # if "FAIL" in all_steps_status:
+        #     details = f"Solve Cube Error - step has failed: {solve_status_report}"
+        #     details += f"\n Initial JSON Config: \n {initial_json_cube}"
+        #     raise Exception( details )
 
-        if print_moves == True:
-            print( "All Step Details:" )
-            pprint( solve_status_report )
+        # if print_moves == True:
+        print( "All Step Details:" )
+        pprint( solve_status_report )
 
         return self.steps_to_solve
     
