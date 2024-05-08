@@ -1932,6 +1932,276 @@ class TestMoves( unittest.TestCase ):
     def test__step_2__full_test_2( self ):
         test_data_path = "tests/test_cases/solve_cube/step_2/test_cases/test_2.json"
         self.solve_cube_step( test_data_path )
+
+
+    # ------- STEP 3 TESTS -------
+    # Flip cube tests already in place
+
+    # ------- STEP 4 TESTS -------
+
+    # ------- BACK LEFT -------
+        
+    def test__step_4__back_left__back_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/back_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__back_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/back_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__back_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/back_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__back_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/back_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__front_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/front_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__front_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/front_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__front_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/front_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__front_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/front_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__bottom_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__bottom_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__bottom_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__bottom_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__top_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__top_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_left__top_side__top_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_left/top_side__top_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    # ------- BACK RIGHT -------
+        
+    def test__step_4__back_right__back_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/back_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__back_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/back_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__back_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/back_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__back_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/back_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__front_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/front_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__front_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/front_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__front_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/front_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__front_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/front_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__bottom_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__bottom_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__bottom_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__bottom_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__top_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__top_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__back_right__top_side__top_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/back_right/top_side__top_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    # ------- FRONT LEFT -------
+        
+    def test__step_4__front_left__back_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/back_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__back_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/back_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__back_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/back_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__back_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/back_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__front_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/front_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__front_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/front_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__front_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/front_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__front_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/front_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__bottom_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__bottom_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__bottom_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__bottom_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__top_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__top_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_left__top_side__top_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_left/top_side__top_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    # ------- FRONT RIGHT -------
+        
+    def test__step_4__front_right__back_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/back_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__back_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/back_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__back_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/back_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__back_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/back_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__front_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/front_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__front_left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/front_left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__front_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/front_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__front_right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/front_right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__bottom_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__bottom_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__bottom_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__bottom_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__left__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__left__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__right__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__right__reversed.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__top_middle( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__top_middle.json"
+        self.solve_cube_step( test_data_path )
+
+    def test__step_4__front_right__top_side__top_middle__reversed( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__top_middle__reversed.json"
+        self.solve_cube_step( test_data_path )
         
     # ------- BATCH TESTS -------
 

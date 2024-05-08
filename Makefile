@@ -15,7 +15,7 @@ activate-virtual-environment:
 	poetry shell
 
 run-cube:
-	python3 run_me.py
+	time python3 run_me.py
 
 test-cube:
 	python -m unittest discover -v -s tests -p 'test_*.py' -b -f

@@ -1,8 +1,8 @@
 
 # STEP 2
 
-LOG_STEP_INFO = True
-# LOG_STEP_INFO = False
+# LOG_STEP_INFO = True
+LOG_STEP_INFO = False
 
 def solve_cube__step_2( cube_client, test_id=None ):
 	"""
@@ -194,8 +194,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 				pieces_parent_row_index = pieces_parent_data.get("parent_row_index")
 				pieces_parent_sticker_index = pieces_parent_data.get("parent_sticker_index")
 
-				print( f"SORTING: {piece}" )
-
+				# print( f"SORTING: {piece}" )
 
 				# TOP ROW EXTENDED MOVE CONDITIONS
 				if pieces_parent_side == "top_side" and pieces_parent_row_index == 0:
@@ -246,7 +245,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			print( f"Brick is perfect, moving to next" )
 			continue
 
-		print(f"DATA: {piece_to_fix}")
+		# print(f"DATA: {piece_to_fix}")
 		# cube_client.visualize_cube()
 
 		if (
@@ -254,7 +253,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			and parent_row_index == 0
 			or parent_side == "top_side"
 		):
-			print( "Fixing Top Piece" )
+			if LOG_STEP_INFO == True:
+				print( "Fixing Top Piece" )
 
 			# top color is not on the bottom
 			moves_config = {
@@ -579,7 +579,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			and parent_row_index == 2
 			or parent_side == "bottom_side"
 		):
-			print( "Fixing Bottom Piece" )
+			if LOG_STEP_INFO == True:
+				print( "Fixing Bottom Piece" )
 
 			# top color is not on the bottom
 

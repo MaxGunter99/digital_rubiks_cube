@@ -377,13 +377,13 @@ cube_client = RubiksCube()
 # )
 
 # STEP 2 TESTING
-cube_client.shuffle_cube( random_turns_count=100 )
-# print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
-cube_client.visualize_cube()
-steps_to_solve = cube_client.solve_cube( step_override=2 )
-cube_client.visualize_cube()
-# print(  f"Steps to solve cube: {steps_to_solve}" )
-# cube_client.check_sides()
+# cube_client.shuffle_cube( random_turns_count=100 )
+# # print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
+# cube_client.visualize_cube()
+# steps_to_solve = cube_client.solve_cube( step_override=2 )
+# cube_client.visualize_cube()
+# # print(  f"Steps to solve cube: {steps_to_solve}" )
+# # cube_client.check_sides()
 
 # STEP 3 TESTING
 # cube_client.shuffle_cube( random_turns_count=100 )
@@ -393,6 +393,15 @@ cube_client.visualize_cube()
 # cube_client.visualize_cube()
 # # print(  f"Steps to solve cube: {steps_to_solve}" )
 # # cube_client.check_sides()
+
+# STEP 4 TESTING
+cube_client.shuffle_cube( random_turns_count=100 )
+# print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
+cube_client.visualize_cube()
+steps_to_solve = cube_client.solve_cube( step_override=4 )
+cube_client.visualize_cube()
+# print(  f"Steps to solve cube: {steps_to_solve}" )
+# cube_client.check_sides()
 
 
 
