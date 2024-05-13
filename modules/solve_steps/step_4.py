@@ -145,7 +145,7 @@ def solve_cube__step_4( cube_client, test_id=None ):
 	extended_moves = []
 	reverse_extended_moves = []
 
-	game_loop_max_count = 3
+	game_loop_max_count = 20
 	game_loop_iteration = 0
 	game_loop_complete = False
 
