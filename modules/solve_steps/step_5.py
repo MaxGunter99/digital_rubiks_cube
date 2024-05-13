@@ -1,9 +1,9 @@
 
-# STEP X
+# STEP 5
 
 LOG_STEP_INFO = False
 
-def solve_cube__step_x( cube_client, test_id=None ):
+def solve_cube__step_5( cube_client, test_id=None ):
 	"""
     This function should output a list of moves to solve the top cross of the cube. 
     step format: [ class_function, args ]
@@ -17,7 +17,7 @@ def solve_cube__step_x( cube_client, test_id=None ):
 	step_status = "FAIL"
 	
 	if LOG_STEP_INFO == True:
-		print( "Starting Step x!" )
+		print( "Starting Step 5!" )
 
 	step_errors = []
 
@@ -41,23 +41,8 @@ def solve_cube__step_x( cube_client, test_id=None ):
 		# ... step logic
 		raise Exception( "STEP NOT IMPLEMENTED" )
 
-	class color:
-		PURPLE = '\033[95m'
-		CYAN = '\033[96m'
-		DARKCYAN = '\033[36m'
-		BLUE = '\033[94m'
-		GREEN = '\033[92m'
-		YELLOW = '\033[93m'
-		RED = '\033[91m'
-		BOLD = '\033[1m'
-		UNDERLINE = '\033[4m'
-		END = '\033[0m'
-
 	if len( step_errors ):
-		print( color.BOLD + color.RED + f"\nErrors in step x: {step_errors}" + color.END )
-		raise Exception( f"Errors in step x: {step_errors}" )
-	# else:
-	# 	print( [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] )
-	# 	step_status = "PASS" if False not in [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] else "FAIL"
+		print( f"Errors in step 5: {step_errors}" )
+		raise Exception( f"Errors in step 5: {step_errors}" )
 
 	return step_status, steps_to_solve

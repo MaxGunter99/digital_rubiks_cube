@@ -322,8 +322,8 @@ print(  f"Steps to solve cube: {steps_to_solve}" )
 - Step 1: Top Cross - ✅
 - Step 2: Corners Around Top Cross - ✅
 - Step 3: Flip Cube - ✅
-- Step 4: Middle Section - IN PROGRESS
-- Step 5: Opposite Sides Top Cross - ❌
+- Step 4: Middle Section - ✅
+- Step 5: Opposite Sides Top Cross - IN PROGRESS
 - Step 6: Opposite Sides Corner Placement - ❌
 - Step 7: Ordering Opposite Sides Corners - ❌
 
