@@ -73,6 +73,7 @@ def solve_cube__step_4( cube_client, test_id=None ):
 			("right_side", "front_side"): 0,
 			("right_side", "back_side"): 2,
 		}
+		return_indexes_to_fix = {}
 
 		for coord in indexes_to_fix.keys():
 			coord_1, coord_2 = coord
@@ -129,14 +130,16 @@ def solve_cube__step_4( cube_client, test_id=None ):
 
 						if parent_matches_side == True and related_side_matches_side == True:
 							new_indexes_to_fix[ search_key ] = True
+							return_indexes_to_fix[search_key] = True
 						else:
 							pieces_to_fix.append( brick )
+							return_indexes_to_fix[search_key] = False
 
 		if LOG_STEP_INFO == True:
-			print( f"\n\nnew_indexes_to_fix: {new_indexes_to_fix}" )
+			print( f"\n\nreturn_indexes_to_fix: {return_indexes_to_fix}" )
 
 
-		return ( pieces_to_fix, indexes_to_fix )
+		return ( pieces_to_fix, return_indexes_to_fix )
 
 	
 
@@ -164,20 +167,11 @@ def solve_cube__step_4( cube_client, test_id=None ):
 		game_loop_iteration += 1
 
 		pieces_to_fix, indexes_to_fix_status = refresh_data()
-		# count_of_pieces_to_fix = list( indexes_to_fix_status.values() ).count(False)
-
-		# print( indexes_to_fix_status )
-		
-		# if len( pieces_to_fix ) != count_of_pieces_to_fix:
-		# 	details = f"pieces_to_fix does not equal {count_of_pieces_to_fix} -- {pieces_to_fix}"
-		# 	step_errors.append( details )
-		# 	break
 		
 		if not len( pieces_to_fix ):
 			break
 
-		print( f"pieces_to_fix: {pieces_to_fix}" ) 
-		# print( f"indexes_to_fix_status: {[ val for _, val in indexes_to_fix_status.items() ]}" )
+		# print( f"pieces_to_fix: {pieces_to_fix}" ) 
 		
 		moves_do_not_need_extended_moves = []
 		moves_need_extended_moves = []
