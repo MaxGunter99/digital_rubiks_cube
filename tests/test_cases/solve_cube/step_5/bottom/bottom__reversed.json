@@ -6,10 +6,10 @@
         [
             [ ".", ".", "." ],
             [ ".", "y", "." ],
-            [ ".", ".", "." ]
+            [ ".", "b", "." ]
         ],
         [
-            [ ".", ".", "." ],
+            [ ".", "y", "." ],
             [ "b", "b", "b" ],
             [ "b", "b", "b" ]
         ],
@@ -40,13 +40,13 @@
             "expected_value": [
                 [ null, null, null ],
                 [ null, "y", null ],
-                [ null, null, null ]
+                [ null, "y", null ]
             ]
         },
         {
             "expected_side": "front_side",
             "expected_value": [
-                [ null, null, null ],
+                [ null, "b", null ],
                 [ "b", "b", "b" ],
                 [ "b", "b", "b" ]
             ]

@@ -5,7 +5,7 @@
     , "TEST_CUBE_OVERRIDE": [
         [
             [ ".", ".", "." ],
-            [ ".", "y", "." ],
+            [ "b", "y", "." ],
             [ ".", ".", "." ]
         ],
         [
@@ -24,7 +24,7 @@
             [ "g", "g", "g" ]
         ],
         [
-            [ ".", ".", "." ],
+            [ ".", "y", "." ],
             [ "o", "o", "o" ],
             [ "o", "o", "o" ]
         ],
@@ -40,13 +40,13 @@
             "expected_value": [
                 [ null, null, null ],
                 [ null, "y", null ],
-                [ null, null, null ]
+                [ null, "y", null ]
             ]
         },
         {
             "expected_side": "front_side",
             "expected_value": [
-                [ null, null, null ],
+                [ null, "b", null ],
                 [ "b", "b", "b" ],
                 [ "b", "b", "b" ]
             ]
