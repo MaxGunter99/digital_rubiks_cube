@@ -1,0 +1,87 @@
+{
+	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
+    , "STEP_NAME": "5. Solve the top cross!!"
+    , "STEP_NUMBER": 5
+    , "TEST_CUBE_OVERRIDE": [
+        [
+            [ ".", ".", "." ],
+            [ ".", "y", "y" ],
+            [ ".", ".", "." ]
+        ],
+        [
+            [ ".", ".", "." ],
+            [ "b", "b", "b" ],
+            [ "b", "b", "b" ]
+        ],
+        [
+            [ "w", "w", "w" ],
+            [ "w", "w", "w" ],
+            [ "w", "w", "w" ]
+        ],      
+        [
+            [ ".", ".", "." ],
+            [ "g", "g", "g" ],
+            [ "g", "g", "g" ]
+        ],
+        [
+            [ ".", ".", "." ],
+            [ "o", "o", "o" ],
+            [ "o", "o", "o" ]
+        ],
+        [
+            [ ".", "g", "." ],
+            [ "r", "r", "r" ],
+            [ "r", "r", "r" ]
+        ]
+	]
+    , "TEST_SOLUTION": [
+{
+            "expected_side": "top_side",
+            "expected_value": [
+                [ null, null, null ],
+                [ null, "y", null ],
+                [ null, "y", null ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ null, null, null ],
+                [ "b", "b", "b" ],
+                [ "b", "b", "b" ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ null, null, null ],
+                [ "g", "g", "g" ],
+                [ "g", "g", "g" ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ null, null, null ],
+                [ "o", "o", "o" ],
+                [ "o", "o", "o" ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ null, "r", null ],
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ]
+            ]
+        }
+    ]
+}
