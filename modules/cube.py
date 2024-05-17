@@ -934,6 +934,7 @@ class RubiksCube:
             "step_2_status": None,
             "step_3_status": None,
             "step_4_status": None,
+            "step_5_status": None,
         }
 
         print( "Solving Cube! Initial cube:" )
