@@ -2202,6 +2202,39 @@ class TestMoves( unittest.TestCase ):
     def test__step_4__front_right__top_side__top_middle__reversed( self ):
         test_data_path = "tests/test_cases/solve_cube/step_4/front_right/top_side__top_middle__reversed.json"
         self.solve_cube_step( test_data_path )
+
+    # ------- STEP 5 TESTS -------
+
+    # L tests
+    def test_step_5__L__top_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/L_tests/top_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_5__L__top_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/L_tests/top_right.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_5__L__bottom_left( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/L_tests/bottom_left.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_5__L__bottom_right( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/L_tests/bottom_right.json"
+        self.solve_cube_step( test_data_path )
+
+    # I tests
+    def test_step_5__I__horizontal( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/I_tests/horizontal.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_5__I__vertical( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/I_tests/vertical.json"
+        self.solve_cube_step( test_data_path )
+
+    # No Cross tests
+    def test_step_5__I__no_cross( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/no_cross.json"
+        self.solve_cube_step( test_data_path )
         
     # ------- BATCH TESTS -------
 

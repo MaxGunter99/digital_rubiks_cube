@@ -144,7 +144,7 @@ def solve_cube__step_5( cube_client, test_id=None ):
 			print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
 			cube_client.visualize_cube()
 
-		if game_loop_iteration >= game_loop_max_count:
+		if game_loop_iteration >= game_loop_max_count or step_errors:
 			break
 		
 		pieces_to_fix, indexes_matches_top_color, indexes_to_fix = refresh_data()
@@ -168,6 +168,8 @@ def solve_cube__step_5( cube_client, test_id=None ):
 			print( "STEP 5 IS COMPLETED, quitting" )
 			step_status = "PASS"
 			break
+
+		required_moves = None
 
 		if step_1_status == "FAIL":
 			print( "need to move colors to the top" )
@@ -199,57 +201,67 @@ def solve_cube__step_5( cube_client, test_id=None ):
 			identified_move = required_moves_key[ matches_top_color_values ]
 			print( identified_move )
 
+			# What do you need?
+			# well to start, at the very least we need to get the top L correct or any straight line
+			# if theres an L theres a move to fix all corners, if its vertical what do you do?
 
-		# What do you need?
-		# well to start, at the very least we need to get the top L correct or any straight line
-		# if theres an L theres a move to fix all corners, if its vertical what do you do?
+			# what move can you use without mixing up the cube more?
+			right_move = [
+				('rotate_cube', 'right', 1), 
+				('move_cube', 'right', 'vertical', 'up', 1), 
+				('rotate_cube', 'left', 1), 
+				('move_cube', 'right', 'vertical', 'up', 1), 
+				('move_cube', 'top', 'horizontal', 'left', 1), 
+				('move_cube', 'right', 'vertical', 'down', 1), 
+				('move_cube', 'top', 'horizontal', 'right', 1), 
+				('rotate_cube', 'right', 1), 
+				('move_cube', 'right', 'vertical', 'down', 1), 
+				('rotate_cube', 'left', 1),
+			]
+			left_move = [
+				('rotate_cube', 'left', 1), 
+				('move_cube', 'left', 'vertical', 'down', 1), 
+				('rotate_cube', 'right', 1), 
+				('move_cube', 'left', 'vertical', 'up', 1), 
+				('move_cube', 'top', 'horizontal', 'right', 1), 
+				('move_cube', 'left', 'vertical', 'down', 1), 
+				('move_cube', 'top', 'horizontal', 'left', 1), 
+				('rotate_cube', 'left', 1), 
+				('move_cube', 'right', 'vertical', 'up', 1), 
+				('rotate_cube', 'right', 1),
+			]
 
-		# what move can you use without mixing up the cube more?
-		right_move = [
-			('rotate_cube', 'right', 1), 
-			('move_cube', 'right', 'vertical', 'up', 1), 
-			('rotate_cube', 'left', 1), 
-			('move_cube', 'right', 'vertical', 'up', 1), 
-			('move_cube', 'top', 'horizontal', 'left', 1), 
-			('move_cube', 'right', 'vertical', 'down', 1), 
-			('move_cube', 'top', 'horizontal', 'right', 1), 
-			('rotate_cube', 'right', 1), 
-			('move_cube', 'right', 'vertical', 'down', 1), 
-			('rotate_cube', 'left', 1),
-		]
-		left_move = [
-			('rotate_cube', 'left', 1), 
-			('move_cube', 'left', 'vertical', 'down', 1), 
-			('rotate_cube', 'right', 1), 
-			('move_cube', 'left', 'vertical', 'up', 1), 
-			('move_cube', 'top', 'horizontal', 'right', 1), 
-			('move_cube', 'left', 'vertical', 'down', 1), 
-			('move_cube', 'top', 'horizontal', 'left', 1), 
-			('rotate_cube', 'left', 1), 
-			('move_cube', 'right', 'vertical', 'up', 1), 
-			('rotate_cube', 'right', 1),
-		]
+			moves_config = {
 
-		# cube_client.visualize_cube()
-		# print( "BEFORE MOVE" )
+			}
+
+			if identified_move not in moves_config:
+				details = f"Part 1 identified_move not in moves_config: {identified_move}"
+				step_errors.append( details )
+				continue
+
+			required_moves = moves_config[ identified_move ]
+
+		cube_client.visualize_cube()
+		print( "BEFORE MOVE" )
 
 		# required_moves = left_move
 
-		# for move in required_moves:
-		# 	if LOG_STEP_INFO == True:
-		# 		print( move )
-		# 	if move[0] == "rotate_cube":
-		# 		_, direction, turns = move
-		# 		cube_client.rotate_cube( direction, turns )
-		# 		steps_to_solve.append( ["rotate_cube", direction, turns] )
+		for move in required_moves:
+			if LOG_STEP_INFO == True:
+				print( move )
+			if move[0] == "rotate_cube":
+				_, direction, turns = move
+				cube_client.rotate_cube( direction, turns )
+				steps_to_solve.append( ["rotate_cube", direction, turns] )
 
-		# 	elif move[0] == "move_cube": 
-		# 		_, section, orientation, direction, turns = move
-		# 		cube_client.move_cube( section, orientation, direction, turns )
-		# 		steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
+			elif move[0] == "move_cube": 
+				_, section, orientation, direction, turns = move
+				cube_client.move_cube( section, orientation, direction, turns )
+				steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
 
-		# cube_client.visualize_cube()
-		# print( "AFTER MOVE" )
+		cube_client.visualize_cube()
+		print( "AFTER MOVE" )
 
 
 

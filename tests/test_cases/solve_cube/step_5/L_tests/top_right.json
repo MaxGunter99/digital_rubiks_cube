@@ -4,8 +4,8 @@
     , "STEP_NUMBER": 5
     , "TEST_CUBE_OVERRIDE": [
         [
-            [ ".", "b", "." ],
             [ ".", "y", "." ],
+            [ ".", "y", "y" ],
             [ ".", ".", "." ]
         ],
         [
@@ -19,7 +19,7 @@
             [ "w", "w", "w" ]
         ],      
         [
-            [ ".", "y", "." ],
+            [ ".", "g", "." ],
             [ "g", "g", "g" ],
             [ "g", "g", "g" ]
         ],
@@ -29,7 +29,7 @@
             [ "o", "o", "o" ]
         ],
         [
-            [ ".", ".", "." ],
+            [ ".", "r", "." ],
             [ "r", "r", "r" ],
             [ "r", "r", "r" ]
         ]
@@ -38,8 +38,8 @@
         {
             "expected_side": "top_side",
             "expected_value": [
-                [ null, null, null ],
                 [ null, "y", null ],
+                [ "y", "y", "y" ],
                 [ null, "y", null ]
             ]
         },
@@ -62,7 +62,7 @@
         {
             "expected_side": "back_side",
             "expected_value": [
-                [ null, null, null ],
+                [ null, "g", null ],
                 [ "g", "g", "g" ],
                 [ "g", "g", "g" ]
             ]
@@ -70,7 +70,7 @@
         {
             "expected_side": "left_side",
             "expected_value": [
-                [ null, null, null ],
+                [ null, "o", null ],
                 [ "o", "o", "o" ],
                 [ "o", "o", "o" ]
             ]
@@ -78,7 +78,7 @@
         {
             "expected_side": "right_side",
             "expected_value": [
-                [ null, null, null ],
+                [ null, "r", null ],
                 [ "r", "r", "r" ],
                 [ "r", "r", "r" ]
             ]
