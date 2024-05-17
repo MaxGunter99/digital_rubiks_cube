@@ -1,8 +1,8 @@
 
 # STEP 4
 
-LOG_STEP_INFO = True
-# LOG_STEP_INFO = False
+# LOG_STEP_INFO = True
+LOG_STEP_INFO = False
 
 def solve_cube__step_4( cube_client, test_id=None ):
 	"""
@@ -412,10 +412,10 @@ def solve_cube__step_4( cube_client, test_id=None ):
 				reverse_extended_moves = [('rotate_cube', 'right', 1)]
 
 			if use_extended_move:
-				print("APPLYING EXTENDED MOVE")
+				if LOG_STEP_INFO == True:
+					print(f"APPLYING EXTENDED MOVE - {move}")
 				move_extended = True
 				for move in extended_moves:
-					print( move )
 					_, direction, turns = move
 					cube_client.rotate_cube( direction, turns )
 					steps_to_solve.append( ["rotate_cube", direction, turns] )
@@ -435,7 +435,8 @@ def solve_cube__step_4( cube_client, test_id=None ):
 
 		# REVERSE EXTENDED MOVES DATA
 		if move_extended == True:
-			print( f"REVERSING EXTENDED MOVE - {reverse_extended_moves}")
+			if LOG_STEP_INFO:
+				print( f"REVERSING EXTENDED MOVE - {reverse_extended_moves}")
 			required_moves = required_moves + reverse_extended_moves
 			move_extended = False
 			extended_moves = []
@@ -456,23 +457,13 @@ def solve_cube__step_4( cube_client, test_id=None ):
 				steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
 
 			continue
-	class color:
-		PURPLE = '\033[95m'
-		CYAN = '\033[96m'
-		DARKCYAN = '\033[36m'
-		BLUE = '\033[94m'
-		GREEN = '\033[92m'
-		YELLOW = '\033[93m'
-		RED = '\033[91m'
-		BOLD = '\033[1m'
-		UNDERLINE = '\033[4m'
-		END = '\033[0m'
 
 	if len( step_errors ):
-		print( color.BOLD + color.RED + f"\nErrors in step 4: {step_errors}" + color.END )
+		print( f" \n \033[91m Errors in step 4: {step_errors} \033[0m \n" )
 		raise Exception( f"Errors in step x: {step_errors}" )
 	else:
-		print( [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] )
+		if LOG_STEP_INFO == True:
+			print( [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] )
 		step_status = "PASS" if False not in [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] else "FAIL"
 
 	return step_status, steps_to_solve
