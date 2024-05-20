@@ -975,7 +975,7 @@ class RubiksCube:
 
         if step_override == None or step_override >= 5:
             step_5_status, steps_to_solve_step_5 = solve_cube__step_5( self, test_id )
-            print(f"Steps to Solve Middle Section: {steps_to_solve_step_5}")
+            print(f"Steps to Solve Top Cross: {steps_to_solve_step_5}")
 
             if len( steps_to_solve_step_5 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_5
@@ -993,7 +993,6 @@ class RubiksCube:
         pprint( solve_status_report )
 
         return self.steps_to_solve
-    
 
 
     def print_tracked_moves( self ):
