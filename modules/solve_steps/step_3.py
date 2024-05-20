@@ -1,7 +1,8 @@
 
 # STEP X
 
-LOG_STEP_INFO = True
+# LOG_STEP_INFO = True
+LOG_STEP_INFO = False
 
 def solve_cube__step_3( cube_client, test_id=None ):
 	"""
@@ -26,6 +27,9 @@ def solve_cube__step_3( cube_client, test_id=None ):
 		direction, turns = flip_cube_move
 		cube_client.rotate_cube( direction, turns )
 		steps_to_solve.append( flip_cube_move )
+
+		if LOG_STEP_INFO == True:
+			cube_client.visualize_cube()
 		step_status = "PASS"
 
 	except Exception as e:

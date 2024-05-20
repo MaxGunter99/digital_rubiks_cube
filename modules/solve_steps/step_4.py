@@ -167,8 +167,12 @@ def solve_cube__step_4( cube_client, test_id=None ):
 		game_loop_iteration += 1
 
 		pieces_to_fix, indexes_to_fix_status = refresh_data()
+		is_perfect_bools = [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ]
 		
-		if not len( pieces_to_fix ):
+		if not len( pieces_to_fix ) or is_perfect_bools.count(False) == 0:
+			if LOG_STEP_INFO == True:
+				print( "Step 4 pieces are perfect, on to the next" )
+				cube_client.visualize_cube()
 			break
 
 		# print( f"pieces_to_fix: {pieces_to_fix}" ) 
@@ -413,7 +417,7 @@ def solve_cube__step_4( cube_client, test_id=None ):
 
 			if use_extended_move:
 				if LOG_STEP_INFO == True:
-					print(f"APPLYING EXTENDED MOVE - {move}")
+					print(f"APPLYING EXTENDED MOVE - {extended_moves}")
 				move_extended = True
 				for move in extended_moves:
 					_, direction, turns = move

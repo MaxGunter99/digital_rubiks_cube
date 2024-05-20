@@ -2235,6 +2235,13 @@ class TestMoves( unittest.TestCase ):
     def test_step_5__I__no_cross( self ):
         test_data_path = "tests/test_cases/solve_cube/step_5/no_cross.json"
         self.solve_cube_step( test_data_path )
+
+    # RANDOM TESTS FROM RUN CUBE
+    def test_step_5__random_test_1( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_5/random_tests/1.json"
+        self.solve_cube_step( test_data_path )
+
+
         
     # ------- BATCH TESTS -------
 

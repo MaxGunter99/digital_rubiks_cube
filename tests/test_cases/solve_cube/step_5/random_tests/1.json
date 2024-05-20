@@ -1,0 +1,87 @@
+{
+	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
+    , "STEP_NAME": "5. Solve the top cross!!"
+    , "STEP_NUMBER": 5
+    , "TEST_CUBE_OVERRIDE": [
+		[
+			["g", "b", "y"], 
+			["g", "w", "b"], 
+			["g", "y", "b"]
+		],
+		[
+			["w", "b", "y"], 
+			["r", "r", "g"], 
+			["g", "y", "o"]
+		],
+		[
+			["r", "r", "y"], 
+			["r", "y", "o"], 
+			["r", "o", "o"]
+		],
+		[
+			["r", "w", "w"], 
+			["w", "o", "w"], 
+			["w", "g", "w"]
+		],
+		[
+			["o", "w", "r"], 
+			["r", "g", "g"], 
+			["b", "b", "y"]
+		],
+		[
+			["o", "o", "b"], 
+			["y", "b", "o"], 
+			["g", "y", "b"]
+		]
+	]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+				["g", "o", "o"],             
+                ["o", "o", "o"],               
+                ["b", "o", "y"]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                ["w", "w", "o"],
+				["w", "w", "w"],
+				["w", "w", "w"]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+				[ "r", "r", "r" ],
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                ["w", "y", "o"],              
+                ["y", "y", "y"],               
+                ["y", "y", "y"]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                ["y", "g", "o"],
+                ["g", "g", "g"],
+                ["g", "g", "g"]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                ["b", "b", "g"],
+                ["b", "b", "b"],
+                ["b", "b", "b"]
+            ]
+        }
+    ]
+}

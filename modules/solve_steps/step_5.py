@@ -1,8 +1,8 @@
 
 # STEP 5
 
-LOG_STEP_INFO = True
-# LOG_STEP_INFO = False
+# LOG_STEP_INFO = True
+LOG_STEP_INFO = False
 
 def solve_cube__step_5( cube_client, test_id=None ):
 	"""
@@ -41,8 +41,8 @@ def solve_cube__step_5( cube_client, test_id=None ):
 
 	step_errors = []
 
-	# game_loop_max_count = 20
-	game_loop_max_count = 4
+	game_loop_max_count = 20
+	# game_loop_max_count = 4
 	# game_loop_max_count = 2
 	game_loop_iteration = 0
 	game_loop_complete = False
@@ -126,7 +126,9 @@ def solve_cube__step_5( cube_client, test_id=None ):
 
 			if required_coords in indexes_to_fix:
 				piece_is_perfect = parent_matches_side == related_piece_matches_side == True
-				print( f"piece_is_perfect: {piece_is_perfect}" )
+				if LOG_STEP_INFO == True:
+					print( f"piece_is_perfect: {piece_is_perfect}" )
+
 				if piece_is_perfect == False:
 					pieces_to_fix.append( piece )
 				indexes_to_fix[required_coords] = piece_is_perfect
@@ -158,24 +160,28 @@ def solve_cube__step_5( cube_client, test_id=None ):
 		step_1_list = indexes_matches_top_color.values() if len( indexes_matches_top_color ) else []
 		step_1_status_values = [ i for i in step_1_list ]
 		step_1_status = "PASS" if False not in step_1_status_values else "FAIL"
-		print( f"step_1_status: {step_1_status}" )
 
 		step_2_list = indexes_to_fix.values() if len( indexes_to_fix ) else []
 		step_2_status_values = [ i for i in step_2_list ]
 		step_2_status = "PASS" if False not in step_2_status_values else "FAIL"
-		print( f"step_2_status: {step_2_status}" )
+
+		if LOG_STEP_INFO == True:
+			print( f"step_1_status: {step_1_status}" )
+			print( f"step_2_status: {step_2_status}" )
 
 		if step_1_status == step_2_status == "PASS":
 			print( "STEP 5 IS COMPLETED, quitting" )
+			cube_client.visualize_cube()
 			step_status = "PASS"
 			break
 
 		required_moves = None
 
 		if step_1_status == "FAIL" and step_2_status == "FAIL":
-			print( "need to move colors to the top" )
-			# print( pieces_to_fix )
-			# print( indexes_matches_top_color )
+			if LOG_STEP_INFO == True:
+				print( "need to move colors to the top" )
+				# print( pieces_to_fix )
+				# print( indexes_matches_top_color )
 
 			matches_top_color_values = tuple( indexes_matches_top_color.values() )
 			required_moves_key = {
@@ -200,7 +206,8 @@ def solve_cube__step_5( cube_client, test_id=None ):
 				step_errors.append( details )
 
 			identified_move = required_moves_key[ matches_top_color_values ]
-			print( identified_move )
+			if LOG_STEP_INFO == True:
+				print( identified_move )
 
 			# What do you need?
 			# well to start, at the very least we need to get the top L correct or any straight line
@@ -299,8 +306,9 @@ def solve_cube__step_5( cube_client, test_id=None ):
 			side_names_by_index = [ "front_side", "left_side", "back_side", "right_side" ]
 
 			colors_match_bools = [ top_color_order[i] == sides_color_order[i] for i in range( 4 ) ]
-			print( f"colors_match_bools: {colors_match_bools}" )
-			print( sides_color_order )
+			if LOG_STEP_INFO == True:
+				print( f"colors_match_bools: {colors_match_bools}" )
+				print( sides_color_order )
 
 			# What do you need to look for?
 
@@ -324,7 +332,8 @@ def solve_cube__step_5( cube_client, test_id=None ):
 
 					if color_found_from_side_name != color_found_to_side_name:
 
-						print( f"color: {color} from {color_found_from_side_name} to {color_found_to_side_name}" )
+						if LOG_STEP_INFO == True:
+							print( f"color: {color} from {color_found_from_side_name} to {color_found_to_side_name}" )
 						moves_config = {
 							( "front_side", "right_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 1) ],
 							( "front_side", "back_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 2) ],
@@ -346,19 +355,9 @@ def solve_cube__step_5( cube_client, test_id=None ):
 						move_from_to = ( color_found_from_side_name, color_found_to_side_name )
 						align_colors_moves = moves_config[ move_from_to ]
 
-			# right_move = [
-			# 	('move_cube', 'top', 'horizontal', 'left', 1),
-			# 	('move_cube', 'right', 'vertical', 'up', 1),
-			# 	('move_cube', 'top', 'horizontal', 'right', 1),
-			# 	('move_cube', 'left', 'vertical', 'up', 1),
-			# 	('move_cube', 'top', 'horizontal', 'left', 1),
-			# 	('move_cube', 'right', 'vertical', 'down', 1),
-			# 	('move_cube', 'top', 'horizontal', 'right', 1),
-			# 	('move_cube', 'left', 'vertical', 'down', 1),
-			# ]
-
 			if align_colors_moves != []:
-				print( "lining up colors, no other required moves now" )
+				if LOG_STEP_INFO == True:
+					print( "lining up colors, no other required moves now" )
 				required_moves = align_colors_moves
 
 			else:
@@ -400,7 +399,8 @@ def solve_cube__step_5( cube_client, test_id=None ):
 				}
 
 				identified_move = required_moves_key[matches_top_color_values]
-				print( f"identified_move to fix colors post alignment: {identified_move}" )
+				if LOG_STEP_INFO == True:
+					print( f"identified_move to fix colors post alignment: {identified_move}" )
 
 				fix_L_move = {
 					('move_cube', 'right', 'vertical', 'up', 1),
@@ -512,14 +512,15 @@ def solve_cube__step_5( cube_client, test_id=None ):
 					break
 
 				required_moves = moves_config_pt_2[identified_move]
-				print( f"Moves to to fix all top side colors: {required_moves}" )
+				if LOG_STEP_INFO == True:
+					print( f"Moves to to fix all top side colors: {required_moves}" )
 
 
 
 
-
-		cube_client.visualize_cube()
-		print( "BEFORE MOVE" )
+		if LOG_STEP_INFO == True:
+			cube_client.visualize_cube()
+			print( "BEFORE MOVE" )
 
 		# required_moves = left_move
 
@@ -541,8 +542,9 @@ def solve_cube__step_5( cube_client, test_id=None ):
 				cube_client.move_cube( section, orientation, direction, turns )
 				steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
 
-		cube_client.visualize_cube()
-		print( "AFTER MOVE" )
+		if LOG_STEP_INFO == True:
+			cube_client.visualize_cube()
+			print( "AFTER MOVE" )
 
 
 
