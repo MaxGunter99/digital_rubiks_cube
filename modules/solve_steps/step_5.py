@@ -42,7 +42,8 @@ def solve_cube__step_5( cube_client, test_id=None ):
 	step_errors = []
 
 	# game_loop_max_count = 20
-	game_loop_max_count = 2
+	game_loop_max_count = 4
+	# game_loop_max_count = 2
 	game_loop_iteration = 0
 	game_loop_complete = False
 
@@ -171,7 +172,7 @@ def solve_cube__step_5( cube_client, test_id=None ):
 
 		required_moves = None
 
-		if step_1_status == "FAIL":
+		if step_1_status == "FAIL" and step_2_status == "FAIL":
 			print( "need to move colors to the top" )
 			# print( pieces_to_fix )
 			# print( indexes_matches_top_color )
@@ -232,7 +233,43 @@ def solve_cube__step_5( cube_client, test_id=None ):
 			]
 
 			moves_config = {
-
+				( "no top cross pieces" ): [
+					*right_move,
+					*right_move,
+					('move_cube', 'top', 'horizontal', 'left', 1), 
+					*right_move,
+					('move_cube', 'top', 'horizontal', 'right', 1), 
+				],
+				('horizontal', 'I'): [
+					*right_move
+				],
+				('vertical', 'I'): [
+					('move_cube', 'top', 'horizontal', 'left', 1), 
+					*right_move,
+					('move_cube', 'top', 'horizontal', 'right', 1), 
+				],
+				('bottom left', 'L'): [
+					('move_cube', 'top', 'horizontal', 'left', 1), 
+					*right_move,
+					*right_move,
+					('move_cube', 'top', 'horizontal', 'right', 1), 
+				],
+				('bottom right', 'L'): [
+					('move_cube', 'top', 'horizontal', 'right', 2), 
+					*right_move,
+					*right_move,
+					('move_cube', 'top', 'horizontal', 'left', 1), 
+				],
+				('top left', 'L'): [
+					*right_move,
+					*right_move,
+				],
+				('top right', 'L'): [
+					('move_cube', 'top', 'horizontal', 'right', 1), 
+					*right_move,
+					*right_move,
+					('move_cube', 'top', 'horizontal', 'left', 1), 
+				]
 			}
 
 			if identified_move not in moves_config:
@@ -242,10 +279,254 @@ def solve_cube__step_5( cube_client, test_id=None ):
 
 			required_moves = moves_config[ identified_move ]
 
+		elif step_1_status == "PASS" and step_2_status == "FAIL":
+
+			# step_errors.append("STEP 2 NOT IMPLEMENTED")
+			# Find matching sides, 2 at best, else it would be a line
+
+			sides_color_order = [
+				cube_client["front_side"][1][1],
+				cube_client["left_side"][1][1],
+				cube_client["back_side"][1][1],
+				cube_client["right_side"][1][1],
+			]
+			top_color_order = [
+				cube_client["front_side"][0][1],
+				cube_client["left_side"][0][1],
+				cube_client["back_side"][0][1],
+				cube_client["right_side"][0][1],
+			]
+			side_names_by_index = [ "front_side", "left_side", "back_side", "right_side" ]
+
+			colors_match_bools = [ top_color_order[i] == sides_color_order[i] for i in range( 4 ) ]
+			print( f"colors_match_bools: {colors_match_bools}" )
+			print( sides_color_order )
+
+			# What do you need to look for?
+
+			# 1. Line up as many pieces as you can using right_move, should be all 4 or just 2
+
+			# what do you need to call out? 
+			# Matching sides, 2 or 4 should match
+
+			align_colors_moves = []
+
+			for side in range( len( top_color_order ) ):
+				color = top_color_order[side]
+				next_color = top_color_order[ side + 1 ] if side + 1 < len( top_color_order ) else top_color_order[0]
+
+				if f"{color}{next_color}" in "".join( sides_color_order + sides_color_order ):
+					color_found_origin_index = top_color_order.index( color )
+					color_found_from_side_name = side_names_by_index[ color_found_origin_index ]
+
+					color_found_destination_index = sides_color_order.index( color )
+					color_found_to_side_name = side_names_by_index[ color_found_destination_index ]
+
+					if color_found_from_side_name != color_found_to_side_name:
+
+						print( f"color: {color} from {color_found_from_side_name} to {color_found_to_side_name}" )
+						moves_config = {
+							( "front_side", "right_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 1) ],
+							( "front_side", "back_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 2) ],
+							( "front_side", "left_side" ): [ ('move_cube', 'top', 'horizontal', 'left', 1) ],
+
+							( "left_side", "back_side" ): [ ('move_cube', 'top', 'horizontal', 'left', 1) ],
+							( "left_side", "right_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 2) ],
+							( "left_side", "front_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 1) ],
+							
+							( "back_side", "right_side" ): [ ('move_cube', 'top', 'horizontal', 'left', 1) ],
+							( "back_side", "front_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 2) ],
+							( "back_side", "left_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 1) ],
+
+							( "right_side", "front_side" ): [ ('move_cube', 'top', 'horizontal', 'left', 1) ],
+							( "right_side", "left_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 2) ],
+							( "right_side", "back_side" ): [ ('move_cube', 'top', 'horizontal', 'right', 1) ],
+						}
+
+						move_from_to = ( color_found_from_side_name, color_found_to_side_name )
+						align_colors_moves = moves_config[ move_from_to ]
+
+			# right_move = [
+			# 	('move_cube', 'top', 'horizontal', 'left', 1),
+			# 	('move_cube', 'right', 'vertical', 'up', 1),
+			# 	('move_cube', 'top', 'horizontal', 'right', 1),
+			# 	('move_cube', 'left', 'vertical', 'up', 1),
+			# 	('move_cube', 'top', 'horizontal', 'left', 1),
+			# 	('move_cube', 'right', 'vertical', 'down', 1),
+			# 	('move_cube', 'top', 'horizontal', 'right', 1),
+			# 	('move_cube', 'left', 'vertical', 'down', 1),
+			# ]
+
+			if align_colors_moves != []:
+				print( "lining up colors, no other required moves now" )
+				required_moves = align_colors_moves
+
+			else:
+
+				# ...
+
+				# 2. if L, hold them to back and right ( if across (H or V?) do this from anywhere )
+
+				top_side_colors = [
+					cube_client["front_side"][0][1],
+					cube_client["left_side"][0][1],
+					cube_client["back_side"][0][1],
+					cube_client["right_side"][0][1],
+				]
+				side_colors = [
+					cube_client["front_side"][1][1],
+					cube_client["left_side"][1][1],
+					cube_client["back_side"][1][1],
+					cube_client["right_side"][1][1],
+				]
+				colors_matches_side_list = [ top_side_colors[i] ==  side_colors[i] for i in range( 4 ) ]
+
+				matches_top_color_values = tuple( colors_matches_side_list )
+				required_moves_key = {
+
+					# All Ls
+					( False, True, True, False ): ( "top left", "L" ),
+					( False, False, True, True ): ( "top right", "L" ),
+					( True, True, False, False ): ( "bottom left", "L" ),
+					( True, False, False, True ): ( "bottom right", "L" ),
+
+					# All Is
+					( True, False, True, False ): ( "vertical", "I" ),
+					( False, True, False, True ): ( "horizontal", "I" ),
+
+					# None Match
+					( False, False, False, False ): ( "no top cross pieces" )
+
+				}
+
+				identified_move = required_moves_key[matches_top_color_values]
+				print( f"identified_move to fix colors post alignment: {identified_move}" )
+
+				fix_L_move = {
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('move_cube', 'top', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'top', 'horizontal', 'left', 1),
+					('move_cube', 'right', 'vertical', 'up', 1),
+					('move_cube', 'top', 'horizontal', 'right', 2),
+					('move_cube', 'right', 'vertical', 'down', 1),
+					('move_cube', 'top', 'horizontal', 'left', 1),
+				}
+
+				moves_config_pt_2 = {
+					( "no top cross pieces" ): [
+						# *fix_L_move,
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'right', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+					],
+					('horizontal', 'I'): [
+						# *fix_L_move,
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'right', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+					],
+					('vertical', 'I'): [
+						('rotate_cube', 'left', 1), 
+						# *fix_L_move ,
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'right', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+
+						('rotate_cube', 'right', 1), 
+					],
+					('bottom left', 'L'): [
+						('rotate_cube', 'left', 2), 
+						# *fix_L_move,
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'right', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+
+						('rotate_cube', 'left', 2), 
+					],
+					('bottom right', 'L'): [
+						('rotate_cube', 'right', 1), 
+						# *fix_L_move,
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'right', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+
+						('rotate_cube', 'left', 1), 
+					],
+					('top left', 'L'): [
+						('rotate_cube', 'left', 1), 
+						# *fix_L_move,
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'right', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+
+						('rotate_cube', 'right', 1), 
+					],
+					('top right', 'L'): [
+						# *fix_L_move,
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+						('move_cube', 'right', 'vertical', 'up', 1),
+						('move_cube', 'top', 'horizontal', 'right', 2),
+						('move_cube', 'right', 'vertical', 'down', 1),
+						('move_cube', 'top', 'horizontal', 'left', 1),
+					]
+				}
+
+				if identified_move not in moves_config_pt_2:
+					details = f"Error in part 2, identified_move: {identified_move} not in moves config"
+					print( details )
+					step_errors.append( details )
+					break
+
+				required_moves = moves_config_pt_2[identified_move]
+				print( f"Moves to to fix all top side colors: {required_moves}" )
+
+
+
+
+
 		cube_client.visualize_cube()
 		print( "BEFORE MOVE" )
 
 		# required_moves = left_move
+
+		if not required_moves:
+			print( "Required moves are empty, breaking" )
+			break
+
 
 		for move in required_moves:
 			if LOG_STEP_INFO == True:
@@ -268,5 +549,21 @@ def solve_cube__step_5( cube_client, test_id=None ):
 	if len( step_errors ):
 		print( f" \n \033[91m Errors in step 5: {step_errors} \033[0m \n" )
 		raise Exception( f"Errors in step 5: {step_errors}" )
+	else:
+		top_side_colors = [
+			cube_client["front_side"][0][1],
+			cube_client["left_side"][0][1],
+			cube_client["back_side"][0][1],
+			cube_client["right_side"][0][1],
+		]
+		side_colors = [
+			cube_client["front_side"][1][1],
+			cube_client["left_side"][1][1],
+			cube_client["back_side"][1][1],
+			cube_client["right_side"][1][1],
+		]
+		colors_matches_side_list = [ top_side_colors[i] ==  side_colors[i] for i in range( 4 ) ]
+		if colors_matches_side_list.count(False) == 0:
+			step_status = "PASS"
 
 	return step_status, steps_to_solve
