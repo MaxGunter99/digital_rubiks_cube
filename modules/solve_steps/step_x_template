@@ -21,6 +21,9 @@ def solve_cube__step_x( cube_client, test_id=None ):
 
 	step_errors = []
 
+	def refresh_data():
+		pass
+
 	game_loop_max_count = 20
 	game_loop_iteration = 0
 	game_loop_complete = False
@@ -34,27 +37,18 @@ def solve_cube__step_x( cube_client, test_id=None ):
 			print( f"Game loop iteration: {game_loop_iteration}/{game_loop_max_count}\n" )
 			cube_client.visualize_cube()
 
-		if game_loop_iteration >= game_loop_max_count:
+		if game_loop_iteration >= game_loop_max_count or len( step_errors ) > 0:
 			break
 
 
-		# ... step logic
-		raise Exception( "STEP NOT IMPLEMENTED" )
+		data = refresh_data()
 
-	class color:
-		PURPLE = '\033[95m'
-		CYAN = '\033[96m'
-		DARKCYAN = '\033[36m'
-		BLUE = '\033[94m'
-		GREEN = '\033[92m'
-		YELLOW = '\033[93m'
-		RED = '\033[91m'
-		BOLD = '\033[1m'
-		UNDERLINE = '\033[4m'
-		END = '\033[0m'
+
+		# ... step logic
+		step_errors.append( "STEP NOT IMPLEMENTED" )
 
 	if len( step_errors ):
-		print( color.BOLD + color.RED + f"\nErrors in step x: {step_errors}" + color.END )
+		print( f" \n \033[91m Errors in step x: {step_errors} \033[0m \n" )
 		raise Exception( f"Errors in step x: {step_errors}" )
 	# else:
 	# 	print( [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] )

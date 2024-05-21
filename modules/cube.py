@@ -9,6 +9,7 @@ from .solve_steps.step_2 import solve_cube__step_2
 from .solve_steps.step_3 import solve_cube__step_3
 from .solve_steps.step_4 import solve_cube__step_4
 from .solve_steps.step_5 import solve_cube__step_5
+from .solve_steps.step_6 import solve_cube__step_6
 
 # I would like to set this up as a 3D Matrix. 
 # Perfect to start with but will be scrambled by the algorithm
@@ -935,6 +936,7 @@ class RubiksCube:
             "step_3_status": None,
             "step_4_status": None,
             "step_5_status": None,
+            "step_6_status": None,
         }
 
         print( "Solving Cube! Initial cube:" )
@@ -980,6 +982,14 @@ class RubiksCube:
             if len( steps_to_solve_step_5 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_5
             solve_status_report["step_5_status"] = step_5_status
+
+        if step_override == None or step_override >= 6:
+            step_6_status, steps_to_solve_step_6 = solve_cube__step_6( self, test_id )
+            print(f"Steps to Solve Top Cross: {steps_to_solve_step_6}")
+
+            if len( steps_to_solve_step_6 ) >= 1:
+                self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_6
+            solve_status_report["step_6_status"] = step_6_status
 
         # some tests only cover individual pieces, even if were testing 1 piece and its fixed, if the others are "." this will raise an exception
         # all_steps_status = [ status for _, status in solve_status_report.items() ]

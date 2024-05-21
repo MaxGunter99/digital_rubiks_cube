@@ -403,11 +403,20 @@ cube_client = RubiksCube()
 # # print(  f"Steps to solve cube: {steps_to_solve}" )
 # # cube_client.check_sides()
 
-# STEP 5 TESTING
+# # STEP 5 TESTING
+# cube_client.shuffle_cube( random_turns_count=100 )
+# # print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
+# cube_client.visualize_cube()
+# steps_to_solve = cube_client.solve_cube( step_override=5 )
+# # cube_client.visualize_cube()
+# # print(  f"Steps to solve cube: {steps_to_solve}" )
+# # cube_client.check_sides()
+
+# STEP 6 TESTING
 cube_client.shuffle_cube( random_turns_count=100 )
 # print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
 cube_client.visualize_cube()
-steps_to_solve = cube_client.solve_cube( step_override=5 )
+steps_to_solve = cube_client.solve_cube( step_override=6 )
 # cube_client.visualize_cube()
 # print(  f"Steps to solve cube: {steps_to_solve}" )
 # cube_client.check_sides()
