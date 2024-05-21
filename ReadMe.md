@@ -292,6 +292,17 @@ print(  f"Steps to solve cube: {steps_to_solve}" )
 
 ## Project Milestones
 
+*Summary:*
+**Solve Reference Documentation**: [Link to Solve Steps](SolveCubeSteps.md)
+- Step 1: Top Cross - ✅
+- Step 2: Corners Around Top Cross - ✅
+- Step 3: Flip Cube - ✅
+- Step 4: Middle Section - ✅
+- Step 5: Opposite Sides Top Cross - ✅
+- Step 6: Opposite Sides Corner Placement - IN PROGRESS
+- Step 7: Ordering Opposite Sides Corners - ❌
+
+
 ### Milestone 1: Project Initialization
 - **Status:** Completed
 - **Description:** This milestone involves initializing the RubiksCube class, setting the cube as a 3D matrix and providing functions which will mutate the cubes data.
@@ -315,18 +326,6 @@ print(  f"Steps to solve cube: {steps_to_solve}" )
 ### Milestone 6: Solve Algorithm
 - **Status:** In Progress
 - **Description:** Once testing is completed, the project will focus on developing an efficient algorithm to solve a Rubik's Cube. The goal is to create a solution that outputs a list of optimal moves to return the cube to its solved state.
-
-*Milestone 6 Breakdown:*
-
-**Solve Reference Documentation**: [Link to Solve Steps](SolveCubeSteps.md)
-- Step 1: Top Cross - ✅
-- Step 2: Corners Around Top Cross - ✅
-- Step 3: Flip Cube - ✅
-- Step 4: Middle Section - ✅
-- Step 5: Opposite Sides Top Cross - IN PROGRESS
-- Step 6: Opposite Sides Corner Placement - ❌
-- Step 7: Ordering Opposite Sides Corners - ❌
-
 
 ### Milestone 7: Refactoring
 - **Status:** Planned
