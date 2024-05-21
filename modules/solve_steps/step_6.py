@@ -126,6 +126,22 @@ def solve_cube__step_6( cube_client, test_id=None ):
 		print( f"\nindexes_to_fix: {indexes_to_fix}" )
 		# print( f"pieces_to_fix: {pieces_to_fix}" )
 
+		# 1. if any pieces are perfect rotate cube so they are at the bottom right, use a variable set to as True to skip this step once completed. 
+		# if no pieces are perfect just use step 2 then try this step again
+		
+		# 2. repeat the_fix_move until indexes_to_fix returns all true
+		the_fix_move = [
+			('move_cube', 'top', 'horizontal', 'left', 1), 
+			('move_cube', 'right', 'vertical', 'up', 1), 
+			('move_cube', 'top', 'horizontal', 'right', 1), 
+			('move_cube', 'left', 'vertical', 'up', 1), 
+			('move_cube', 'top', 'horizontal', 'left', 1), 
+			('move_cube', 'right', 'vertical', 'down', 1), 
+			('move_cube', 'top', 'horizontal', 'right', 1), 
+			('move_cube', 'left', 'vertical', 'down', 1), 
+		]
+
+
 		step_errors.append( "STEP NOT IMPLEMENTED" )
 
 
