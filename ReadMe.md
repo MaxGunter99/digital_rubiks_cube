@@ -21,6 +21,8 @@ Project designed by: Michael ( Max ) Gunter
 
 This is an interactive Python project that brings the classic Rubik's Cube into the digital realm. This project leverages a sophisticated Python 3D matrix data structure to store and manipulate the values of each side of the Rubik's Cube
 
+The python code in this project is crafted without the assistance of AI, aiming for optimal performance. The primary goal is to solve the Rubik's Cube faster than 30 seconds, and ideally, quicker than it takes to do the Hokey Pokey dance.
+
 ## Run Commands:
 [Link to Makefile](Makefile)
 
