@@ -132,11 +132,6 @@ class TestMoves( unittest.TestCase ):
 
         cube_client = RubiksCube( cube=TEST_CUBE_OVERRIDE )
         solve_steps = cube_client.solve_cube( STEP_NUMBER )
-        solved_json = cube_client.print_json_cube()
-
-        print( "solved_json:" )
-        for side in solved_json:
-            print( f"\n{side}" )
 
         for move_check in TEST_SOLUTION:
             test_side = move_check.get("expected_side")

@@ -417,7 +417,7 @@ cube_client.shuffle_cube( random_turns_count=100 )
 # print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
 cube_client.visualize_cube()
 steps_to_solve = cube_client.solve_cube( step_override=6 )
-# cube_client.visualize_cube()
+cube_client.visualize_cube()
 # print(  f"Steps to solve cube: {steps_to_solve}" )
 # cube_client.check_sides()
 

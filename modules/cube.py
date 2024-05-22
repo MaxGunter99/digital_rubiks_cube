@@ -985,7 +985,7 @@ class RubiksCube:
 
         if step_override == None or step_override >= 6:
             step_6_status, steps_to_solve_step_6 = solve_cube__step_6( self, test_id )
-            print(f"Steps to Solve Top Cross: {steps_to_solve_step_6}")
+            print(f"Steps for top corner placements: {steps_to_solve_step_6}")
 
             if len( steps_to_solve_step_6 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_6

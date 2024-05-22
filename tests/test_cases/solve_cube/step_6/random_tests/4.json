@@ -1,6 +1,6 @@
 {
 	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
-    , "STEP_NAME": "6. Solve the top corners"
+    , "STEP_NAME": "6. Solve the top corner placements"
     , "STEP_NUMBER": 6
     , "TEST_CUBE_OVERRIDE": [
         [
