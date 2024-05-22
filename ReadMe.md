@@ -303,7 +303,7 @@ print(  f"Steps to solve cube: {steps_to_solve}" )
 - Step 5: Opposite Sides Top Cross - ✅
 - Step 6: Opposite Sides Corner Placement - ✅
 - Step 7: Flip Cube - ✅
-- Step 8: Solving Final Corners- IN PROGRESS
+- Step 8: Solving Final Corners- ✅
 
 
 ### Milestone 1: Project Initialization

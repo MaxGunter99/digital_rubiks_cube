@@ -32,6 +32,8 @@ def solve_cube__step_3( cube_client, test_id=None ):
 			cube_client.visualize_cube()
 		step_status = "PASS"
 
+		print( "Step 3 Flip Cube is Complete" )
+
 	except Exception as e:
 		details = f"Error in step 3 flipping cube: {e}"
 		step_errors.append( details )

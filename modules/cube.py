@@ -11,6 +11,7 @@ from .solve_steps.step_4 import solve_cube__step_4
 from .solve_steps.step_5 import solve_cube__step_5
 from .solve_steps.step_6 import solve_cube__step_6
 from .solve_steps.step_7 import solve_cube__step_7
+from .solve_steps.step_8 import solve_cube__step_8
 
 # I would like to set this up as a 3D Matrix. 
 # Perfect to start with but will be scrambled by the algorithm
@@ -931,6 +932,7 @@ class RubiksCube:
             1. determine what steps have already been completed on the cube, lets write some real tests, TDD
             2. We need a solve loop that will perform each step of the solve process
         """
+        print( "\n\n ------- solve_cube called ------- \n" )
         solve_status_report = {
             "step_1_status": None,
             "step_2_status": None,
@@ -943,11 +945,12 @@ class RubiksCube:
 
         print( "Solving Cube! Initial cube:" )
         self.visualize_cube()
-        initial_json_cube = self.print_json_cube()
+        # initial_json_cube = self.print_json_cube()
 
         if step_override == None or step_override >= 1:
             step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self, test_id )
-            print(f"Steps to Solve Top Cross: {steps_to_solve_step_1}")
+            if print_moves == True:
+                print(f"Steps to Solve Top Cross: {steps_to_solve_step_1}")
 
             if len( steps_to_solve_step_1 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_1
@@ -955,7 +958,8 @@ class RubiksCube:
 
         if step_override == None or step_override >= 2:
             step_2_status, steps_to_solve_step_2 = solve_cube__step_2( self, test_id )
-            print(f"Steps to Solve Top Corners: {steps_to_solve_step_2}")
+            if print_moves == True:
+                print(f"Steps to Solve Top Corners: {steps_to_solve_step_2}")
 
             if len( steps_to_solve_step_2 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_2
@@ -963,7 +967,8 @@ class RubiksCube:
 
         if step_override == None or step_override >= 3:
             step_3_status, steps_to_solve_step_3 = solve_cube__step_3( self, test_id )
-            print(f"Steps to Flip Cube: {steps_to_solve_step_3}")
+            if print_moves == True:
+                print(f"Steps to Flip Cube: {steps_to_solve_step_3}")
 
             if len( steps_to_solve_step_3 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_3
@@ -971,7 +976,8 @@ class RubiksCube:
 
         if step_override == None or step_override >= 4:
             step_4_status, steps_to_solve_step_4 = solve_cube__step_4( self, test_id )
-            print(f"Steps to Solve Middle Section: {steps_to_solve_step_4}")
+            if print_moves == True:
+                print(f"Steps to Solve Middle Section: {steps_to_solve_step_4}")
 
             if len( steps_to_solve_step_4 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_4
@@ -979,7 +985,8 @@ class RubiksCube:
 
         if step_override == None or step_override >= 5:
             step_5_status, steps_to_solve_step_5 = solve_cube__step_5( self, test_id )
-            print(f"Steps to Solve Top Cross: {steps_to_solve_step_5}")
+            if print_moves == True:
+                print(f"Steps to Solve Top Cross: {steps_to_solve_step_5}")
 
             if len( steps_to_solve_step_5 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_5
@@ -987,7 +994,8 @@ class RubiksCube:
 
         if step_override == None or step_override >= 6:
             step_6_status, steps_to_solve_step_6 = solve_cube__step_6( self, test_id )
-            print(f"Steps for top corner placements: {steps_to_solve_step_6}")
+            if print_moves == True:
+                print(f"Steps for top corner placements: {steps_to_solve_step_6}")
 
             if len( steps_to_solve_step_6 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_6
@@ -995,11 +1003,21 @@ class RubiksCube:
 
         if step_override == None or step_override >= 7:
             step_7_status, steps_to_solve_step_7 = solve_cube__step_7( self, test_id )
-            print(f"Steps for top corner placements: {steps_to_solve_step_7}")
+            if print_moves == True:
+                print(f"Steps for top corner placements: {steps_to_solve_step_7}")
 
             if len( steps_to_solve_step_7 ) >= 1:
                 self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_7
             solve_status_report["step_7_status"] = step_7_status
+
+        if step_override == None or step_override >= 8:
+            step_8_status, steps_to_solve_step_8 = solve_cube__step_8( self, test_id )
+            if print_moves == True:
+                print(f"Steps for top corner placements: {steps_to_solve_step_8}")
+
+            if len( steps_to_solve_step_8 ) >= 1:
+                self.steps_to_solve = self.steps_to_solve + steps_to_solve_step_8
+            solve_status_report["step_8_status"] = step_8_status
 
         # some tests only cover individual pieces, even if were testing 1 piece and its fixed, if the others are "." this will raise an exception
         # all_steps_status = [ status for _, status in solve_status_report.items() ]
@@ -1008,9 +1026,11 @@ class RubiksCube:
         #     details += f"\n Initial JSON Config: \n {initial_json_cube}"
         #     raise Exception( details )
 
-        # if print_moves == True:
-        print( "All Step Details:" )
-        pprint( solve_status_report )
+        if print_moves == True:
+            print( "All Step Details:" )
+            pprint( solve_status_report )
+
+        print( "\n\n ------- solve_cube ended ------- \n" )
 
         return self.steps_to_solve
 

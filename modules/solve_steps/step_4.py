@@ -170,8 +170,8 @@ def solve_cube__step_4( cube_client, test_id=None ):
 		is_perfect_bools = [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ]
 		
 		if not len( pieces_to_fix ) or is_perfect_bools.count(False) == 0:
+			print( "Step 4 pieces are perfect, on to the next" )
 			if LOG_STEP_INFO == True:
-				print( "Step 4 pieces are perfect, on to the next" )
 				cube_client.visualize_cube()
 			break
 

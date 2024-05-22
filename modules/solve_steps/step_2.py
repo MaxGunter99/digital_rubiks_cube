@@ -160,9 +160,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		game_loop_complete_check = [ is_perfect for _, is_perfect in fixable_piece_status.items() ]
 		# print( f"game_loop_complete_check: {game_loop_complete_check}" )
 		if False not in game_loop_complete_check:
-			if LOG_STEP_INFO == True:
-				print("TOP CORNERS COMPLETE")
-				game_loop_complete = True
+			print("Step 2 TOP CORNERS COMPLETE")
+			game_loop_complete = True
 			break
 	
 		if len( top_row_pieces + bottom_row_pieces ) > 4:
@@ -527,10 +526,12 @@ def solve_cube__step_2( cube_client, test_id=None ):
 					reverse_extended_moves = [('rotate_cube', 'right', 2)]
 
 				if use_extended_move:
-					print("APPLYING EXTENDED MOVE")
+					if LOG_STEP_INFO == True:
+						print("APPLYING EXTENDED MOVE")
 					move_extended = True
 					for move in extended_moves:
-						print( move )
+						if LOG_STEP_INFO == True:
+							print( move )
 						_, direction, turns = move
 						cube_client.rotate_cube( direction, turns )
 						steps_to_solve.append( ["rotate_cube", direction, turns] )
@@ -553,7 +554,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 			# REVERSE EXTENDED MOVES DATA
 			if move_extended == True:
-				print("REVERSING EXTENDED MOVE")
+				if LOG_STEP_INFO == True:
+					print("REVERSING EXTENDED MOVE")
 				required_moves = required_moves + reverse_extended_moves
 				move_extended = False
 				extended_moves = []
@@ -827,10 +829,12 @@ def solve_cube__step_2( cube_client, test_id=None ):
 					reverse_extended_moves = [('rotate_cube', 'right', 2)]
 
 				if use_extended_move:
-					print("APPLYING EXTENDED MOVE")
+					if LOG_STEP_INFO == True:
+						print("APPLYING EXTENDED MOVE")
 					move_extended = True
 					for move in extended_moves:
-						print( move )
+						if LOG_STEP_INFO == True:
+							print( move )
 						_, direction, turns = move
 						cube_client.rotate_cube( direction, turns )
 						steps_to_solve.append( ["rotate_cube", direction, turns] )
@@ -853,7 +857,8 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 			# REVERSE EXTENDED MOVES DATA
 			if move_extended == True:
-				print("REVERSING EXTENDED MOVE")
+				if LOG_STEP_INFO == True:
+					print("REVERSING EXTENDED MOVE")
 				required_moves = required_moves + reverse_extended_moves
 				move_extended = False
 				extended_moves = []
