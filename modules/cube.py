@@ -1020,11 +1020,11 @@ class RubiksCube:
             solve_status_report["step_8_status"] = step_8_status
 
         # some tests only cover individual pieces, even if were testing 1 piece and its fixed, if the others are "." this will raise an exception
-        # all_steps_status = [ status for _, status in solve_status_report.items() ]
-        # if "FAIL" in all_steps_status:
-        #     details = f"Solve Cube Error - step has failed: {solve_status_report}"
-        #     details += f"\n Initial JSON Config: \n {initial_json_cube}"
-        #     raise Exception( details )
+        all_steps_status = [ status for _, status in solve_status_report.items() ]
+        if "FAIL" in all_steps_status and step_override == None:
+            details = f"Solve Cube Error - step has failed: {solve_status_report}"
+            # details += f"\n Initial JSON Config: \n {initial_json_cube}"
+            raise Exception( details )
 
         if print_moves == True:
             print( "All Step Details:" )

@@ -4,6 +4,7 @@ define COMMAND_LIST
 
 	make activate-virtual-environment
 	make run-cube
+	make time-solve-average
 	make test-cube
 	make test-cube-with-output
 	make update-requirements
@@ -16,6 +17,9 @@ activate-virtual-environment:
 
 run-cube:
 	time python3 run_me.py
+
+time-solve-average:
+	time python3 run_average_time.py
 
 test-cube:
 	python -m unittest discover -v -s tests -p 'test_*.py' -b -f
