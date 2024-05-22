@@ -132,6 +132,11 @@ class TestMoves( unittest.TestCase ):
 
         cube_client = RubiksCube( cube=TEST_CUBE_OVERRIDE )
         solve_steps = cube_client.solve_cube( STEP_NUMBER )
+        solved_json = cube_client.print_json_cube()
+
+        print( "solved_json:" )
+        for side in solved_json:
+            print( f"\n{side}" )
 
         for move_check in TEST_SOLUTION:
             test_side = move_check.get("expected_side")
@@ -151,7 +156,7 @@ class TestMoves( unittest.TestCase ):
                             err_details
                         )
 
-        print( solve_steps )
+        # print( solve_steps )
         if STEPS_TO_SOLVE is not None:
             self.assertEqual( solve_steps, STEPS_TO_SOLVE )
 
@@ -2240,6 +2245,30 @@ class TestMoves( unittest.TestCase ):
     def test_step_5__random_test_1( self ):
         test_data_path = "tests/test_cases/solve_cube/step_5/random_tests/1.json"
         self.solve_cube_step( test_data_path )
+
+
+    # ------- STEP 6 TESTS -------
+
+    def test_step_6__random_test__1( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_6/random_tests/1.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_6__random_test__2( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_6/random_tests/2.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_6__random_test__3( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_6/random_tests/3.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_6__random_test__4( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_6/random_tests/4.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_6__random_test__5( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_6/random_tests/5.json"
+        self.solve_cube_step( test_data_path )
+    
 
 
         

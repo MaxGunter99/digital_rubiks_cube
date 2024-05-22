@@ -1,6 +1,7 @@
 
 # STEP 6
 
+# LOG_STEP_INFO = True
 LOG_STEP_INFO = False
 
 def solve_cube__step_6( cube_client, test_id=None ):
@@ -41,11 +42,11 @@ def solve_cube__step_6( cube_client, test_id=None ):
 			# top side indexes
 			( "top_side", 0, 0 ): False,
 			( "top_side", 0, 2 ): False,
-			( "top_side", 2, 0 ): False,
 			( "top_side", 2, 2 ): False,
+			( "top_side", 2, 0 ): False,
 		}
-
-		print( sorted([ "top_side", "back_side", "left_side" ]) )
+		if LOG_STEP_INFO == True:
+			print( sorted([ "top_side", "back_side", "left_side" ]) )
 		brick_in_place_reference = {
 			tuple( sorted([ "top_side", "back_side", "left_side" ]) ): sorted([	
 				cube_client["top_side"][1][1],
@@ -76,8 +77,6 @@ def solve_cube__step_6( cube_client, test_id=None ):
 
 			all_sides = list( brick_data.keys() )
 			all_sides.remove( "parent_data" )
-
-			# print( brick_data )
 
 			# top_side color
 			parent_data = brick_data.get("parent_data")
@@ -122,34 +121,74 @@ def solve_cube__step_6( cube_client, test_id=None ):
 			break
 
 		pieces_to_fix, indexes_to_fix = refresh_data()
+		if LOG_STEP_INFO == True:
+			print( f"\nindexes_to_fix: {indexes_to_fix}" )
+			print( f"pieces_to_fix: {pieces_to_fix}" )
 
-		print( f"\nindexes_to_fix: {indexes_to_fix}" )
-		# print( f"pieces_to_fix: {pieces_to_fix}" )
+		move_from_to = None
+		required_moves = []
+		indexes_to_fix_values = [ v for _, v in indexes_to_fix.items() ]
 
 		# 1. if any pieces are perfect rotate cube so they are at the bottom right, use a variable set to as True to skip this step once completed. 
 		# if no pieces are perfect just use step 2 then try this step again
-		
-		# 2. repeat the_fix_move until indexes_to_fix returns all true
-		the_fix_move = [
-			('move_cube', 'top', 'horizontal', 'left', 1), 
-			('move_cube', 'right', 'vertical', 'up', 1), 
-			('move_cube', 'top', 'horizontal', 'right', 1), 
-			('move_cube', 'left', 'vertical', 'up', 1), 
-			('move_cube', 'top', 'horizontal', 'left', 1), 
-			('move_cube', 'right', 'vertical', 'down', 1), 
-			('move_cube', 'top', 'horizontal', 'right', 1), 
-			('move_cube', 'left', 'vertical', 'down', 1), 
-		]
+		for index_key in [
+			('top_side', 2, 2),
+			('top_side', 2, 0),
+			('top_side', 0, 2),
+			('top_side', 0, 0),
+		]:
+			if indexes_to_fix[ index_key ] == True:
+				if LOG_STEP_INFO == True:
+					print( f"index_key: {index_key} is in place, rotating" )
+				move_from_to = index_key
+				break
 
+		if move_from_to is not None:
+			# destination is always: ('top_side', 2, 2)
+			index_mappings = {
+				('top_side', 0, 0): [ ('rotate_cube', 'right', 2 ) ],
+				('top_side', 0, 2): [ ('rotate_cube', 'left', 1 ) ],
+				('top_side', 2, 0): [ ('rotate_cube', 'right', 1 ) ],
+				('top_side', 2, 2): [], # no move required
+			}
+			required_moves = index_mappings[ move_from_to ]
 
-		step_errors.append( "STEP NOT IMPLEMENTED" )
+		if not len( required_moves ) and indexes_to_fix_values.count( False ) != 0:
 
+			# 2. repeat the_fix_move until indexes_to_fix returns all true
+			the_fix_move = [
+				('move_cube', 'top', 'horizontal', 'left', 1), 
+				('move_cube', 'right', 'vertical', 'up', 1), 
+				('move_cube', 'top', 'horizontal', 'right', 1), 
+				('move_cube', 'left', 'vertical', 'up', 1), 
+				('move_cube', 'top', 'horizontal', 'left', 1), 
+				('move_cube', 'right', 'vertical', 'down', 1), 
+				('move_cube', 'top', 'horizontal', 'right', 1), 
+				('move_cube', 'left', 'vertical', 'down', 1), 
+			]
+
+			required_moves = the_fix_move
+
+		elif not len( required_moves ):
+			print( "Step 6 is complete!" )
+			step_status = "PASS"
+			break
+
+		for move in required_moves:
+			if LOG_STEP_INFO == True:
+				print( move )
+			if move[0] == "rotate_cube":
+				_, direction, turns = move
+				cube_client.rotate_cube( direction, turns )
+				steps_to_solve.append( ["rotate_cube", direction, turns] )
+
+			elif move[0] == "move_cube": 
+				_, section, orientation, direction, turns = move
+				cube_client.move_cube( section, orientation, direction, turns )
+				steps_to_solve.append( ["move_cube", section, orientation, direction, turns] )
 
 	if len( step_errors ):
 		print( f" \n \033[91m Errors in step 6: {step_errors} \033[0m \n" )
 		raise Exception( f"Errors in step 6: {step_errors}" )
-	# else:
-	# 	print( [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] )
-	# 	step_status = "PASS" if False not in [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] else "FAIL"
 
 	return step_status, steps_to_solve
