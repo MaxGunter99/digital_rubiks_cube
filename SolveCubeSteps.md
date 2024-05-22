@@ -85,9 +85,11 @@ NEXT, for each section, briefly describe the patterns you are using to solve eac
         - left down
     if non corners were matching, they should have moved, check to see any matching and move it to the right.
     - repeat steps until corners are placed correctly
+    
+7. Flip cube upside down so solved is now on the bottom
+    rotate cube down 2 times
 
-7. Solving the cube!!
-    - flip cube
+8. Solving the cube!!
     if any corners are in the correct spot, start by rotating the cube to the right, if the next piece is solved keep rotating it to the right so you start with an unsolved corner.
     once the unsolved corner is in place, repeat these steps until the corner is solved!:
         - right up

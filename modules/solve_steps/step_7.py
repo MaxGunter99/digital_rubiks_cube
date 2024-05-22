@@ -1,10 +1,10 @@
 
-# STEP 3
+# STEP 7
 
 # LOG_STEP_INFO = True
 LOG_STEP_INFO = False
 
-def solve_cube__step_3( cube_client, test_id=None ):
+def solve_cube__step_7( cube_client, test_id=None ):
 	"""
     This function should output a list of moves to flip the cube. 
     step format: [ class_function, args ]
@@ -18,7 +18,7 @@ def solve_cube__step_3( cube_client, test_id=None ):
 	step_status = "FAIL"
 	
 	if LOG_STEP_INFO == True:
-		print( "Starting Step 3!" )
+		print( "Starting Step 7!" )
 
 	step_errors = []
 
@@ -33,11 +33,11 @@ def solve_cube__step_3( cube_client, test_id=None ):
 		step_status = "PASS"
 
 	except Exception as e:
-		details = f"Error in step 3 flipping cube: {e}"
+		details = f"Error in step 7 flipping cube: {e}"
 		step_errors.append( details )
 
 	if len( step_errors ):
-		print( f"Errors in step 3: {step_errors}" )
-		raise Exception( f"Errors in step 3: {step_errors}" )
+		print( f"Errors in step 7: {step_errors}" )
+		raise Exception( f"Errors in step 7: {step_errors}" )
 
 	return step_status, steps_to_solve

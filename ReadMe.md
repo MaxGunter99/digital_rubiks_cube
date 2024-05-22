@@ -301,8 +301,9 @@ print(  f"Steps to solve cube: {steps_to_solve}" )
 - Step 3: Flip Cube - ✅
 - Step 4: Middle Section - ✅
 - Step 5: Opposite Sides Top Cross - ✅
-- Step 6: Opposite Sides Corner Placement - IN PROGRESS
-- Step 7: Ordering Opposite Sides Corners - ❌
+- Step 6: Opposite Sides Corner Placement - ✅
+- Step 7: Flip Cube - ✅
+- Step 8: Solving Final Corners- IN PROGRESS
 
 
 ### Milestone 1: Project Initialization
