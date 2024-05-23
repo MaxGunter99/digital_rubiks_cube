@@ -2263,6 +2263,29 @@ class TestMoves( unittest.TestCase ):
     def test_step_6__random_test__5( self ):
         test_data_path = "tests/test_cases/solve_cube/step_6/random_tests/5.json"
         self.solve_cube_step( test_data_path )
+
+
+    # ------- STEP 8 TESTS -------
+
+    def test_step_8__random_test__1( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/1.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_8__random_test__2( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/2.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_8__random_test__3( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/3.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_8__random_test__4( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/4.json"
+        self.solve_cube_step( test_data_path )
+
+    def test_step_8__random_test__5( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/5.json"
+        self.solve_cube_step( test_data_path )
     
 
 

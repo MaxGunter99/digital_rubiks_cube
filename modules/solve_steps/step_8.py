@@ -22,6 +22,8 @@ def solve_cube__step_8( cube_client, test_id=None ):
 			- repeat steps above
 		once all the corners are solved, it should only require rotating the bottom to get a perfect cube!!
     """
+
+	print( f"STEP 8 TEST {cube_client.print_json_cube()}" )
     
 	steps_to_solve = []
 	step_status = "FAIL"
@@ -76,6 +78,9 @@ def solve_cube__step_8( cube_client, test_id=None ):
 	game_loop_complete = False
 	cube_solved = False
 
+	given_front_side_color = cube_client["front_side"][1][1]
+	given_left_side_color = cube_client["left_side"][1][1]
+
 	while (
         game_loop_max_count < 10 
         or game_loop_complete == False and game_loop_iteration < game_loop_max_count
@@ -90,6 +95,7 @@ def solve_cube__step_8( cube_client, test_id=None ):
 
 		if cube_solved == True:
 			print( "Step 7 is complete, CUBE IS SOLVED!!!!!!" ) 
+			cube_client.visualize_cube()
 			step_status = "PASS"
 			break
 
@@ -143,6 +149,8 @@ def solve_cube__step_8( cube_client, test_id=None ):
 				cube_client["left_side"][2][1]: "left_side",
 				cube_client["back_side"][2][1]: "back_side",
 				cube_client["right_side"][2][1]: "right_side",
+				cube_client["top_side"][2][1]: "top_side",
+				cube_client["bottom_side"][2][1]: "bottom_side",
 			}
 
 			# what side needs to move to the front?
@@ -154,12 +162,36 @@ def solve_cube__step_8( cube_client, test_id=None ):
 			moves_config = {
 				"left_side": [ ( "move_cube", "bottom", "horizontal", "right", 1 ) ],
 				"back_side": [ ( "move_cube", "bottom", "horizontal", "right", 2 ) ],
-				"right_side": [ ( "move_cube", "bottom", "horizontal", "left", 1 ) ]
+				"right_side": [ ( "move_cube", "bottom", "horizontal", "left", 1 ) ],
 			}
+
 
 			if identified_side != "front_side":
 				required_moves = moves_config[ identified_side ]
 				cube_solved = True
+
+			# turn cube back to given state
+			# cube_client.visualize_cube()
+			# print( f"given_front_side_color: {given_front_side_color}" )
+			if front_color != given_front_side_color:
+
+				rotate_moves_config = {
+					"left_side": ( "rotate_cube", "right", 1 ),
+					"back_side": ( "rotate_cube", "right", 2 ),
+					"right_side": ( "rotate_cube", "left", 1 ),
+					"top_side": ( "rotate_cube", "down", 1 ),
+					"bottom_side": ( "rotate_cube", "up", 1 ),
+				}
+
+				mapped_side = current_side_color_mappings[ given_front_side_color ]
+				revert_spins_moves = rotate_moves_config[ mapped_side ]
+				required_moves.append( revert_spins_moves )
+
+				mapped_side = current_side_color_mappings[ given_left_side_color ]
+				revert_spins_moves = rotate_moves_config[ mapped_side ]
+				required_moves.append( revert_spins_moves )
+
+
 
 		# 3. if front right corner piece is perfect rotate cube to the right
 		if len( required_moves ) == 0 and cube_solved == False:

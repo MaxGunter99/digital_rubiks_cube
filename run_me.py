@@ -1,5 +1,6 @@
 
 import os
+import time
 from pprint import pprint
 from modules.cube import RubiksCube
 
@@ -430,15 +431,45 @@ cube_client = RubiksCube()
 # # print(  f"Steps to solve cube: {steps_to_solve}" )
 # # cube_client.check_sides()
 
-# STEP 8 TESTING
-cube_client.shuffle_cube( random_turns_count=100 )
-# print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
-cube_client.visualize_cube()
-steps_to_solve = cube_client.solve_cube( step_override=8 )
-cube_client.visualize_cube()
-# print(  f"Steps to solve cube: {steps_to_solve}" )
-# cube_client.check_sides()
+# # STEP 8 TESTING
+# cube_client.shuffle_cube( random_turns_count=100 )
+# # print(  f"Steps to recreate cube: {cube_client.tracked_moves}" )
+# cube_client.visualize_cube()
+# steps_to_solve = cube_client.solve_cube( step_override=8 )
+# cube_client.visualize_cube()
+# # print(  f"Steps to solve cube: {steps_to_solve}" )
+# # cube_client.check_sides()
 
+
+# CALCULATE AVERAGE RUNTIME
+
+# def measure_runtime():
+#     cube_client = RubiksCube()
+#     start_time = time.time()  # Record start time
+#     cube_client.solve_cube()
+#     end_time = time.time()    # Record end time
+#     return end_time - start_time  # Calculate the elapsed time
+
+runtimes = []
+
+# Run the solver 100 times and record the runtimes
+# for _ in range(100):
+
+start_time = time.time()
+
+cube_client = RubiksCube()
+cube_client.shuffle_cube( random_turns_count=100 )
+steps_to_solve = cube_client.solve_cube()
+print( steps_to_solve )
+cube_client.visualize_cube()
+
+end_time = time.time() 
+runtime = end_time - start_time
+
+runtimes.append(runtime)
+
+average_runtime = sum(runtimes) / len(runtimes)
+print(f"Average runtime over 100 runs: {average_runtime} seconds")
 
 
 # FOR SORTING DICTIONARY KEYS
