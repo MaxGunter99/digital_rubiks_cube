@@ -23,7 +23,7 @@ def solve_cube__step_8( cube_client, test_id=None ):
 		once all the corners are solved, it should only require rotating the bottom to get a perfect cube!!
     """
 
-	print( f"STEP 8 TEST {cube_client.print_json_cube()}" )
+	# print( f"STEP 8 TEST {cube_client.print_json_cube()}" )
     
 	steps_to_solve = []
 	step_status = "FAIL"
@@ -94,7 +94,7 @@ def solve_cube__step_8( cube_client, test_id=None ):
 			break
 
 		if cube_solved == True:
-			print( "Step 7 is complete, CUBE IS SOLVED!!!!!!" ) 
+			print( "Step 8 - Final corners in place, CUBE IS SOLVED!!!!!!" ) 
 			cube_client.visualize_cube()
 			step_status = "PASS"
 			break
@@ -181,6 +181,7 @@ def solve_cube__step_8( cube_client, test_id=None ):
 					"right_side": ( "rotate_cube", "left", 1 ),
 					"top_side": ( "rotate_cube", "down", 1 ),
 					"bottom_side": ( "rotate_cube", "up", 1 ),
+					"front_side": ( "rotate_cube", "up", 0 ),
 				}
 
 				mapped_side = current_side_color_mappings[ given_front_side_color ]
@@ -237,6 +238,9 @@ def solve_cube__step_8( cube_client, test_id=None ):
 			]
 			required_moves = shift_piece_move
 
+		if not len( required_moves ):
+			cube_solved = True
+
 		for move in required_moves:
 			if LOG_STEP_INFO == True:
 				print( move )
@@ -258,7 +262,10 @@ def solve_cube__step_8( cube_client, test_id=None ):
 		print( f" \n \033[91m Errors in step 8: {step_errors} \033[0m \n" )
 		raise Exception( f"Errors in step 8: {step_errors}" )
 	# else:
-	# 	print( [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] )
-	# 	step_status = "PASS" if False not in [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] else "FAIL"
+		# step_status = True
+	# 	print(  indexes_to_fix )
+	# 	# print( [ is_perfect for _, is_perfect in indexes_to_fix_status.items() ] )
+	# 	print( [ is_perfect for is_perfect in indexes_to_fix.values() ] )
+	# 	step_status = "PASS" if False not in [ is_perfect for is_perfect in indexes_to_fix.values() ] else "FAIL"
 
 	return step_status, steps_to_solve
