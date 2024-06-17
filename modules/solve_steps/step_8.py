@@ -72,7 +72,7 @@ def solve_cube__step_8( cube_client, test_id=None ):
 		return pieces_to_fix, indexes_to_fix
 
 
-	game_loop_max_count = 20
+	game_loop_max_count = 50
 	# game_loop_max_count = 3
 	game_loop_iteration = 0
 	game_loop_complete = False
@@ -155,6 +155,11 @@ def solve_cube__step_8( cube_client, test_id=None ):
 
 			# what side needs to move to the front?
 			identified_side = current_side_color_mappings[ front_color ]
+
+			if identified_side == "front_side":
+				cube_solved = True
+				continue
+
 
 			if LOG_STEP_INFO == True:
 				print( f"move: {identified_side} -> front_side" )
@@ -240,6 +245,7 @@ def solve_cube__step_8( cube_client, test_id=None ):
 
 		if not len( required_moves ):
 			cube_solved = True
+			step_status = "PASS"
 
 		for move in required_moves:
 			if LOG_STEP_INFO == True:

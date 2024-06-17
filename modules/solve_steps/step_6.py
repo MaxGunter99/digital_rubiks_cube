@@ -170,7 +170,7 @@ def solve_cube__step_6( cube_client, test_id=None ):
 			required_moves = the_fix_move
 
 		elif not len( required_moves ):
-			print( "Step 6 is complete!" )
+			print( "Step 6 - Top corners in place complete!" )
 			step_status = "PASS"
 			break
 

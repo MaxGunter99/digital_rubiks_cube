@@ -455,21 +455,12 @@ runtimes = []
 # Run the solver 100 times and record the runtimes
 # for _ in range(100):
 
-start_time = time.time()
+# start_time = time.time()
 
 cube_client = RubiksCube()
-cube_client.shuffle_cube( random_turns_count=100 )
+cube_client.shuffle_cube( random_turns_count=1000 )
 steps_to_solve = cube_client.solve_cube()
-print( steps_to_solve )
-cube_client.visualize_cube()
-
-end_time = time.time() 
-runtime = end_time - start_time
-
-runtimes.append(runtime)
-
-average_runtime = sum(runtimes) / len(runtimes)
-print(f"Average runtime over 100 runs: {average_runtime} seconds")
+# cube_client.visualize_cube()
 
 
 # FOR SORTING DICTIONARY KEYS

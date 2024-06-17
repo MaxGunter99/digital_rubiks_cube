@@ -1,0 +1,89 @@
+
+
+{
+	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
+    , "STEP_NAME": "8. Solve the top corners - PERFECT CUBE"
+    , "STEP_NUMBER": 8
+    , "TEST_CUBE_OVERRIDE": [
+		[
+			["g", "w", "g"],               
+			["o", "o", "b"],                
+			["r", "r", "y"]  
+		],
+		[
+			["g", "w", "o"],
+			["g", "y", "g"],
+			["o", "r", "w"]
+		],
+		[
+			["b", "g", "r"],           
+			["r", "r", "o"],              
+			["y", "b", "g"] 
+		],
+		[
+			["y", "b", "y"],                
+			["b", "w", "w"],                
+			["w", "o", "r"] 
+		],
+		[
+			["r", "w", "w"],
+			["g", "b", "y"],
+			["b", "y", "w"]
+		],
+		[
+			["b", "y", "o"],
+			["o", "g", "r"],
+			["b", "y", "o"]
+		]
+	]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ "o", "o", "o" ],
+                [ "o", "o", "o" ],
+                [ "o", "o", "o" ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ "y", "y", "y" ],
+                [ "y", "y", "y" ],
+                [ "y", "y", "y" ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ "g", "g", "g" ],
+                [ "g", "g", "g" ],
+                [ "g", "g", "g" ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ "b", "b", "b" ],
+                [ "b", "b", "b" ],
+                [ "b", "b", "b" ]
+            ]
+        }
+    ]
+}

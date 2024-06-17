@@ -170,7 +170,7 @@ def solve_cube__step_5( cube_client, test_id=None ):
 			print( f"step_2_status: {step_2_status}" )
 
 		if step_1_status == step_2_status == "PASS":
-			print( "Step 5 IS COMPLETE" )
+			print( "Step 5 - Top cross is complete!" )
 			if LOG_STEP_INFO == True:
 				cube_client.visualize_cube()
 			step_status = "PASS"

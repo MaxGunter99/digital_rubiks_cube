@@ -1,0 +1,89 @@
+
+
+{
+	"TEST_CUBE_OVERRIDE_MOVES_INPUT": []
+    , "STEP_NAME": "8. Solve the top corners - PERFECT CUBE"
+    , "STEP_NUMBER": 8
+    , "TEST_CUBE_OVERRIDE": [
+		[
+			["o", "o", "w"], 
+			["o", "r", "y"],
+			["g", "w", "r"]
+		],
+		[
+			["o", "r", "y"],
+			["r", "y", "g"],
+			["w", "g", "w"]
+		],
+		[
+			["b", "r", "b"],
+			["g", "o", "y"],
+			["y", "y", "r"]
+		],
+		[
+			["g", "b", "g"],
+			["o", "w", "w"],
+			["g", "r", "o"]
+		],
+		[
+			["y", "w", "w"],
+			["b", "g", "b"],
+			["g", "o", "r"]
+		],
+		[
+			["w", "r", "o"],
+			["w", "b", "y"],
+			["r", "g", "y"]
+		]
+	]
+    , "TEST_SOLUTION": [
+        {
+            "expected_side": "top_side",
+            "expected_value": [
+                [ "o", "o", "o" ],
+                [ "o", "o", "o" ],
+                [ "o", "o", "o" ]
+            ]
+        },
+        {
+            "expected_side": "front_side",
+            "expected_value": [
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ],
+                [ "w", "w", "w" ]
+            ]
+        },
+        {
+            "expected_side": "bottom_side",
+            "expected_value": [
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ],
+                [ "r", "r", "r" ]
+            ]
+        },
+        {
+            "expected_side": "back_side",
+            "expected_value": [
+                [ "y", "y", "y" ],
+                [ "y", "y", "y" ],
+                [ "y", "y", "y" ]
+            ]
+        },
+        {
+            "expected_side": "left_side",
+            "expected_value": [
+                [ "g", "g", "g" ],
+                [ "g", "g", "g" ],
+                [ "g", "g", "g" ]
+            ]
+        },
+        {
+            "expected_side": "right_side",
+            "expected_value": [
+                [ "b", "b", "b" ],
+                [ "b", "b", "b" ],
+                [ "b", "b", "b" ]
+            ]
+        }
+    ]
+}

@@ -1,6 +1,8 @@
 
 # STEP 2
 
+from pprint import pprint
+
 # LOG_STEP_INFO = True
 LOG_STEP_INFO = False
 
@@ -28,7 +30,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 	
 	if LOG_STEP_INFO == True:
 		print( "Starting Step 2!" )
-		cube_client.print_json_cube()
+		# cube_client.print_json_cube()
 
 	step_errors = []
 
@@ -75,6 +77,11 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		fixable_piece_status = {}
 
 		for fixable_block in top_row_pieces + bottom_row_pieces:
+
+			if len( step_errors ):
+				break
+
+			# print("\n")
 			# print( f"fixable_block: {fixable_block}" )
 
 			# which of these indexes does the fixable block need to be
@@ -85,14 +92,40 @@ def solve_cube__step_2( cube_client, test_id=None ):
 				( 2, 2 ): ["front_side", "right_side"],
 			}
 
+			grab_colors_validation = [
+				[ "top_side", "left_side", "front_side" ],
+				[ "top_side", "right_side", "front_side" ],
+				[ "top_side", "left_side", "back_side" ],
+				[ "top_side", "right_side", "back_side" ],
+
+				[ "bottom_side", "left_side", "front_side" ],
+				[ "bottom_side", "right_side", "front_side" ],
+				[ "bottom_side", "left_side", "back_side" ],
+				[ "bottom_side", "right_side", "back_side" ],
+			]
+
+			for side_list_index in range( len( grab_colors_validation ) ):
+				raw_colors = [ cube_client[i][1][1] for i in grab_colors_validation[side_list_index] ]
+				sorted_colors = sorted( raw_colors )
+				grab_colors_validation[side_list_index] = sorted_colors
+
+
 			for indexes in grab_colors.keys():
 				required_colors = sorted([ cube_client[side_name][1][1] for side_name in grab_colors[indexes] ])
 				grab_colors[indexes] = required_colors
 
+			if LOG_STEP_INFO == True:
+				# print( grab_colors_validation )
+				print( "\ngrab_colors:" )
+				pprint( grab_colors )
+				print( "\n" )
+
 			# collect all color values from the top side indexes and match them
 			bricks_parent_data = fixable_block["parent_data"]
+			bricks_parent_side_name = bricks_parent_data.get("parent_side")
 			bricks_parent_row = bricks_parent_data.get("parent_row_index")
 			bricks_parent_sticker = bricks_parent_data.get("parent_sticker_index")
+			bricks_parent_sticker_color = cube_client[bricks_parent_side_name][bricks_parent_row][bricks_parent_sticker]
 			parent_side = bricks_parent_data.get("parent_side")
 
 			related_values = list( fixable_block.keys() )
@@ -101,16 +134,36 @@ def solve_cube__step_2( cube_client, test_id=None ):
 
 			# print( f"grab_colors: {grab_colors}" )
 			# print( f"related_values: {related_values}" )
+
+			required_values = []
+			for key in related_values:
+				value = fixable_block[key].get("value")
+				required_values.append( value )
+
+				# print( f"key: {key}" )
+				# print( f"value: {value}" )
+
+			required_values = sorted( required_values )
+
 			
-			required_values = sorted( [ fixable_block[key].get("value") for key in related_values] )
+			# required_values = sorted( [ fixable_block[key].get("value") for key in related_values] )
 			grab_colors_key = None
 
 			# print( f"required_values: {required_values}" )
+			all_brick_colors = sorted( [ bricks_parent_sticker_color ] + required_values )
+			# print( f"All brick stickers: {all_brick_colors} - {fixable_block}" )
+			if all_brick_colors not in grab_colors_validation:
+				details = f"Corner brick is not valid: {all_brick_colors}"
+				step_errors.append( details )
+				break
 
 			if required_values in list( grab_colors.values() ):
 				for key, value_list in grab_colors.items():
 					if required_values == value_list:
 						grab_colors_key = key
+
+					# else:
+					# 	print( f"{required_values} is not {value_list}" )
 
 			brick_is_perfect = False
 
@@ -129,6 +182,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			try:
 				which_list = top_row_pieces if fixable_block in top_row_pieces else bottom_row_pieces
 				which_index = which_list.index( fixable_block )
+				# print( grab_colors_key )
 				which_list[which_index]["fixed_coords"] = grab_colors_key
 				which_list[which_index]["brick_is_perfect"] = brick_is_perfect
 			except ValueError:
@@ -158,9 +212,12 @@ def solve_cube__step_2( cube_client, test_id=None ):
 		top_row_pieces, bottom_row_pieces, fixable_piece_status = refresh_data()
 
 		game_loop_complete_check = [ is_perfect for _, is_perfect in fixable_piece_status.items() ]
+
+		if len( step_errors ):
+			break
 		# print( f"game_loop_complete_check: {game_loop_complete_check}" )
 		if False not in game_loop_complete_check:
-			print("Step 2 TOP CORNERS COMPLETE")
+			print("Step 2 - Top corners complete!")
 			game_loop_complete = True
 			break
 	
@@ -244,7 +301,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 			print( f"Brick is perfect, moving to next" )
 			continue
 
-		# print(f"DATA: {piece_to_fix}")
+		# print(f"\n DATA: {piece_to_fix}")
 		# cube_client.visualize_cube()
 
 		if (
@@ -538,7 +595,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 					continue
 
 				# TODO: needs pre / post turning for specific moves
-				details = f"Fix not implemented for move - {move_from_to}"
+				details = f"Step 2: Fix not implemented for move - {move_from_to}"
 				print( details )
 				raise Exception( details )
 			
@@ -841,7 +898,7 @@ def solve_cube__step_2( cube_client, test_id=None ):
 					continue
 
 				# TODO: needs pre / post turning for specific moves
-				details = f"Fix not implemented for move - {move_from_to}"
+				details = f"Step 2: Fix not implemented for move - {move_from_to}"
 				print( details )
 				raise Exception( details )
 			

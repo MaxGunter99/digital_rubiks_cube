@@ -468,6 +468,87 @@ class TestMoves( unittest.TestCase ):
             }
         ]
 
+    def random_shuffle_and_solve( self, shuffle_times=0 ):
+        cube_client = RubiksCube()
+        cube_client.shuffle_cube( shuffle_times )
+        cube_client.solve_cube()
+
+        top_side_color = cube_client.top_side[1][1]
+        front_side_color = cube_client.front_side[1][1]
+        back_side_color = cube_client.back_side[1][1]
+        left_side_color = cube_client.left_side[1][1]
+        right_side_color = cube_client.right_side[1][1]
+        bottom_side_color = cube_client.bottom_side[1][1]
+
+        test_solution = [
+            {
+                "expected_side": "top_side",
+                "expected_value": [
+                    [ top_side_color, top_side_color, top_side_color ],
+                    [ top_side_color, top_side_color, top_side_color ],
+                    [ top_side_color, top_side_color, top_side_color ]
+                ]
+            },
+            {
+                "expected_side": "front_side",
+                "expected_value": [
+                    [ front_side_color, front_side_color, front_side_color ],
+                    [ front_side_color, front_side_color, front_side_color ],
+                    [ front_side_color, front_side_color, front_side_color ]
+                ]
+            },
+            {
+                "expected_side": "bottom_side",
+                "expected_value": [
+                    [ bottom_side_color, bottom_side_color, bottom_side_color ],
+                    [ bottom_side_color, bottom_side_color, bottom_side_color ],
+                    [ bottom_side_color, bottom_side_color, bottom_side_color ]
+                ]
+            },
+            {
+                "expected_side": "back_side",
+                "expected_value": [
+                    [ back_side_color, back_side_color, back_side_color ],
+                    [ back_side_color, back_side_color, back_side_color ],
+                    [ back_side_color, back_side_color, back_side_color ]
+                ]
+            },
+            {
+                "expected_side": "left_side",
+                "expected_value": [
+                    [ left_side_color, left_side_color, left_side_color ],
+                    [ left_side_color, left_side_color, left_side_color ],
+                    [ left_side_color, left_side_color, left_side_color ]
+                ]
+            },
+            {
+                "expected_side": "right_side",
+                "expected_value": [
+                    [ right_side_color, right_side_color, right_side_color ],
+                    [ right_side_color, right_side_color, right_side_color ],
+                    [ right_side_color, right_side_color, right_side_color ]
+                ]
+            }
+        ]
+
+        for move_check in test_solution:
+            test_side = move_check.get("expected_side")
+            generated_side = cube_client[ test_side ]
+            expected_value = move_check.get("expected_value")
+
+            for row in range( len( expected_value ) ):
+                for sticker in range( len( expected_value[row] ) ):
+                    expected_sticker = expected_value[row][sticker]
+                    generated_sticker = generated_side[row][sticker]
+
+                    if expected_sticker:
+                        err_details = f'\nERROR IN STEP COMPLETE RANDOM SHUFFLE:\n - generated_side ({test_side}): \n{generated_side} \ndoes not match expected value ({test_side}): \n{expected_value}'
+                        self.assertEqual(
+                            expected_sticker,
+                            generated_sticker,
+                            err_details
+                        )
+
         for move_check in test_solution:
             test_side = move_check.get("expected_side")
             generated_side = cube_client[ test_side ]
@@ -2286,6 +2367,15 @@ class TestMoves( unittest.TestCase ):
     def test_step_8__random_test__5( self ):
         test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/5.json"
         self.solve_cube_step( test_data_path )
+
+    def test_step_8__random_test__6( self ):
+        test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/6.json"
+        self.solve_cube_step( test_data_path )
+
+    # randomly rotating the cube supplied an invalid block, fixing this to only rotate or move, to not mess up the cube state when doing both
+    # def test_step_8__random_test__7( self ):
+    #     test_data_path = "tests/test_cases/solve_cube/step_8/random_tests/7.json"
+    #     self.solve_cube_step( test_data_path )
     
 
 
@@ -2385,8 +2475,65 @@ class TestMoves( unittest.TestCase ):
     def test__step_1__random_shuffle_50( self ):
         self.step_1_random_shuffle( 50 )
 
-    def test__step_1__random_shuffle_100( self ):
-        self.step_1_random_shuffle( 100 )
+    def test__step_1__random_shuffle_100_1( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_100_2( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_100_3( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_100_4( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_100_5( self ):
+        self.random_shuffle_and_solve( 100 )
+        
+    def test__step_1__random_shuffle_100_6( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_100_7( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_100_8( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_100_9( self ):
+        self.random_shuffle_and_solve( 100 )
+        
+    def test__step_1__random_shuffle_100_10( self ):
+        self.random_shuffle_and_solve( 100 )
+
+    def test__step_1__random_shuffle_1000_1( self ):
+        self.random_shuffle_and_solve( 1000 )
+
+    def test__step_1__random_shuffle_1000_2( self ):
+        self.random_shuffle_and_solve( 1000 )
+
+    def test__step_1__random_shuffle_1000_3( self ):
+        self.random_shuffle_and_solve( 1000 )
+
+    def test__step_1__random_shuffle_1000_4( self ):
+        self.random_shuffle_and_solve( 1000 )
+
+    def test__step_1__random_shuffle_1000_5( self ):
+        self.random_shuffle_and_solve( 1000 )
+        
+    def test__step_1__random_shuffle_1000_6( self ):
+        self.random_shuffle_and_solve( 1000 )
+
+    def test__step_1__random_shuffle_1000_7( self ):
+        self.random_shuffle_and_solve( 1000 )
+
+    def test__step_1__random_shuffle_1000_8( self ):
+        self.random_shuffle_and_solve( 1000 )
+
+    def test__step_1__random_shuffle_1000_9( self ):
+        self.random_shuffle_and_solve( 1000 )
+        
+    def test__step_1__random_shuffle_1000_10( self ):
+        self.random_shuffle_and_solve( 1000 )
 
 if __name__ == '__main__':
     unittest.main()

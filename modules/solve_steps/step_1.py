@@ -167,7 +167,7 @@ def solve_cube__step_1( cube_client, test_id=None ):
 
         game_loop_complete_check = [ is_perfect for _, is_perfect in top_indexes_to_fix.items() ]
         if False not in game_loop_complete_check:
-            print("Step 1 TOP CROSS IS COMPLETE")
+            print("Step 1 - Top cross complete!")
             game_loop_complete = True
             break
 

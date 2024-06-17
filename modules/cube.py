@@ -659,16 +659,19 @@ class RubiksCube:
             # 2 is 50% chance
             chance_to_rotate = 2
             random_number = random.randrange( 0, 100 )
+
+            will_rotate_cube = random_number % chance_to_rotate == 0
             
-            if disable_rotations == False and random_number % chance_to_rotate == 0:
+            if disable_rotations == False and will_rotate_cube:
                 rotate_direction = random.choices( all_possible_rotations )[0]
                 rotate_turns = random.randrange( 1, 3 )
                 self.rotate_cube( rotate_direction, rotate_turns )
 
-            move_data = random.choices( all_possible_moves )[0]
-            move_turns = random.randrange( 1, 3 )
-            move_section, move_orientation, move_direction = move_data
-            self.move_cube( move_section, move_orientation, move_direction, move_turns )
+            if not will_rotate_cube:
+                move_data = random.choices( all_possible_moves )[0]
+                move_turns = random.randrange( 1, 3 )
+                move_section, move_orientation, move_direction = move_data
+                self.move_cube( move_section, move_orientation, move_direction, move_turns )
 
         return True
     
@@ -945,7 +948,7 @@ class RubiksCube:
 
         print( "Solving Cube! Initial cube:" )
         self.visualize_cube()
-        # initial_json_cube = self.print_json_cube()
+        initial_json_cube = self.print_json_cube()
 
         if step_override == None or step_override >= 1:
             step_1_status, steps_to_solve_step_1 = solve_cube__step_1( self, test_id )
@@ -1023,7 +1026,8 @@ class RubiksCube:
         all_steps_status = [ status for _, status in solve_status_report.items() ]
         if "FAIL" in all_steps_status and step_override == None:
             details = f"Solve Cube Error - step has failed: {solve_status_report}"
-            # details += f"\n Initial JSON Config: \n {initial_json_cube}"
+            # self.visualize_cube()
+            details += f"\n Initial JSON Config: \n {initial_json_cube}"
             raise Exception( details )
 
         if print_moves == True:
